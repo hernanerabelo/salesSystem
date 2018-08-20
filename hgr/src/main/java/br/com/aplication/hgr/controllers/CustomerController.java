@@ -2,7 +2,7 @@ package br.com.aplication.hgr.controllers;
 
 import br.com.aplication.hgr.exceptions.CustomerException;
 import br.com.aplication.hgr.models.Customer;
-import br.com.aplication.hgr.services.CustomerService;
+import br.com.aplication.hgr.services.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    CustomerService customerService;
+    CustomerServiceImpl customerServiceImpl;
 
     @RequestMapping( method = RequestMethod.GET )
     public ResponseEntity findAll( ){
 
-        List<Customer> customeres = customerService.findAll();
+        List<Customer> customeres = customerServiceImpl.findAll();
         if( customeres == null || customeres.isEmpty() ){
             return new ResponseEntity<List<Customer>>(HttpStatus.NOT_FOUND);
         }
@@ -32,7 +32,7 @@ public class CustomerController {
     @RequestMapping( value = "/{id}", method = RequestMethod.GET )
     public ResponseEntity findById( @PathVariable("id") Long id ){
 
-        Customer customer = customerService.findById( id );
+        Customer customer = customerServiceImpl.findById( id );
         if( customer == null){
             return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
         }
@@ -42,7 +42,7 @@ public class CustomerController {
     @RequestMapping(  method = RequestMethod.PUT )
     public ResponseEntity update( @RequestBody Customer customer ){
 
-        Customer retorno = customerService.update( customer );
+        Customer retorno = customerServiceImpl.update( customer );
         if( retorno == null ){
             throw new CustomerException( "Não foi encontrado cliente para atualizar" );
         }
@@ -52,7 +52,7 @@ public class CustomerController {
     @RequestMapping( method = RequestMethod.POST )
     public ResponseEntity save( @RequestBody Customer customer ){
 
-        Customer retorno = customerService.save( customer );
+        Customer retorno = customerServiceImpl.save( customer );
         if( retorno == null ){
             return new ResponseEntity<Customer>( HttpStatus.BAD_REQUEST );
         }
@@ -70,7 +70,7 @@ public class CustomerController {
         }
         Customer customer = new Customer();
         customer.setId(id2);
-        customerService.delete( customer );
+        customerServiceImpl.delete( customer );
 
         return new ResponseEntity<Customer>(HttpStatus.OK);
     }

@@ -25,4 +25,9 @@ public class Boot
       logger.error("Test - Oops! We have an Error. OK");
       logger.fatal("Test - Damn! Fatal error. Please fix me.");
    }
+
+   @RequestMapping("")
+   public String home() {
+      return "index";
+   }
 }

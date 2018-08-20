@@ -1,12 +1,16 @@
 body{
-    background-color: #efefef;
+    background-color: #ffffff;
 }
-span.spacing{
-    margin-right: 10px;
+
+.buttonMenu {
+  padding: 2px 2px 2px;
+  float:right;
 }
-input.custom-width{
-    width: 200px;
+
+.positionButtonMenu {
+  overflow: auto;
 }
-input.spacing{
-    margin-right: 5px;
+
+.ajustarTextoVertical {
+  vertical-align: middle !important;
 }

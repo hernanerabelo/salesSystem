@@ -1,9 +1,29 @@
 'use strict'
 
-var demoApp = angular.module('demo', [ 'ui.bootstrap', 'demo.controllers',
-		'demo.services' ]);
-demoApp.constant("CONSTANTS", {
-	getUserByIdUrl : "/user/getUser/",
-	getAllUsers : "/user/getAllUsers",
-	saveUser : "/user/saveUser"
+var app = angular.module('app', [ 'ngRoute']);
+
+app.config(function($routeProvider,$locationProvider) {
+    $locationProvider.hashPrefix('');
+    $routeProvider
+    .when("/", {
+        templateUrl : "views/home.html"
+    })
+    .when("/clientes", {
+        templateUrl : "views/customer-find.html",
+        controller : "CustomerCtrl"
+    })
+    .when("/vendas", {
+        templateUrl : "views/sales-find.html"
+    })
+    .when("/relatorios", {
+        templateUrl : "views/report-find.html"
+    })
+    .otherwise({ redirectTo: '/'});;
+})
+.run( function($rootScope){
+  $rootScope.$on('$locationChangeStart', function () {
+    $rootScope.menuButtons = [];
+    $rootScope.menuMessages = [];
+
+  });
 });
