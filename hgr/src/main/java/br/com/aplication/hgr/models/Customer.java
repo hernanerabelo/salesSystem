@@ -27,7 +27,7 @@ public class Customer implements Serializable {
   private String documentType;
 
   @Column(name = "STATE_REGISTRATION")
-  private String state_registration;
+  private String stateRegistration;
 
   @Column( name = "FOUNDATION_DATE")
   private Date foundationDate;
@@ -88,11 +88,11 @@ public class Customer implements Serializable {
   }
 
   public String getState_registration() {
-    return state_registration;
+    return stateRegistration;
   }
 
-  public void setState_registration(String state_registration) {
-    this.state_registration = state_registration;
+  public void setState_registration(String stateRegistration) {
+    this.stateRegistration = stateRegistration;
   }
 
   public Date getFoundationDate() {
@@ -151,7 +151,7 @@ public class Customer implements Serializable {
         ", fantasyName='" + fantasyName + '\'' +
         ", documentNumber='" + documentNumber + '\'' +
         ", documentType='" + documentType + '\'' +
-        ", state_registration='" + state_registration + '\'' +
+        ", stateRegistration='" + stateRegistration + '\'' +
         ", foundationDate=" + foundationDate +
         ", email='" + email + '\'' +
         ", createdBy='" + createdBy + '\'' +

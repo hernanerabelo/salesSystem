@@ -2,62 +2,36 @@
 
 var app = angular.module('app');
 
-app.controller('CustomerCtrl', ['$scope', '$rootScope',
-  function($scope, $rootScope) {
-    function findCustomer(){
-        return [
-          {
-            id: 1,
-            name: 'Hernane Batista Rabelo Davi',
-            documentNumber: '09021298643',
-            address:{
-              id: 5,
-              state: 'Minas Gerais',
-              cep: '38408-236'
-            }
-          },
-          {
-            id: 2,
-            name: 'Henrique Batista Rabelo',
-            documentNumber: '02023293645',
-            address:{
-              id: 5,
-              state: 'Goias',
-              cep: '38408-222'
-            }
-          },
-          {
-            id: 2,
-            name: 'Rabelo & CIA',
-            documentNumber: '234234234234234242',
-            address:{
-              id: 5,
-              state: 'Goias',
-              cep: '38408-222'
-            }
-          }
-        ];
-    }
+app.controller('CustomerCtrl', ['$scope', '$rootScope', '$location', 'customerService', 'buttonGeneratorService',
+  function($scope, $rootScope, $location, customerService, buttonGeneratorService) {
+    $scope.hasErrorInput = false;
 
     $scope.objectFind = {
-      name: null,
+      fantasyName: null,
       document: null
     };
 
-    $rootScope.menuButtons = [
+    buttonGeneratorService.putButtonsInSubMenu( [
       {
+        title: 'Novo Cliente',
+        type: 'success',
+        execute: function(){
+          $location.url('/clientes/novo');
+        }
+      },
+      {
+        id: 'enterKeyActive',
         title: 'Buscar',
         type: 'primary',
         execute: function( ){
           $rootScope.menuMessages = [];
-          if( !!$scope.objectFind.name && !!$scope.objectFind.name.trim() ){
-            console.log("testando o primeiro " + $scope.objectFind.name );
-
+          $scope.hasErrorInput = false;
+          if( !!$scope.objectFind.fantasyName && !!$scope.objectFind.fantasyName.trim() ){
+            $scope.customers = customerService.getCustomerByFantasyName($scope.objectFind.fantasyName);
           }else if( $scope.objectFind.document && !!$scope.objectFind.document.trim() ){
-            console.log("testando o segundo " + $scope.objectFind.document );
-
+            $scope.customers = customerService.getCustomerByDocumentNumber($scope.objectFind.document);
           }else{
-            console.log("testando o terceiro" );
+            $scope.hasErrorInput = true;
             $rootScope.menuMessages = [
               {
                 title: 'Inserir nome ou número do documento para fazer a busca do cliente',
@@ -66,30 +40,7 @@ app.controller('CustomerCtrl', ['$scope', '$rootScope',
             ];
           }
         }
-      },
-      {
-        title: 'Novo Cliente',
-        type: 'success'
       }
-    ];
-
-    $scope.customers = findCustomer();
-
-
-
-//    $rootScope.menuMessages = [
-//          {
-//            title: 'test1',
-//            type: 'success'
-//          },
-//          {
-//            title: 'test2',
-//            type: 'danger'
-//          },
-//          {
-//            title: 'test3',
-//            type: 'warning'
-//          }
-//        ];
+    ]);
   }
 ]);

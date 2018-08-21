@@ -1,0 +1,32 @@
+<div class="row">
+    <center><h3>Criar novo Cliente</h3></center>
+</div>
+<div class="row" style="padding-bottom:10px">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-5">
+                <input type="text" class="form-control" ng-model="customer.fantasyName" placeholder="Nome Fantasia" >
+            </div>
+            <div class="col-md-5">
+                <input type="text" class="form-control" ng-model="customer.legalName" placeholder="Nome Legal" >
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <input type="text" class="form-control" ng-model="customer.documentNumber" placeholder="Número do Documento" >
+            </div>
+            <div class="col-md-5">
+                <input type="text" class="form-control" ng-model="customer.stateRegistration" placeholder="Registro Estadual" >
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <input type="date" class="form-control" date=format='dd/mm/yyyy' ng-model="customer.foundationDate"  >
+            </div>
+            <div class="col-md-5">
+                <input type="text" class="form-control" ng-model="customer.email" placeholder="E-mail" >
+            </div>
+        </div>
+    </form>
+</div>
+

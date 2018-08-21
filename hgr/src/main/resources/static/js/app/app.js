@@ -12,6 +12,10 @@ app.config(function($routeProvider,$locationProvider) {
         templateUrl : "views/customer-find.html",
         controller : "CustomerCtrl"
     })
+    .when("/clientes/novo", {
+        templateUrl : "views/customer-new.html",
+        controller : "CustomerSaveCtrl"
+    })
     .when("/vendas", {
         templateUrl : "views/sales-find.html"
     })
