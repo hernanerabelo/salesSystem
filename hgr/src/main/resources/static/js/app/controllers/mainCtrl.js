@@ -1,9 +1,11 @@
-'use strict';
+(function() {
+  'use strict';
 
-var app = angular.module('app');
+  var app = angular.module('app');
 
-app.controller('MainCtrl', ['$scope', '$rootScope',
-  function($scope, $rootScope) {
+  app.controller('MainCtrl', ['$scope', '$rootScope',
+    function($scope, $rootScope) {
 
-  }
-]);
+    }
+  ]);
+})();

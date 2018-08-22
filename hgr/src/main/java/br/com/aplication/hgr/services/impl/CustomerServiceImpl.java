@@ -51,12 +51,22 @@ public class CustomerServiceImpl implements CustomerService {
   public Customer save( Customer customer ){
 
     if( customer.getId() == null ){
-      updateInformationDate( customer );
-      customerRepository.save( customer );
+      if( validDocumentNumber(customer) ){
+//      todo mudar logica para buscar cpf ou cnpj
+        if( customer.getDocumentNumber().length() == 14 ){
+          customer.setDocumentType("CNPJ");
+        }else{
+          customer.setDocumentType("CPF");
+        }
+        updateInformationDate( customer );
+        customerRepository.save( customer );
 
-      return customer;
+        return customer;
+      }else{
+        throw new CustomerException( "Faltando informação para salvar o cliente." );
+      }
     }else{
-      throw new CustomerException( "Cliente não pode ter id para ser salvo" );
+      throw new CustomerException( "Cliente não pode ter id para ser salvo." );
     }
   }
 
@@ -74,8 +84,21 @@ public class CustomerServiceImpl implements CustomerService {
     if( customer.getCreatedAt() == null ){
       customer.setCreatedBy("criar autenticacao");
       customer.setCreatedAt(new Date());
+    }else {
+      customer.setUpdatedBy("criar autenticacao");
+      customer.setUpdatedAt(new Date());
     }
-    customer.setUpdatedBy("criar autenticacao");
-    customer.setUpdatedAt( new Date() );
+  }
+
+
+  private boolean validDocumentNumber( Customer customer ){
+    if( customer.getDocumentNumber() != null ){
+      customer.setDocumentNumber( customer.getDocumentNumber().replaceAll("[^\\d]", "") );
+    }
+
+    if( customer.getDocumentNumber() == null || "".equals( customer.getDocumentNumber() ) ){
+      throw new CustomerException("Número do documento inválido!!!");
+    }
+    return true;
   }
 }

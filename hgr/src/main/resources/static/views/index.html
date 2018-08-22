@@ -8,6 +8,7 @@
     <script src="js/lib/angular.min.js"></script>
     <script src="js/lib/angular-route.js"></script>
     <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/angular-resource.min.js"></script>
     <script src="js/app/app.js"></script>
     <script src="js/app/directives.js"></script>
     <script src="js/app/controllers/menuCtrl.js"></script>
@@ -47,7 +48,7 @@
             <div class="row">
                 <div class="btn-group btn-group-lg buttonMenu" ng-repeat="button in menuButtons"
                      ng-show="menuButtons.length > 0" role="group">
-                    <button type="button positionButtonMenu" class="btn btn-{{button.type}}" ng-click="button.execute()">
+                    <button type="button positionButtonMenu" class="btn btn-{{button.type}}" ng-disabled="button.isDisabled" ng-click="button.execute()">
                         {{button.title}}
                     </button>
                 </div>
