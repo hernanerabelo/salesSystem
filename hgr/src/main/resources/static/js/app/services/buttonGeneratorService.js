@@ -1,5 +1,5 @@
 (function() {
-  'use strict'
+  'use strict';
 
   //button example
   //{
@@ -56,7 +56,7 @@
               }
             }
           }
-        }
+        };
       }
     );
 })();

@@ -29,7 +29,7 @@
             if (!!$scope.objectFind.fantasyName && !!$scope.objectFind.fantasyName.trim()) {
               $scope.customers = []; //CustomerService.getCustomerByFantasyName($scope.objectFind.fantasyName);
             } else if ($scope.objectFind.document && !!$scope.objectFind.document.trim()) {
-              $scope.customers = [] //CustomerService.getCustomerByDocumentNumber($scope.objectFind.document);
+              $scope.customers = []; //CustomerService.getCustomerByDocumentNumber($scope.objectFind.document);
             } else {
               $scope.hasErrorInput = true;
               $rootScope.menuMessages = [{

@@ -12,15 +12,15 @@
         if (!!menu) {
           menu.enable = true;
         }
-      }
+      };
 
       $scope.removeMessage = function removeMessage(index) {
         $scope.menuMessages.splice(index, 1);
-      }
+      };
 
       $scope.executeButton = function executeButton(button) {
         button.execute();
-      }
+      };
 
       $scope.menus = [{
           enable: false,

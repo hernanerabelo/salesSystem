@@ -1,8 +1,8 @@
 (function() {
-  'use strict'
+  'use strict';
 
 
-  var app = angular.module('app');
+//  var app = angular.module('app');
 
   //app.directive('testss', [
   //  function(){

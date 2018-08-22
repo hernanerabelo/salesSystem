@@ -1,0 +1,9 @@
+{
+  "undef": true,
+  "unused": true,
+  "-W041": false,
+  "-W053": false,
+  "globals": {
+    "angular": true
+  }
+}

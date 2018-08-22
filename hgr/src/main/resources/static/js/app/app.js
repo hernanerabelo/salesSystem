@@ -1,5 +1,5 @@
 (function() {
-  'use strict'
+  'use strict';
 
   var app = angular.module('app', ['ngRoute', 'ngResource']);
 
@@ -25,7 +25,7 @@
         })
         .otherwise({
           redirectTo: '/'
-        });;
+        });
     })
     .run(function($rootScope) {
       $rootScope.$on('$locationChangeStart', function() {
