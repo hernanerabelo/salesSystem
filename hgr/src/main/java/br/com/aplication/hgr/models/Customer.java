@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="CUSTOMER")
+@Table(name="HBR_CUSTOMER")
 public class Customer implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -20,7 +20,7 @@ public class Customer implements Serializable {
   @Column(name = "FANTASY_NAME")
   private String fantasyName;
 
-  @Column(name = "DOCUMENT_NUMBER", nullable = false)
+  @Column(name = "DOCUMENT_NUMBER", nullable = false, unique = true)
   private String documentNumber;
 
   @Column(name = "DOCUMENT_TYPE", nullable = false)
@@ -31,9 +31,6 @@ public class Customer implements Serializable {
 
   @Column( name = "FOUNDATION_DATE")
   private Date foundationDate;
-
-  @Column( name = "EMAIL")
-  private String email;
 
   @Column(name = "CREATED_BY")
   private String createdBy;
@@ -103,14 +100,6 @@ public class Customer implements Serializable {
     this.foundationDate = foundationDate;
   }
 
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
   public String getCreatedBy() {
     return createdBy;
   }
@@ -153,7 +142,6 @@ public class Customer implements Serializable {
         ", documentType='" + documentType + '\'' +
         ", stateRegistration='" + stateRegistration + '\'' +
         ", foundationDate=" + foundationDate +
-        ", email='" + email + '\'' +
         ", createdBy='" + createdBy + '\'' +
         ", createdAt=" + createdAt +
         ", updatedBy='" + updatedBy + '\'' +

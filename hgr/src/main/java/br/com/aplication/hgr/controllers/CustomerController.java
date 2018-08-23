@@ -82,6 +82,15 @@ public class CustomerController {
     return new ResponseEntity<Customer>(HttpStatus.OK);
   }
 
+  @RequestMapping( value = "/document/{documentNumber}", method = RequestMethod.GET)
+  public ResponseEntity getCustomerByDocumentNumber( @PathVariable("documentNumber") String documentNumber ){
+    Customer customer = customerServiceImpl.getCustomerByDocumentNumber( documentNumber );
+    if( customer == null){
+      return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(  customer, HttpStatus.OK );
+  }
+
   @RequestMapping( value = "/json", method = RequestMethod.GET )
   public ResponseEntity getJsonCustomer( ){
 

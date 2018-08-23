@@ -9,7 +9,7 @@
                 <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
             </div>
             <div class="col-md-4" >
-                <input type="text" class="form-control" ng-model="objectFind.document" placeholder="Número do Documento" >
+                <input type="text" class="form-control" ng-model="objectFind.document" placeholder="Número do Documento CPF/CNPJ" >
                 <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
             </div>
         </div>
@@ -28,7 +28,11 @@
         </thead>
         <tbody>
             <tr ng-repeat="customer in customers">
-                <td class="text-center ajustarTextoVertical"><button class="btn btn-info"><span class="glyphicon glyphicon-search"></span></button></td>
+                <td class="text-center ajustarTextoVertical">
+                    <button class="btn btn-info" ng-click="editCustomer(customer)">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </td>
                 <td class="text-center ajustarTextoVertical">{{customer.fantasyName}}</td>
                 <td class="text-center ajustarTextoVertical">{{customer.documentNumber}}</td>
                 <td class="text-center ajustarTextoVertical">{{customer.address.state}}</td>

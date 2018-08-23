@@ -18,4 +18,5 @@ public interface CustomerService {
 
     void delete( Customer customer );
 
+    Customer getCustomerByDocumentNumber( String documentNumber );
 }

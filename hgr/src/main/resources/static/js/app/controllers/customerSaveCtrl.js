@@ -87,7 +87,6 @@
               },
               function(e) {
                 $scope.isDisabledSearchCpf = false;
-                console.log(e);
                 MessageGeneratorService.cleanAllMessages();
                 MessageGeneratorService.createMessageError('Não foi possivel buscar informação pelo CEP');
               });
@@ -126,7 +125,6 @@
               if( result ){
                 CustomerService.saveCustomer($scope.customer,
                   function(response) {
-                    console.log('id criado = ' + response.id);
                     ButtonGeneratorService.enableButtons();
                     $location.url('/clientes/editar/' + response.id);
                   },

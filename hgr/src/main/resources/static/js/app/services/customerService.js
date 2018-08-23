@@ -14,6 +14,12 @@
           },
           updateCustomer:{
             method: 'PUT'
+          },
+          getCustomerByDocumentNumber: {
+            method: 'GET',
+            params: {
+              service: 'document'
+            }
           }
         });
 
