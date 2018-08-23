@@ -25,32 +25,38 @@
       $scope.menus = [{
           enable: false,
           name: "Início",
-          url: "#/"
+          url: "#/",
+          icon: ['glyphicon','glyphicon-home']
         },
         {
           enable: false,
           name: "Clientes",
-          url: "#/clientes"
+          url: "#/clientes",
+          icon: ['glyphicon','glyphicon-list-alt']
         },
         {
           enable: false,
           name: "Vendas",
-          url: "#/vendas"
+          url: "#/vendas",
+          icon: ['glyphicon','glyphicon glyphicon-usd']
         },
         {
           enable: false,
           name: "Relatórios",
-          url: "#/relatorios"
+          url: "#/relatorios",
+          icon: ['glyphicon','glyphicon-folder-open']
         },
         {
           enable: false,
           name: "Fornecedor",
-          url: "#/relatorios"
+          url: "#/relatorios",
+          icon: ['glyphicon','glyphicon glyphicon-user']
         },
         {
           enable: false,
           name: "Produtos",
-          url: "#/relatorios"
+          url: "#/relatorios",
+          icon: ['glyphicon','glyphicon-shopping-cart']
         }
       ];
     }

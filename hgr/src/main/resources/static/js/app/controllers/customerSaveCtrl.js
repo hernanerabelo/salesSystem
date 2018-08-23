@@ -85,7 +85,7 @@
                   MessageGeneratorService.createMessageError('Não foi possivel buscar informação pelo CEP informado');
                 }
               },
-              function(e) {
+              function() {
                 $scope.isDisabledSearchCpf = false;
                 MessageGeneratorService.cleanAllMessages();
                 MessageGeneratorService.createMessageError('Não foi possivel buscar informação pelo CEP');
