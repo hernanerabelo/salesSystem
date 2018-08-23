@@ -206,7 +206,7 @@
               $scope.foundationDateFormated = new Date($scope.customer.foundationDate);
             }
           },
-          function(e) {
+          function() {
             MessageGeneratorService.createMessageError('Não foi encontrado nenhum cliente com id ' + clientId);
             $scope.customer = {};
             ButtonGeneratorService.cleanAllButtons();
