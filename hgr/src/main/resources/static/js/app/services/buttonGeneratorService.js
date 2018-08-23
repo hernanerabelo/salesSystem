@@ -10,8 +10,8 @@
   //  }
   //}
   angular.module('app')
-    .service('buttonGeneratorService',
-      function($rootScope) {
+    .service('ButtonGeneratorService',['$rootScope',
+      function( $rootScope) {
         function concatListInRootScope(list) {
           for (var i = 0; i < list.length; i++) {
             $rootScope.menuButtons.push(list[i]);
@@ -55,8 +55,11 @@
                 }
               }
             }
+          },
+          cleanAllButtons: function(){
+            $rootScope.menuButtons = [];
           }
         };
       }
-    );
+    ]);
 })();

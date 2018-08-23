@@ -13,6 +13,10 @@
           templateUrl: "views/customer-find.html",
           controller: "CustomerCtrl"
         })
+        .when("/clientes/editar/:id", {
+          templateUrl: "views/customer-edit.html",
+          controller: "CustomerEditCtrl"
+        })
         .when("/clientes/novo", {
           templateUrl: "views/customer-new.html",
           controller: "CustomerSaveCtrl"
@@ -27,11 +31,10 @@
           redirectTo: '/'
         });
     })
-    .run(function($rootScope) {
+    .run(function($rootScope, MessageGeneratorService, ButtonGeneratorService) {
       $rootScope.$on('$locationChangeStart', function() {
-        $rootScope.menuButtons = [];
-        $rootScope.menuMessages = [];
-
+        MessageGeneratorService.cleanAllMessages();
+        ButtonGeneratorService.cleanAllButtons();
       });
     });
 })();

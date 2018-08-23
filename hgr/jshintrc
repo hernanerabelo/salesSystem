@@ -4,6 +4,10 @@
   "-W041": false,
   "-W053": false,
   "globals": {
-    "angular": true
+    "angular": true,
+    "console": true,
+    "alert": true,
+    "window": true,
+    "bootbox": true
   }
 }

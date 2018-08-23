@@ -9,14 +9,18 @@
     <script src="js/lib/angular-route.js"></script>
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/angular-resource.min.js"></script>
+    <script src="js/lib/bootbox.min.js"></script>
     <script src="js/app/app.js"></script>
     <script src="js/app/directives.js"></script>
     <script src="js/app/controllers/menuCtrl.js"></script>
     <script src="js/app/controllers/mainCtrl.js"></script>
     <script src="js/app/controllers/customerCtrl.js"></script>
     <script src="js/app/controllers/customerSaveCtrl.js"></script>
+    <script src="js/app/controllers/customerEditCtrl.js"></script>
     <script src="js/app/services/customerService.js"></script>
+    <script src="js/app/services/externalUrlService.js"></script>
     <script src="js/app/services/buttonGeneratorService.js"></script>
+    <script src="js/app/services/messageGeneratorService.js"></script>
     <link rel="stylesheet" href="css/lib/bootstrap.min.css"/>
     <script src="js/lib/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/app/app.css"/>
@@ -54,13 +58,13 @@
                 </div>
             </div>
 
-            <div class="alert alert-{{message.type}}" ng-repeat="message in menuMessages" role="alert"
-                 ng-click="removeMessage($index)">
-                {{message.title}}
+            <div class="alert alert-{{message.type}} alert-dismissible" ng-repeat="message in menuMessages" role="alert">
+                <strong>{{message.title}}</strong> {{message.text}}
+                <span class="glyphicon glyphicon-remove close" ng-click="removeMessage($index)" data-dismiss="alert"></span>
             </div>
         </div>
 
-        <div class="container" style="overflow: hidden;" ng-cloak>
+        <div class="container" ng-cloak>
             <div ng-view />
         </div>
 

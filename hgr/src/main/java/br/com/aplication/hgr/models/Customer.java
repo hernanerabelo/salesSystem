@@ -87,11 +87,11 @@ public class Customer implements Serializable {
     this.documentType = documentType;
   }
 
-  public String getState_registration() {
+  public String getStateRegistration() {
     return stateRegistration;
   }
 
-  public void setState_registration(String stateRegistration) {
+  public void setStateRegistration(String stateRegistration) {
     this.stateRegistration = stateRegistration;
   }
 

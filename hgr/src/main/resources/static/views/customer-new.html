@@ -1,58 +1,188 @@
 <div class="row">
-    <center><h3>Criar novo Cliente</h3></center>
-</div>
-<div class="row" style="padding-bottom:10px">
-    <form class="form-horizontal">
-        <div class="form-group">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" ng-model="customer.fantasyName" placeholder="Nome Fantasia" >
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-9">
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" ng-model="customer.legalName" placeholder="Nome Legal" >
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-3">
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" ng-model="customer.documentNumber" placeholder="Número do Documento" >
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-5">
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" ng-model="customer.stateRegistration" placeholder="Registro Estadual" >
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-3">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                    <input type="date" class="form-control" ng-model="customer.foundationDate"  >
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-3">
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" ng-model="customer.email" placeholder="E-mail" >
-                </div>
-            </div>
-        </div>
-    </form>
+    <center><h1>Criar novo Cliente</h1></center>
 </div>
 
+<div class="container">
+    <div class="row hbrBlueDegrade"  ng-dblclick="form1 = !form1">
+        <label style="margin: 6px 12px;">Dados Pessoais do Cliente</label>
+        <div class="pull-right btn" ng-click="form1 = !form1">
+            <span ng-show="form1" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+            <span ng-show="!form1" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.legalName"><b>Nome Legal</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.legalName" placeholder="Nome Legal" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.fantasyName"><b>Nome Fantasia</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.fantasyName" placeholder="Nome Fantasia" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.documentNumber"><b>CPF/CNPJ</b></span></span>
+                        <input type="text" class="form-control" ng-model="customer.documentNumber" placeholder="CPF/CNPJ" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.stateRegistration"><b>Inscrição Estadual</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.stateRegistration" placeholder="Inscrição Estadual" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span><b>Data de Fundação</b></span></span>
+                        <input type="date" class="form-control" ng-model="customer.foundationDate"  >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row hbrBlueDegrade"  ng-dblclick="form1 = !form1">
+        <label style="margin: 6px 12px;">Endereço do Cliente</label>
+        <div class="pull-right btn" ng-click="form3 = !form3">
+            <span ng-show="form3" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+            <span ng-show="!form3" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-horizontal hbrFormInput" ng-show="form3" ng-init="form3=true">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.cep"><b>CEP</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.cep" placeholder="CEP" >
+                        <span class="btn input-group-addon inputsBlue" ng-show="!isDisabledSearchCpf" ng-click="populateAddressUsingCep(customer.address.cep)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.logradouro"><b>Logradouro</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.logradouro" placeholder="logradouro" >
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.number"><b>Nº</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.number" placeholder="Número" >
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.complement"><b>Complemento</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.complement" placeholder="Complemento" >
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.neighborhood"><b>Bairro</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.neighborhood" placeholder="Bairro" >
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.city"><b>Cidade</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.city" placeholder="Cidade" >
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.state"><b>Estado</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.state" placeholder="Estado" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" ng-repeat="contact in customer.contacts">
+    <div class="row hbrBlueDegrade"  ng-dblclick="form1 = !form1">
+        <label style="margin: 6px 12px;">Informação de Contato</label>
+        <div class="pull-right btn" ng-click="form2 = !form2">
+            <span ng-show="form2" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+            <span ng-show="!form2" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-horizontal hbrFormInput" ng-show="form2" ng-init="form2=true">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="contact.name" placeholder="Nome" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
+                        <input type="text" class="form-control inputUpperCase" ng-model="contact.phone" placeholder="Telefone" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
+                        <input type="text" class="form-control" ng-model="contact.email" placeholder="endereco@email.com" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.contact.observation"><b>Observação</b></span></span>
+                        <textarea class="form-control" maxlength="3999" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 pull-right">
+                    <button type="submit" class="btn btn-danger btn-sm" ng-click="removeContactInCustomer($index)">Remover</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding: 8px 8px 8px;">
+    <center>
+        <button class="btn btn-info btn-lg" ng-click="createContactInCustomer()">
+            <span class="glyphicon glyphicon-user"></span> Criar Contato
+        </button>
+    </center>
+</div>
 

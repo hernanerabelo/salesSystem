@@ -3,8 +3,9 @@
 
   var app = angular.module('app');
 
-  app.controller('CustomerCtrl', ['$scope', '$rootScope', '$location', 'CustomerService', 'buttonGeneratorService',
-    function($scope, $rootScope, $location, CustomerService, buttonGeneratorService) {
+  app.controller('CustomerCtrl', ['$scope', '$rootScope', '$location', 'CustomerService', 'ButtonGeneratorService',
+    'MessageGeneratorService',
+    function($scope, $rootScope, $location, CustomerService, ButtonGeneratorService, MessageGeneratorService) {
       $scope.hasErrorInput = false;
 
       $scope.objectFind = {
@@ -12,7 +13,7 @@
         document: null
       };
 
-      buttonGeneratorService.putButtonsInSubMenu([{
+      ButtonGeneratorService.putButtonsInSubMenu([{
           title: 'Novo Cliente',
           type: 'success',
           execute: function() {
@@ -20,11 +21,11 @@
           }
         },
         {
-          id: 'enterKeyActive',
           title: 'Buscar',
+          id: 'enterKeyActive',
           type: 'primary',
           execute: function() {
-            $rootScope.menuMessages = [];
+            MessageGeneratorService.cleanAllMessages();
             $scope.hasErrorInput = false;
             if (!!$scope.objectFind.fantasyName && !!$scope.objectFind.fantasyName.trim()) {
               $scope.customers = []; //CustomerService.getCustomerByFantasyName($scope.objectFind.fantasyName);
@@ -32,10 +33,7 @@
               $scope.customers = []; //CustomerService.getCustomerByDocumentNumber($scope.objectFind.document);
             } else {
               $scope.hasErrorInput = true;
-              $rootScope.menuMessages = [{
-                title: 'Inserir nome ou número do documento para fazer a busca do cliente',
-                type: 'warning'
-              }];
+              MessageGeneratorService.createMessageWarning('Inserir nome ou número do documento para fazer a busca do cliente');
             }
           }
         }

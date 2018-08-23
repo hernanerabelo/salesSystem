@@ -3,12 +3,11 @@
 
   var app = angular.module('app');
 
-  app.controller('CustomerSaveCtrl', ['$scope', '$rootScope', '$location', 'CustomerService', 'ButtonGeneratorService',
+  app.controller('CustomerEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'CustomerService', 'ButtonGeneratorService',
     'ExternalUrlService', 'MessageGeneratorService',
-    function($scope, $rootScope, $location, CustomerService, ButtonGeneratorService, ExternalUrlService, MessageGeneratorService) {
-      $scope.customer = {
-        address: {},
-        contacts: []
+    function($scope, $rootScope, $location, $routeParams, CustomerService, ButtonGeneratorService, ExternalUrlService, MessageGeneratorService) {
+      $scope.edit = {
+        isDisabledWaitingEdit: true
       };
 
       function populatAddressInfo(address){
@@ -24,6 +23,7 @@
         }
         return '';
       }
+
       $scope.removeContactInCustomer = function removeContactInCustomer(index){
         bootbox.confirm({
           size: "small",
@@ -101,7 +101,7 @@
         }
       };
 
-      ButtonGeneratorService.putButtonsInSubMenu([{
+      var buttonSave = {
         title: 'Salvar',
         type: 'success',
         execute: function() {
@@ -124,15 +124,20 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
               if( result ){
-                CustomerService.saveCustomer($scope.customer,
+                CustomerService.updateCustomer($scope.customer,
                   function(response) {
-                    console.log('id criado = ' + response.id);
+                    console.log(response);
+                    $scope.customer = response;
                     ButtonGeneratorService.enableButtons();
-                    $location.url('/clientes/editar/' + response.id);
+                    MessageGeneratorService.cleanAllMessages();
+                    MessageGeneratorService.createMessageSuccess('Informações atualizadas com sucesso');
+                    ButtonGeneratorService.cleanAllButtons();
+                    ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
+                    $scope.edit.isDisabledWaitingEdit = true;
                   },
                   function(e) {
                     ButtonGeneratorService.enableButtons();
-                    MessageGeneratorService.createMessageError('Não foi possivel salvar o usuário - ' + e.data.message);
+                    MessageGeneratorService.createMessageError('Não foi possivel atualizar informações do usuário - ' + e.data.message);
                   }
                 );
               }else{
@@ -143,8 +148,73 @@
             }
           });
         }
-      }]);
+      };
 
+      var buttonEdit = {
+        title: 'Editar',
+        type: 'primary',
+        execute: function() {
+          ButtonGeneratorService.cleanAllButtons();
+          MessageGeneratorService.cleanAllMessages();
+          ButtonGeneratorService.putButtonsInSubMenu([buttonSave, buttonCancel]);
+          $scope.edit.isDisabledWaitingEdit = false;
+          $scope.customerTemp = angular.copy( $scope.customer );
+        }
+      };
+
+      var buttonCancel = {
+        title: 'Cancelar',
+        type: 'danger',
+        execute: function() {
+          this.isDisabled = true;
+          bootbox.confirm({
+            size: "small",
+            title: "<center><b>ATENÇÃO<b><center>",
+            message: '<b>Cancelar</b> as atualizações realizadas?',
+            buttons: {
+              confirm: {
+                label: 'Sim',
+                className: 'btn-success'
+              },
+              cancel: {
+                label: 'Não',
+                className: 'btn-danger'
+              }
+            },
+            callback: function(result){
+              ButtonGeneratorService.enableButtons();
+              if( result ){
+                ButtonGeneratorService.cleanAllButtons();
+                MessageGeneratorService.cleanAllMessages();
+                ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
+                $scope.edit.isDisabledWaitingEdit = true;
+                $scope.customer = $scope.customerTemp;
+              }
+              $scope.$apply();
+            }
+          });
+        }
+      };
+
+      function getCustomerInfoInDataBase(){
+        var clientId = $routeParams.id;
+        CustomerService.getCustomerById({id : clientId},
+          function(response) {
+            $scope.customer = response;
+
+            if( !!$scope.customer.foundationDate ){
+              $scope.foundationDateFormated = new Date($scope.customer.foundationDate);
+            }
+          },
+          function(e) {
+            MessageGeneratorService.createMessageError('Não foi encontrado nenhum cliente com id ' + clientId);
+            $scope.customer = {};
+            ButtonGeneratorService.cleanAllButtons();
+          }
+        );
+      }
+      getCustomerInfoInDataBase();
+      ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
     }
   ]);
 })();
