@@ -42,8 +42,10 @@
               CustomerService.getCustomerByDocumentNumber({ id: $scope.objectFind.document },
               function(response){
                 $scope.customers = [response];
-              }, function(err){
-                console.log(err);
+              }, function(error){
+                if( error.status == '404'){
+                  MessageGeneratorService.createMessageInfo('Não foi encontrado nenhum cliente para o CPF/CNPJ informado');
+                }
               });
             } else {
               $scope.hasErrorInput = true;

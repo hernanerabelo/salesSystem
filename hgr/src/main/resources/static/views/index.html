@@ -44,7 +44,7 @@
             </div>
             <div class="collapse navbar-collapse" id="mainMenu">
                 <ul class="nav nav-tabs">
-                    <li ng-repeat="menu in menus" ng-click="currentMenu(menu)" ng-class="{active:menu.enable}">
+                    <li ng-repeat="menu in menus" ng-click="currentMenu(menu)" ng-class="{active:menu.displayValue == global.menuName}">
                         <a href="{{menu.url}}">
                             <center><span style="font-size: 30px;" ng-class="menu.icon"></span></center>
                             <center><label style="font-size: 15px;"><u>{{menu.name}}</u></label></center>

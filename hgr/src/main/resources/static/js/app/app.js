@@ -31,10 +31,22 @@
           redirectTo: '/'
         });
     })
-    .run(function($rootScope, MessageGeneratorService, ButtonGeneratorService) {
+    .run(function($rootScope, $location,MessageGeneratorService, ButtonGeneratorService) {
       $rootScope.$on('$locationChangeStart', function() {
         MessageGeneratorService.cleanAllMessages();
         ButtonGeneratorService.cleanAllButtons();
+
+        var url = $location.url();
+        if( !!url ){
+          var paths = url.split('/');
+          $rootScope.global = {};
+          if( paths.length > 1 && paths[1] != '' ){
+            $rootScope.global.menuName = paths[1].toUpperCase();
+          }else{
+            $rootScope.global.menuName = 'INICIO';
+          }
+        }
+
       });
     });
 })();

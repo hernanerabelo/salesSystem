@@ -25,8 +25,9 @@ body{
   overflow: auto;
 }
 
-.ajustarTextoVertical {
+.hbrAjustarTextoVertical {
   vertical-align: middle !important;
+  padding: 1px !important;
 }
 
 .inputsBlue {

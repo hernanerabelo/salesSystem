@@ -5,7 +5,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="HBR_CUSTOMER")
+@Table(name="HBR_CUSTOMER", indexes = {
+    @Index(columnList = "DOCUMENT_NUMBER", name = "IDX_DOCUMENT_NUMBER")
+})
 public class Customer implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -20,14 +22,17 @@ public class Customer implements Serializable {
   @Column(name = "FANTASY_NAME")
   private String fantasyName;
 
-  @Column(name = "DOCUMENT_NUMBER", nullable = false, unique = true)
+  @Column(name = "DOCUMENT_NUMBER", nullable = false, unique = true, length = 20)
   private String documentNumber;
 
-  @Column(name = "DOCUMENT_TYPE", nullable = false)
+  @Column(name = "DOCUMENT_TYPE", nullable = false, length = 10)
   private String documentType;
 
   @Column(name = "STATE_REGISTRATION")
   private String stateRegistration;
+
+  @Column(name = "CITY_REGISTRATION")
+  private String cityRegistration;
 
   @Column( name = "FOUNDATION_DATE")
   private Date foundationDate;
@@ -43,6 +48,9 @@ public class Customer implements Serializable {
 
   @Column(name = "UPDATED_AT")
   private Date updatedAt;
+
+  @Transient
+  private Address address;
 
   public Long getId() {
     return id;
@@ -132,6 +140,23 @@ public class Customer implements Serializable {
     this.updatedAt = updatedAt;
   }
 
+  public String getCityRegistration() {
+    return cityRegistration;
+  }
+
+  public void setCityRegistration(String cityRegistration) {
+    this.cityRegistration = cityRegistration;
+  }
+
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+
   @Override
   public String toString() {
     return "Customer{" +
@@ -141,11 +166,13 @@ public class Customer implements Serializable {
         ", documentNumber='" + documentNumber + '\'' +
         ", documentType='" + documentType + '\'' +
         ", stateRegistration='" + stateRegistration + '\'' +
+        ", cityRegistration='" + cityRegistration + '\'' +
         ", foundationDate=" + foundationDate +
         ", createdBy='" + createdBy + '\'' +
         ", createdAt=" + createdAt +
         ", updatedBy='" + updatedBy + '\'' +
         ", updatedAt=" + updatedAt +
+        ", address=" + address +
         '}';
   }
 }

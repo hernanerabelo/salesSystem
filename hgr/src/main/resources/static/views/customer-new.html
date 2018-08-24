@@ -13,25 +13,22 @@
     <div class="row">
         <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
             <div class="form-group">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.legalName"><b>Nome Legal</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.legalName" placeholder="Nome Legal" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.legalName" placeholder="Nome Legal" >
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.fantasyName"><b>Nome Fantasia</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.fantasyName" placeholder="Nome Fantasia" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.fantasyName" placeholder="Nome Fantasia" >
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.documentNumber"><b>CPF/CNPJ</b></span></span>
                         <input type="text" class="form-control" ng-model="customer.documentNumber" placeholder="CPF/CNPJ" >
@@ -40,7 +37,13 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.stateRegistration"><b>Inscrição Estadual</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.stateRegistration" placeholder="Inscrição Estadual" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.stateRegistration" placeholder="Inscrição Estadual" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.cityRegistration"><b>Inscrição Municial</b></span></span>
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.cityRegistration" placeholder="Inscrição Municipal" >
                     </div>
                 </div>
             </div>
@@ -58,7 +61,7 @@
 </div>
 
 <div class="container">
-    <div class="row hbrBlueDegrade"  ng-dblclick="form1 = !form1">
+    <div class="row hbrBlueDegrade"  ng-dblclick="form3 = !form3">
         <label style="margin: 6px 12px;">Endereço do Cliente</label>
         <div class="pull-right btn" ng-click="form3 = !form3">
             <span ng-show="form3" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
@@ -71,7 +74,7 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.cep"><b>CEP</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.cep" placeholder="CEP" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.address.cep" placeholder="CEP" >
                         <span class="btn input-group-addon inputsBlue" ng-show="!isDisabledSearchCpf" ng-click="populateAddressUsingCep(customer.address.cep)">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
@@ -81,14 +84,14 @@
             <div class="form-group">
                 <div class="col-md-5">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.logradouro"><b>Logradouro</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.logradouro" placeholder="logradouro" >
+                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.street"><b>Logradouro</b></span></span>
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.address.street" placeholder="logradouro" >
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.number"><b>Nº</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.number" placeholder="Número" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.address.number" placeholder="Número" >
                     </div>
                 </div>
             </div>
@@ -96,7 +99,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.complement"><b>Complemento</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.complement" placeholder="Complemento" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.address.complement" placeholder="Complemento" >
                     </div>
                 </div>
             </div>
@@ -104,19 +107,19 @@
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.neighborhood"><b>Bairro</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.neighborhood" placeholder="Bairro" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.address.neighborhood" placeholder="Bairro" >
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.city"><b>Cidade</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.city" placeholder="Cidade" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.address.city" placeholder="Cidade" >
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.state"><b>Estado</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="customer.address.state" placeholder="Estado" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="customer.address.state" placeholder="Estado" >
                     </div>
                 </div>
             </div>
@@ -125,7 +128,7 @@
 </div>
 
 <div class="container" ng-repeat="contact in customer.contacts">
-    <div class="row hbrBlueDegrade"  ng-dblclick="form1 = !form1">
+    <div class="row hbrBlueDegrade"  ng-dblclick="form2 = !form2">
         <label style="margin: 6px 12px;">Informação de Contato</label>
         <div class="pull-right btn" ng-click="form2 = !form2">
             <span ng-show="form2" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
@@ -138,7 +141,7 @@
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="contact.name" placeholder="Nome" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.name" placeholder="Nome" >
                     </div>
                 </div>
             </div>
@@ -147,7 +150,7 @@
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon inputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
-                        <input type="text" class="form-control inputUpperCase" ng-model="contact.phone" placeholder="Telefone" >
+                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.phone" placeholder="Telefone" >
                     </div>
                 </div>
             </div>

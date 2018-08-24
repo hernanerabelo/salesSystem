@@ -28,15 +28,15 @@
         </thead>
         <tbody>
             <tr ng-repeat="customer in customers">
-                <td class="text-center ajustarTextoVertical">
+                <td class="text-center hbrAjustarTextoVertical">
                     <button class="btn btn-info" ng-click="editCustomer(customer)">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </td>
-                <td class="text-center ajustarTextoVertical">{{customer.fantasyName}}</td>
-                <td class="text-center ajustarTextoVertical">{{customer.documentNumber}}</td>
-                <td class="text-center ajustarTextoVertical">{{customer.address.state}}</td>
-                <td class="text-center ajustarTextoVertical">{{customer.address.cep}}</td>
+                <td class="text-center hbrAjustarTextoVertical">{{customer.fantasyName}}</td>
+                <td class="text-center hbrAjustarTextoVertical">{{customer.documentNumber}}</td>
+                <td class="text-center hbrAjustarTextoVertical">{{customer.address.state}}</td>
+                <td class="text-center hbrAjustarTextoVertical">{{customer.address.cep}}</td>
             </tr>
         </tbody>
     </table>

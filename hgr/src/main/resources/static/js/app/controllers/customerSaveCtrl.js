@@ -12,7 +12,7 @@
       };
 
       function populatAddressInfo(address){
-        $scope.customer.address.logradouro = address.logradouro;
+        $scope.customer.address.street = address.logradouro;
         $scope.customer.address.neighborhood = address.bairro;
         $scope.customer.address.city = address.localidade;
         $scope.customer.address.state = address.uf;
@@ -49,15 +49,16 @@
       };
 
       function cleanInputAddress(){
-        $scope.customer.address.logradouro = '';
+        $scope.customer.address.street = '';
         $scope.customer.address.neighborhood = '';
         $scope.customer.address.city = '';
         $scope.customer.address.state = '';
-        $scope.customer.address.number = '';
-        $scope.customer.address.complement = '';
       }
 
       $scope.createContactInCustomer = function createContactInCustomer(){
+        if( !$scope.customer.contacts ){
+          $scope.customer.contacts = [];
+        }
         $scope.customer.contacts.push({});
       };
 
@@ -129,8 +130,13 @@
                     $location.url('/clientes/editar/' + response.id);
                   },
                   function(e) {
+                    console.log(e);
+                    var message = '';
+                    if( !!e.data && e.data.status == '400' && !!e.data.message ){
+                      message = ' - ' + e.data.message;
+                    }
                     ButtonGeneratorService.enableButtons();
-                    MessageGeneratorService.createMessageError('Não foi possivel salvar o usuário - ' + e.data.message);
+                    MessageGeneratorService.createMessageError('Não foi possivel salvar o usuário ' + message);
                   }
                 );
               }else{

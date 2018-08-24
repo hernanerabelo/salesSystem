@@ -1,11 +1,17 @@
 package br.com.aplication.hgr.services.impl;
 
+import br.com.aplication.hgr.exceptions.AddressException;
 import br.com.aplication.hgr.exceptions.CustomerException;
 import br.com.aplication.hgr.exceptions.DocumentException;
+import br.com.aplication.hgr.models.Address;
 import br.com.aplication.hgr.models.Customer;
+import br.com.aplication.hgr.models.ParentPK;
 import br.com.aplication.hgr.repositories.CustomerRepository;
+import br.com.aplication.hgr.services.AddressService;
 import br.com.aplication.hgr.services.CustomerService;
 import br.com.aplication.hgr.utils.DocumentUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +21,13 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+  private static final Logger logger = LogManager.getLogger(CustomerServiceImpl.class);
 
   @Autowired
   private CustomerRepository customerRepository;
 
-  @Transactional(rollbackOn = Exception.class)
-  @Override
-  public Customer insertNewCustomer( Customer customer ){
-    updateInformationDate( customer );
-    return customerRepository.save( customer );
-  }
+  @Autowired
+  private AddressService addressService;
 
   @Override
   public List<Customer> findAll(){
@@ -33,7 +36,14 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   public Customer findById( Long id ){
-    return customerRepository.findOne( id );
+    logger.info("Buscando cliente com id " + id );
+    Customer customer = customerRepository.findOne( id );
+    if( customer != null ){
+      populateCustomer(customer);
+    }else{
+      logger.warn("Cliente not found for id " + id );
+    }
+    return customer;
   }
 
   @Transactional(rollbackOn = Exception.class)
@@ -43,6 +53,13 @@ public class CustomerServiceImpl implements CustomerService {
       validAndFormatDocumentNumber(customer);
       updateInformationDate( customer );
       customerRepository.save( customer );
+
+      if( customer.getAddress() != null ){
+        customer.getAddress().setParentPK( new ParentPK( customer.getId(), Customer.class.getSimpleName() ) );
+        addressService.update( customer.getAddress() );
+      }else {
+        throw new CustomerException( "Não foi encontrado endereço para o cliente" );
+      }
       return customer;
     }else{
       throw new CustomerException( "Cliente não encontrado" );
@@ -51,14 +68,19 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Transactional(rollbackOn = Exception.class)
   @Override
-  public Customer save( Customer customer ){
+  public void save( Customer customer ){
 
     if( customer.getId() == null ){
-      validAndFormatDocumentNumber(customer);
+      validAndFormatDocumentNumber( customer );
       updateInformationDate( customer );
       customerRepository.save( customer );
-
-      return customer;
+      logger.info("Criado customer " + customer.getId() );
+      if( customer.getAddress() != null ){
+        customer.getAddress().setParentPK( new ParentPK( customer.getId(), Customer.class.getSimpleName() ) );
+        addressService.save( customer.getAddress() );
+      }else {
+        throw new AddressException("Não foi encontrado informações do endereço");
+      }
     }else{
       throw new CustomerException( "Cliente não pode ter id para ser salvo." );
     }
@@ -81,6 +103,13 @@ public class CustomerServiceImpl implements CustomerService {
     }else {
       throw new DocumentException("Inserir um número de documento válido (CPF/CNPJ)");
     }
+
+    Customer customerOwnerDocument = customerRepository.getCustomerByDocumentNumber(customer.getDocumentNumber());
+
+    if( customerOwnerDocument != null && !customerOwnerDocument.getId().equals( customer.getId() ) ){
+      throw new DocumentException("O cliente " + customerOwnerDocument.getFantasyName() +
+          " já possui o " + customerOwnerDocument.getDocumentType() + " informado");
+    }
   }
 
   @Transactional(rollbackOn = Exception.class)
@@ -96,7 +125,13 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public Customer getCustomerByDocumentNumber(String documentNumber) {
     if( documentNumber != null && !"".equals(documentNumber)){
-      return customerRepository.getCustomerByDocumentNumber(documentNumber);
+      Customer customer = customerRepository.getCustomerByDocumentNumber(documentNumber);
+      if( customer != null ){
+        populateCustomer(customer);
+      }else{
+        logger.warn("Cliente not found for documentNumber " + documentNumber );
+      }
+      return customer;
     }else{
       throw new CustomerException( "Por favor inserir valor do número do documento do cliente (CPF/CNPJ)" );
     }
@@ -122,5 +157,19 @@ public class CustomerServiceImpl implements CustomerService {
       throw new CustomerException("Número do documento inválido!!!");
     }
     return documentNumber;
+  }
+
+  private void populateCustomer( Customer customer ){
+    if( customer != null ){
+      Address address = addressService.findByParentIdAndParentType(customer.getId(), Customer.class.getSimpleName());
+      if( address != null ){
+        logger.info("Address found " + address.getParentPK() );
+        customer.setAddress(address);
+      }else {
+        logger.info("Not found address for customer" + customer.getId());
+      }
+    }else{
+      logger.warn("cliente is null");
+    }
   }
 }

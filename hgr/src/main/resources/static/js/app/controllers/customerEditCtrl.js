@@ -11,7 +11,7 @@
       };
 
       function populatAddressInfo(address){
-        $scope.customer.address.logradouro = address.logradouro;
+        $scope.customer.address.street = address.logradouro;
         $scope.customer.address.neighborhood = address.bairro;
         $scope.customer.address.city = address.localidade;
         $scope.customer.address.state = address.uf;
@@ -49,15 +49,16 @@
       };
 
       function cleanInputAddress(){
-        $scope.customer.address.logradouro = '';
+        $scope.customer.address.street = '';
         $scope.customer.address.neighborhood = '';
         $scope.customer.address.city = '';
         $scope.customer.address.state = '';
-        $scope.customer.address.number = '';
-        $scope.customer.address.complement = '';
       }
 
       $scope.createContactInCustomer = function createContactInCustomer(){
+        if( !$scope.customer.contacts ){
+          $scope.customer.contacts = [];
+        }
         $scope.customer.contacts.push({});
       };
 
@@ -126,7 +127,6 @@
               if( result ){
                 CustomerService.updateCustomer($scope.customer,
                   function(response) {
-                    console.log(response);
                     $scope.customer = response;
                     ButtonGeneratorService.enableButtons();
                     MessageGeneratorService.cleanAllMessages();
@@ -206,8 +206,12 @@
               $scope.foundationDateFormated = new Date($scope.customer.foundationDate);
             }
           },
-          function() {
-            MessageGeneratorService.createMessageError('Não foi encontrado nenhum cliente com id ' + clientId);
+          function( error ) {
+            if( !!error && error.status == '404' ){
+              MessageGeneratorService.createMessageError('Não foi encontrado nenhum cliente com id ' + clientId);
+            }else{
+              MessageGeneratorService.createMessageError('Não foi possivel carregar informações do cliente [' + clientId + ']');
+            }
             $scope.customer = {};
             ButtonGeneratorService.cleanAllButtons();
           }
