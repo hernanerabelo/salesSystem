@@ -44,7 +44,9 @@
                 $scope.customers = [response];
               }, function(error){
                 if( error.status == '404'){
-                  MessageGeneratorService.createMessageInfo('Não foi encontrado nenhum cliente para o CPF/CNPJ informado');
+                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o CPF/CNPJ informado');
+                }else{
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente');
                 }
               });
             } else {

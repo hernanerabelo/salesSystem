@@ -1,44 +1,64 @@
 body{
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 .nav>li>a {
-    position: relative;
-    display: block;
-    padding: 1px 5px;
+  position: relative;
+  display: block;
+  padding: 1px 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  color: #555;
+  cursor: default;
+  background-color: #337ab7;
+  border: 1px solid rgb(0,0,139);
+  border-bottom-color: transparent;
 }
 
 .hbrNavBackgroup{
-  background: #d4e4ef; /* Old browsers */
-  background: -moz-linear-gradient(top, #d4e4ef 0%, #86aecc 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #d4e4ef 0%,#86aecc 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #d4e4ef 0%,#86aecc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=0 ); /* IE6-9 */
+  background: rgb(0,0,139); /* Old browsers */
+  background: -moz-linear-gradient(top, rgb(0,0,139) 0%, rgb(30,144,255) 100%); /* FF3.6-15 */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(0,0,139)), color-stop(100%,rgb(30,144,255))); /* Chrome4-9,Safari4-5 */
+  background: -webkit-linear-gradient(top, rgb(0,0,139) 0%,rgb(30,144,255) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: -o-linear-gradient(top, rgb(0,0,139) 0%,rgb(30,144,255) 100%); /* Opera 11.10-11.50 */
+  background: -ms-linear-gradient(top, rgb(0,0,139) 0%,rgb(30,144,255) 100%); /* IE10 preview */
+  background: linear-gradient(to bottom, rgb(0,0,139) 0%,rgb(30,144,255) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00008b', endColorstr='#1e90ff',GradientType=0 ); /* IE6-9 */
+
+  margin-bottom:0px;
 }
 
-.buttonMenu {
-  padding: 2px 2px 2px;
+.hbrButtonMenu {
+  padding-left: 2px;
   float:right;
 }
 
-.positionButtonMenu {
+.hbrSizeAlert{
+  padding-top:4px;
+  margin-top:4px;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+}
+
+.hbrTextStyleMenuNav {
+  color:black;
+}
+
+.hbrPositionButtonMenu {
   overflow: auto;
 }
 
 .hbrAjustarTextoVertical {
   vertical-align: middle !important;
-  padding: 1px !important;
+  padding: 1px 4px 1px 4px !important;
 }
 
-.inputsBlue {
+.hbrInputsBlue {
   color: #4682B4;
   background-color: #F0F8FF;
   border-color: #4682B4;
   border-radius: 6px;
-}
-
-.inputUpperCase {
-  text-transform: uppercase;
 }
 
 .hbrFormInput {
@@ -62,3 +82,4 @@ body{
   border-color: #1e5799;
   border-radius: 6px;
 }
+

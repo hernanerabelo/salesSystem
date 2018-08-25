@@ -46,9 +46,7 @@ public class CustomerController {
   public ResponseEntity update( @RequestBody Customer customer ){
 
     Customer retorno = customerService.update( customer );
-    if( retorno == null ){
-        throw new CustomerException( "Não foi encontrado cliente para atualizar" );
-    }
+
     return new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
   }
 

@@ -2,7 +2,9 @@ package br.com.aplication.hgr.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="HBR_CUSTOMER", indexes = {
@@ -49,8 +51,16 @@ public class Customer implements Serializable {
   @Column(name = "UPDATED_AT")
   private Date updatedAt;
 
-  @Transient
+  @OneToOne(fetch = FetchType.LAZY,
+      mappedBy = "customer",
+      cascade = CascadeType.ALL)
   private Address address;
+
+  @OneToMany(cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY,
+      mappedBy = "customer")
+  private List<Contact> contacts = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -157,6 +167,14 @@ public class Customer implements Serializable {
     this.address = address;
   }
 
+  public List<Contact> getContacts() {
+    return contacts;
+  }
+
+  public void setContacts(List<Contact> contacts) {
+    this.contacts = contacts;
+  }
+
   @Override
   public String toString() {
     return "Customer{" +
@@ -173,6 +191,8 @@ public class Customer implements Serializable {
         ", updatedBy='" + updatedBy + '\'' +
         ", updatedAt=" + updatedAt +
         ", address=" + address +
+        ", contact=" + contacts +
         '}';
   }
+
 }

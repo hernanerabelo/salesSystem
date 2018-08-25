@@ -15,14 +15,14 @@
             <div class="form-group">
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.legalName"><b>Nome Legal</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.legalName"><b>Nome Legal</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.legalName" placeholder="Nome Legal" >
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.fantasyName"><b>Nome Fantasia</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.fantasyName"><b>Nome Fantasia</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.fantasyName" placeholder="Nome Fantasia" >
                     </div>
                 </div>
@@ -31,19 +31,19 @@
             <div class="form-group">
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.documentNumber"><b>CPF/CNPJ</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.documentNumber"><b>CPF/CNPJ</b></span></span>
                         <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.documentNumber" placeholder="CPF/CNPJ" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.stateRegistration"><b>Inscrição Estadual</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.stateRegistration"><b>Inscrição Estadual</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.stateRegistration" placeholder="Inscrição Estadual" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.cityRegistration"><b>Inscrição Municial</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.cityRegistration"><b>Inscrição Municial</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.cityRegistration" placeholder="Inscrição Municipal" >
                     </div>
                 </div>
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span><b>Data de Fundação</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span><b>Data de Fundação</b></span></span>
                         <input type="date" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" ng-model="foundationDateFormated"  >
                     </div>
                 </div>
@@ -74,9 +74,9 @@
             <div class="form-group">
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.cep"><b>CEP</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.cep"><b>CEP</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.cep" placeholder="CEP" >
-                        <span class="btn input-group-addon inputsBlue" ng-show="!isDisabledSearchCpf && !edit.isDisabledWaitingEdit" ng-click="populateAddressUsingCep(customer.address.cep)">
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCpf && !edit.isDisabledWaitingEdit" ng-click="populateAddressUsingCep(customer.address.cep)">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                     </div>
@@ -85,13 +85,13 @@
             <div class="form-group">
                 <div class="col-md-5">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.street"><b>Logradouro</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.street"><b>Logradouro</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.street" placeholder="logradouro" >
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.number"><b>Nº</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.number"><b>Nº</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.number" placeholder="Número" >
                     </div>
                 </div>
@@ -99,7 +99,7 @@
             <div class="form-group">
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.complement"><b>Complemento</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.complement"><b>Complemento</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.complement" placeholder="Complemento" >
                     </div>
                 </div>
@@ -107,19 +107,19 @@
             <div class="form-group">
                 <div class="col-md-5">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.neighborhood"><b>Bairro</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.neighborhood"><b>Bairro</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.neighborhood" placeholder="Bairro" >
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.city"><b>Cidade</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.city"><b>Cidade</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.city" placeholder="Cidade" >
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.address.state"><b>Estado</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.state"><b>Estado</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.state" placeholder="Estado" >
                     </div>
                 </div>
@@ -141,7 +141,7 @@
             <div class="form-group">
                 <div class="col-md-8">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.name" placeholder="Nome" >
                     </div>
                 </div>
@@ -150,7 +150,7 @@
             <div class="form-group">
                 <div class="col-md-8">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.phone" placeholder="Telefone" >
                     </div>
                 </div>
@@ -159,7 +159,7 @@
             <div class="form-group">
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
                         <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.email" placeholder="endereco@email.com" >
                     </div>
                 </div>
@@ -168,13 +168,13 @@
             <div class="form-group">
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-addon inputsBlue"><span ng-show="!!customer.contact.observation"><b>Observação</b></span></span>
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.contact.observation"><b>Observação</b></span></span>
                         <textarea class="form-control" maxlength="3999" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1 pull-right">
+                <div class="col-md-2 pull-right">
                     <button class="btn btn-danger btn-sm" ng-disabled="edit.isDisabledWaitingEdit" ng-click="removeContactInCustomer($index)">Remover</button>
                 </div>
             </div>

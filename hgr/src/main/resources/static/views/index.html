@@ -38,14 +38,14 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span class="navbar-brand">
-                    <span class="glyphicon glyphicon-header" style="font-size: 30px;"></span>
-                    BR
+                    <span class="glyphicon glyphicon-header hbrTextStyleMenuNav" style="font-size: 30px;"></span>
+                    <label class="hbrTextStyleMenuNav">BR</label>
                 </span >
             </div>
             <div class="collapse navbar-collapse" id="mainMenu">
                 <ul class="nav nav-tabs">
                     <li ng-repeat="menu in menus" ng-click="currentMenu(menu)" ng-class="{active:menu.displayValue == global.menuName}">
-                        <a href="{{menu.url}}">
+                        <a class="hbrTextStyleMenuNav" href="{{menu.url}}">
                             <center><span style="font-size: 30px;" ng-class="menu.icon"></span></center>
                             <center><label style="font-size: 15px;"><u>{{menu.name}}</u></label></center>
                         </a>
@@ -54,19 +54,21 @@
             </div>
         </nav>
 
-        <div class="clearfix container" style="margin-bottom: 25px;" ng-clock>
+        <div class="clearfix container" ng-clock>
             <div class="row">
-                <div class="btn-group btn-group-lg buttonMenu" ng-repeat="button in menuButtons"
+                <div class="btn-group btn-group-lg hbrButtonMenu" ng-repeat="button in menuButtons"
                      ng-show="menuButtons.length > 0" role="group">
-                    <button type="button positionButtonMenu" class="btn btn-{{button.type}}" ng-disabled="button.isDisabled" ng-click="button.execute()">
+                    <button type="button hbrPositionButtonMenu" class="btn btn-{{button.type}}" ng-disabled="button.isDisabled" ng-click="button.execute()">
                         {{button.title}}
                     </button>
                 </div>
-            </div>
 
-            <div class="alert alert-{{message.type}} alert-dismissible" ng-repeat="message in menuMessages" role="alert">
-                <strong>{{message.title}}</strong> {{message.text}}
-                <span class="glyphicon glyphicon-remove close" ng-click="removeMessage($index)" data-dismiss="alert"></span>
+            </div>
+            <div class="row" >
+                <div class="alert alert-{{message.type}} alert-dismissible hbrSizeAlert" ng-repeat="message in menuMessages" role="alert">
+                    <strong>{{message.title}}</strong> {{message.text}}
+                    <span class="glyphicon glyphicon-remove close" ng-click="removeMessage($index)" data-dismiss="alert"></span>
+                </div>
             </div>
         </div>
 

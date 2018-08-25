@@ -3,17 +3,16 @@ package br.com.aplication.hgr.services.impl;
 import br.com.aplication.hgr.exceptions.AddressException;
 import br.com.aplication.hgr.exceptions.CustomerException;
 import br.com.aplication.hgr.exceptions.DocumentException;
-import br.com.aplication.hgr.models.Address;
+import br.com.aplication.hgr.models.Contact;
 import br.com.aplication.hgr.models.Customer;
-import br.com.aplication.hgr.models.ParentPK;
 import br.com.aplication.hgr.repositories.CustomerRepository;
-import br.com.aplication.hgr.services.AddressService;
 import br.com.aplication.hgr.services.CustomerService;
 import br.com.aplication.hgr.utils.DocumentUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.Date;
@@ -26,66 +25,95 @@ public class CustomerServiceImpl implements CustomerService {
   @Autowired
   private CustomerRepository customerRepository;
 
-  @Autowired
-  private AddressService addressService;
-
   @Override
   public List<Customer> findAll(){
     return customerRepository.findAll();
   }
 
   @Override
+  @Transactional(rollbackOn = Exception.class)
   public Customer findById( Long id ){
     logger.info("Buscando cliente com id " + id );
     Customer customer = customerRepository.findOne( id );
     if( customer != null ){
-      populateCustomer(customer);
+      return customer;
     }else{
       logger.warn("Cliente not found for id " + id );
     }
-    return customer;
+    return null;
   }
 
-  @Transactional(rollbackOn = Exception.class)
+
   @Override
+  @Transactional(rollbackOn = Exception.class)
   public Customer update( Customer customer ){
     if( customerRepository.exists( customer.getId() ) ){
+
+      validAttributesOfCustomer(customer);
+
       validAndFormatDocumentNumber(customer);
       updateInformationDate( customer );
       customerRepository.save( customer );
-
-      if( customer.getAddress() != null ){
-        customer.getAddress().setParentPK( new ParentPK( customer.getId(), Customer.class.getSimpleName() ) );
-        addressService.update( customer.getAddress() );
-      }else {
-        throw new CustomerException( "Não foi encontrado endereço para o cliente" );
-      }
       return customer;
     }else{
       throw new CustomerException( "Cliente não encontrado" );
     }
   }
 
-  @Transactional(rollbackOn = Exception.class)
   @Override
+  @Transactional(rollbackOn = Exception.class)
   public void save( Customer customer ){
 
     if( customer.getId() == null ){
       validAndFormatDocumentNumber( customer );
       updateInformationDate( customer );
+
+      validAttributesOfCustomer(customer);
+
       customerRepository.save( customer );
       logger.info("Criado customer " + customer.getId() );
-      if( customer.getAddress() != null ){
-        customer.getAddress().setParentPK( new ParentPK( customer.getId(), Customer.class.getSimpleName() ) );
-        addressService.save( customer.getAddress() );
-      }else {
-        throw new AddressException("Não foi encontrado informações do endereço");
-      }
+
     }else{
       throw new CustomerException( "Cliente não pode ter id para ser salvo." );
     }
   }
 
+  private void validAttributesOfCustomer(Customer customer) {
+    validIfContactCanBeInsert(customer);
+    validIfAddressCanBeInsert(customer);
+  }
+
+  private void validIfAddressCanBeInsert(Customer customer) {
+    if( customer.getAddress() != null ){
+      if( !StringUtils.isEmpty( customer.getAddress().getStreet() ) ){
+        customer.getAddress().setCustomer(customer);
+      }else{
+        throw new AddressException("O endereço precisa conter nome da Rua ou Avenida");
+      }
+    }else{
+      throw new CustomerException("Não foi encontrado endereço no cliente");
+    }
+  }
+
+  private void validIfContactCanBeInsert(Customer customer) {
+    List<Contact> contacts = customer.getContacts();
+    if( contacts != null ){
+      for (Contact contact : contacts) {
+        if( !StringUtils.isEmpty( contact.getName() ) &&
+            !StringUtils.isEmpty( contact.getEmail() ) &&
+            !StringUtils.isEmpty( contact.getObservation() ) &&
+            !StringUtils.isEmpty( contact.getPhone() ) ){
+          contact.setCustomer(customer);
+        }else {
+          throw new CustomerException( "Pelo menos um valor tem que ser inserido no contato" );
+        }
+      }
+    }else {
+      logger.info("Não possui contato para ser inserido");
+    }
+  }
+
+  @Transactional(rollbackOn = Exception.class)
   private void validAndFormatDocumentNumber(Customer customer) {
     customer.setDocumentNumber( formatDocumentNumber(customer.getDocumentNumber() ) );
     if( customer.getDocumentNumber().length() == 14 ){
@@ -112,26 +140,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
   }
 
+  @Override
   @Transactional(rollbackOn = Exception.class)
-  @Override
-  public void delete( Customer customer ){
-    if( customerRepository.exists( customer.getId() ) ){
-      customerRepository.delete( customer.getId() );
-    }else{
-      throw new CustomerException( "Cliente não encontrado" );
-    }
-  }
-
-  @Override
   public Customer getCustomerByDocumentNumber(String documentNumber) {
     if( documentNumber != null && !"".equals(documentNumber)){
       Customer customer = customerRepository.getCustomerByDocumentNumber(documentNumber);
       if( customer != null ){
-        populateCustomer(customer);
+        return customer;
       }else{
         logger.warn("Cliente not found for documentNumber " + documentNumber );
       }
-      return customer;
+      return null;
     }else{
       throw new CustomerException( "Por favor inserir valor do número do documento do cliente (CPF/CNPJ)" );
     }
@@ -159,17 +178,4 @@ public class CustomerServiceImpl implements CustomerService {
     return documentNumber;
   }
 
-  private void populateCustomer( Customer customer ){
-    if( customer != null ){
-      Address address = addressService.findByParentIdAndParentType(customer.getId(), Customer.class.getSimpleName());
-      if( address != null ){
-        logger.info("Address found " + address.getParentPK() );
-        customer.setAddress(address);
-      }else {
-        logger.info("Not found address for customer" + customer.getId());
-      }
-    }else{
-      logger.warn("cliente is null");
-    }
-  }
 }

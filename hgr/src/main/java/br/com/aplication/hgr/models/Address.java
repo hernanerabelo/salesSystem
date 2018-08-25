@@ -1,5 +1,7 @@
 package br.com.aplication.hgr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -9,8 +11,10 @@ public class Address  implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @EmbeddedId
-  private ParentPK parentPK;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ID")
+  private Long id;
 
   @Column(name = "CEP")
   private String cep;
@@ -33,13 +37,10 @@ public class Address  implements Serializable {
   @Column(name = "STATE")
   private String state;
 
-  public ParentPK getParentPK() {
-    return parentPK;
-  }
-
-  public void setParentPK(ParentPK parentPK) {
-    this.parentPK = parentPK;
-  }
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name="CUSTOMER_ID", nullable = true)
+  @JsonIgnore
+  private Customer customer;
 
   public String getCep() {
     return cep;
@@ -97,10 +98,26 @@ public class Address  implements Serializable {
     this.state = state;
   }
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Customer getCustomer() {
+    return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
+  }
+
   @Override
   public String toString() {
     return "Address{" +
-        "parentPK=" + parentPK +
+        "id=" + id +
         ", cep='" + cep + '\'' +
         ", street='" + street + '\'' +
         ", number='" + number + '\'' +
@@ -108,6 +125,7 @@ public class Address  implements Serializable {
         ", neighborhood='" + neighborhood + '\'' +
         ", city='" + city + '\'' +
         ", state='" + state + '\'' +
+        ", customer=" + customer +
         '}';
   }
 }
