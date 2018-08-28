@@ -14,7 +14,7 @@
         }
       };
 
-      $scope.callBreadCrumb = function(breadCrumb, index){
+      $scope.callBreadCrumb = function(breadCrumb){
         if( $location.url() != breadCrumb.url ){
           $location.url( breadCrumb.url );
         }

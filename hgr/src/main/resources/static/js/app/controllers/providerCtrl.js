@@ -3,9 +3,9 @@
 
   var app = angular.module('app');
 
-  app.controller('CustomerCtrl', ['$scope', '$rootScope', '$location', 'CustomerService', 'ButtonGeneratorService',
+  app.controller('ProviderCtrl', ['$scope', '$rootScope', '$location', 'ProviderService', 'ButtonGeneratorService',
     'MessageGeneratorService', 'NgTableParams', 'BreadCrumbGeneratorService',
-    function($scope, $rootScope, $location, CustomerService, ButtonGeneratorService, MessageGeneratorService,
+    function($scope, $rootScope, $location, ProviderService, ButtonGeneratorService, MessageGeneratorService,
       NgTableParams, BreadCrumbGeneratorService) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
@@ -18,20 +18,20 @@
         document: null
       };
 
-      $scope.editCustomer = function(customer){
-        if(customer.id){
+      $scope.editProvider = function(provider){
+        if(provider.id){
           ButtonGeneratorService.enableButtons();
-          $location.url('/cadastros/clientes/editar/' + customer.id);
+          $location.url('/cadastros/fornecedores/editar/' + provider.id);
         }else{
-          MessageGeneratorService.createMessageWarning('Cliente sem ID');
+          MessageGeneratorService.createMessageWarning('Fornecedor sem ID');
         }
       };
 
       ButtonGeneratorService.putButtonsInSubMenu([{
-          title: 'Novo Cliente',
+          title: 'Novo Fornecedor',
           type: 'success',
           execute: function() {
-            $location.url('/cadastros/clientes/novo');
+            $location.url('/cadastros/fornecedores/novo');
           }
         },
         {
@@ -41,36 +41,36 @@
             MessageGeneratorService.cleanAllMessages();
             $scope.hasErrorInput = false;
             if ( !!$scope.objectFind.fantasyName && !!$scope.objectFind.fantasyName.trim() ) {
-              CustomerService.getCustomerByFantasyName( { id: $scope.objectFind.fantasyName },
+              ProviderService.getProviderByFantasyName( { id: $scope.objectFind.fantasyName },
               function(response){
                 $scope.tableParams = new NgTableParams( {} , { dataset: response.content} );
               }, function(error){
                 if( error.status == '404'){
-                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o NOME FANTASIA informado');
+                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o NOME FANTASIA informado');
                 }else{
-                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando Nome Fantasia');
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar fornecedor utilizando Nome Fantasia');
                 }
               });
             }else if( !!$scope.objectFind.legalName && !!$scope.objectFind.legalName.trim() ){
-              CustomerService.getCustomerByLegalName( { id: $scope.objectFind.legalName },
+              ProviderService.getProviderByLegalName( { id: $scope.objectFind.legalName },
               function(response){
               $scope.tableParams = new NgTableParams({}, { dataset: response.content});
               }, function(error){
                 if( error.status == '404'){
-                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o NOME LEGAL informado');
+                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o NOME LEGAL informado');
                 }else{
-                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando Nome Legal');
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar fornecedor utilizando Nome Legal');
                 }
               });
             } else if ($scope.objectFind.document && !!$scope.objectFind.document.trim()) {
-              CustomerService.getCustomerByDocumentNumber({ id: $scope.objectFind.document },
+              ProviderService.getProviderByDocumentNumber({ id: $scope.objectFind.document },
               function(response){
                 $scope.tableParams = new NgTableParams({}, { dataset: response.content});
               }, function(error){
                 if( error.status == '404'){
-                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o CPF/CNPJ informado');
+                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o CPF/CNPJ informado');
                 }else{
-                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando o CPF/CNPJ');
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar fornecedor utilizando o CPF/CNPJ');
                 }
               });
             } else {

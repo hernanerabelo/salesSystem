@@ -32,6 +32,11 @@ public class Contact implements Serializable {
   @JsonIgnore
   private Customer customer;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "PROVIDER_ID", nullable = true)
+  @JsonIgnore
+  private Provider provider;
+
   public String getName() {
     return name;
   }
@@ -78,6 +83,14 @@ public class Contact implements Serializable {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public Provider getProvider() {
+    return provider;
+  }
+
+  public void setProvider(Provider provider) {
+    this.provider = provider;
   }
 
   @Override

@@ -1,6 +1,7 @@
 package br.com.aplication.hgr.controllers;
 
 import br.com.aplication.hgr.models.Address;
+import br.com.aplication.hgr.models.Contact;
 import br.com.aplication.hgr.models.Customer;
 import br.com.aplication.hgr.services.CustomerService;
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
@@ -88,6 +89,7 @@ public class CustomerController {
 
     Customer customer = new Customer();
     customer.setAddress(new Address());
+    customer.setContacts(new ArrayList<Contact>());
     customer.setCreatedAt(new Date());
     customer.setUpdatedAt(new Date());
 

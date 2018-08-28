@@ -1,0 +1,63 @@
+<div class="row">
+    <center><h3>Fornecedores</h3></center>
+</div>
+<div class="row" style="padding-bottom:10px">
+    <form ng-class="{'form-horizontal':hasErrorInput}" >
+        <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
+            <div class="col-md-6" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.fantasyName"><b>Nome Fantasia</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.fantasyName" placeholder="Nome Fantasia" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+            <div class="col-md-6" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.legalName"><b>Nome Legal</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.legalName" placeholder="Nome Legal" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+            <div class="col-md-4" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.document"><b>CPF/CNPJ</b></span></span>
+                    <input type="text" class="form-control hbrBorderRadiusRight" ng-model="objectFind.document" maxlength="18" placeholder="CPF/CNPJ" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" ng-table="tableParams" class="table" show-filter="true">
+        <tr ng-repeat="provider in $data">
+            <td class="text-center hbrAjustarTextoVertical" title="'EXPANDIR'">
+                <button class="btn btn-info" ng-click="editProvider(provider)">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'NOME FANTASIA'" filter="{ fantasyName: 'text'}" sortable="'fantasyName'">
+                {{provider.fantasyName}}
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'NOME LEGAL'" filter="{ legalName: 'text'}" sortable="'legalName'">
+                {{provider.legalName}}
+            </td>
+
+
+            <td class="text-center hbrAjustarTextoVertical" title="'CPF/CNPJ'" filter="{ documentNumber: 'text'}" sortable="'documentNumber'">
+                {{provider.documentNumber}}
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'ESTADO'" >
+                {{provider.address.state}}
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'CEP'" >
+                {{provider.address.cep}}
+            </td>
+        </tr>
+    </table>
+</div>

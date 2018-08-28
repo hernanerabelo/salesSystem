@@ -21,19 +21,18 @@
           cleanAllBreadCrumb: function() {
             $rootScope.breadCrumbs = [];
           },
-          updateBreadCrumbUsingLocation: function( removeLastPath ) {
+          updateBreadCrumbUsingLocation: function( removeLastPath, addPathRemovedInLastBreadCrumb ) {
             $rootScope.breadCrumbs = [];
 
             var url = $location.url();
             if( !!url ){
+              var lastPath = '';
               var paths = url.split('/');
-              var removeLastInt = 0;
               if( !!removeLastPath ){
-                paths.pop();
+                lastPath = paths.pop();
               }
               var auxUrl = '';
               for( var i = 0; i < paths.length; i++ ){
-                var title = '';
                 if( paths[i] && paths[i] != '/'  ){
                   auxUrl = auxUrl + '/' + paths[i];
                   $rootScope.breadCrumbs.push(
@@ -47,6 +46,10 @@
               }
               if( $rootScope.breadCrumbs.length > 1 ){
                 $rootScope.breadCrumbs[ $rootScope.breadCrumbs.length -1 ].active = true;
+                if( !!addPathRemovedInLastBreadCrumb ){
+                  $rootScope.breadCrumbs[$rootScope.breadCrumbs.length -1].url =
+                    $rootScope.breadCrumbs[$rootScope.breadCrumbs.length -1].url + '/' + lastPath;
+                }
               }
             }
           }

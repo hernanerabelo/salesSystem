@@ -18,8 +18,12 @@
     <script src="js/app/controllers/customerCtrl.js"></script>
     <script src="js/app/controllers/customerSaveCtrl.js"></script>
     <script src="js/app/controllers/customerEditCtrl.js"></script>
+    <script src="js/app/controllers/providerCtrl.js"></script>
+    <script src="js/app/controllers/providerSaveCtrl.js"></script>
+    <script src="js/app/controllers/providerEditCtrl.js"></script>
     <script src="js/app/controllers/registerCtrl.js"></script>
     <script src="js/app/services/customerService.js"></script>
+    <script src="js/app/services/providerService.js"></script>
     <script src="js/app/services/externalUrlService.js"></script>
     <script src="js/app/services/buttonGeneratorService.js"></script>
     <script src="js/app/services/breadCrumbGeneratorService.js"></script>
@@ -63,7 +67,7 @@
             <div class="row">
                 <ul id="breadcrumb">
                     <li ng-repeat="breadCrumb in breadCrumbs" ng-class="{activeBreadCrumb:breadCrumb.active}" >
-                        <a ng-class="{activeBreadCrumb:breadCrumb.active}" ng-click="callBreadCrumb(breadCrumb, $index)">
+                        <a ng-class="{activeBreadCrumb:breadCrumb.active}" ng-click="callBreadCrumb(breadCrumb)">
                             {{breadCrumb.title}}
                         </a>
                     </li>

@@ -4,8 +4,6 @@ import br.com.aplication.hgr.models.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface CustomerService {
 
     Page<Customer> listAllByPage( Pageable pageable, String fantasyName  );

@@ -39,8 +39,11 @@ public class Address  implements Serializable {
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name="CUSTOMER_ID", nullable = true)
-  @JsonIgnore
   private Customer customer;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name="PROVIDER_ID", nullable = true)
+  private Provider Provider;
 
   public String getCep() {
     return cep;
@@ -106,12 +109,22 @@ public class Address  implements Serializable {
     this.id = id;
   }
 
+  @JsonIgnore
   public Customer getCustomer() {
     return customer;
   }
 
   public void setCustomer(Customer customer) {
     this.customer = customer;
+  }
+
+  @JsonIgnore
+  public Provider getProvider() {
+    return Provider;
+  }
+
+  public void setProvider(Provider provider) {
+    Provider = provider;
   }
 
   @Override

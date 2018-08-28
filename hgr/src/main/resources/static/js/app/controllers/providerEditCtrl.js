@@ -3,9 +3,9 @@
 
   var app = angular.module('app');
 
-  app.controller('CustomerEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'CustomerService', 'ButtonGeneratorService',
+  app.controller('ProviderEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'ProviderService', 'ButtonGeneratorService',
     'ExternalUrlService', 'MessageGeneratorService', 'BreadCrumbGeneratorService',
-    function($scope, $rootScope, $location, $routeParams, CustomerService, ButtonGeneratorService, ExternalUrlService,
+    function($scope, $rootScope, $location, $routeParams, ProviderService, ButtonGeneratorService, ExternalUrlService,
     MessageGeneratorService, BreadCrumbGeneratorService) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation(true, true);
@@ -14,10 +14,10 @@
         isDisabledWaitingEdit: true
       };
       function populatAddressInfo(address){
-        $scope.customer.address.street = address.logradouro;
-        $scope.customer.address.neighborhood = address.bairro;
-        $scope.customer.address.city = address.localidade;
-        $scope.customer.address.state = address.uf;
+        $scope.provider.address.street = address.logradouro;
+        $scope.provider.address.neighborhood = address.bairro;
+        $scope.provider.address.city = address.localidade;
+        $scope.provider.address.state = address.uf;
       }
 
       function getValue(value){
@@ -27,11 +27,11 @@
         return '';
       }
 
-      $scope.removeContactInCustomer = function removeContactInCustomer(index){
+      $scope.removeContactInProvider = function removeContactInProvider(index){
         bootbox.confirm({
           size: "small",
           title: "<center><b>ATENÇÃO<b><center>",
-          message: '<b>Remover</b> o Contato ' + getValue( $scope.customer.contacts[index].name )+ '?',
+          message: '<b>Remover</b> o Contato ' + getValue( $scope.provider.contacts[index].name )+ '?',
           buttons: {
             confirm: {
               label: 'Sim',
@@ -44,7 +44,7 @@
           },
           callback: function(result){
             if( result ){
-              $scope.customer.contacts.splice(index, 1);
+              $scope.provider.contacts.splice(index, 1);
               $scope.$digest();
             }
           }
@@ -52,17 +52,17 @@
       };
 
       function cleanInputAddress(){
-        $scope.customer.address.street = '';
-        $scope.customer.address.neighborhood = '';
-        $scope.customer.address.city = '';
-        $scope.customer.address.state = '';
+        $scope.provider.address.street = '';
+        $scope.provider.address.neighborhood = '';
+        $scope.provider.address.city = '';
+        $scope.provider.address.state = '';
       }
 
-      $scope.createContactInCustomer = function createContactInCustomer(){
-        if( !$scope.customer.contacts ){
-          $scope.customer.contacts = [];
+      $scope.createContactInProvider = function createContactInProvider(){
+        if( !$scope.provider.contacts ){
+          $scope.provider.contacts = [];
         }
-        $scope.customer.contacts.push({});
+        $scope.provider.contacts.push({});
       };
 
       $scope.populateAddressUsingCep = function populateAddressUsingCep(cep){
@@ -114,7 +114,7 @@
           bootbox.confirm({
             size: "small",
             title: "<center><b>ATENÇÃO<b><center>",
-            message: 'Deseja realmente <b>Salvar</b> o cliente?',
+            message: 'Deseja realmente <b>Salvar</b> o fornecedor?',
             buttons: {
               confirm: {
                 label: 'Sim',
@@ -128,9 +128,9 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
               if( result ){
-                CustomerService.updateCustomer($scope.customer,
+                ProviderService.updateProvider($scope.provider,
                   function(response) {
-                    $scope.customer = response;
+                    $scope.provider = response;
                     ButtonGeneratorService.enableButtons();
                     MessageGeneratorService.cleanAllMessages();
                     MessageGeneratorService.createMessageSuccess('Informações atualizadas com sucesso');
@@ -161,7 +161,7 @@
           MessageGeneratorService.cleanAllMessages();
           ButtonGeneratorService.putButtonsInSubMenu([buttonSave, buttonCancel]);
           $scope.edit.isDisabledWaitingEdit = false;
-          $scope.customerTemp = angular.copy( $scope.customer );
+          $scope.providerTemp = angular.copy( $scope.provider );
         }
       };
 
@@ -191,7 +191,7 @@
                 MessageGeneratorService.cleanAllMessages();
                 ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
                 $scope.edit.isDisabledWaitingEdit = true;
-                $scope.customer = $scope.customerTemp;
+                $scope.provider = $scope.providerTemp;
               }
               $scope.$apply();
             }
@@ -199,28 +199,28 @@
         }
       };
 
-      function getCustomerInfoInDataBase(){
-        var clientId = $routeParams.id;
-        CustomerService.getCustomerById({id : clientId},
+      function getProviderInfoInDataBase(){
+        var providerId = $routeParams.id;
+        ProviderService.getProviderById({id : providerId},
           function(response) {
-            $scope.customer = response;
+            $scope.provider = response;
 
-            if( !!$scope.customer.foundationDate ){
-              $scope.foundationDateFormated = new Date($scope.customer.foundationDate);
+            if( !!$scope.provider.foundationDate ){
+              $scope.foundationDateFormated = new Date($scope.provider.foundationDate);
             }
           },
           function( error ) {
             if( !!error && error.status == '404' ){
-              MessageGeneratorService.createMessageError('Não foi encontrado nenhum cliente com id ' + clientId);
+              MessageGeneratorService.createMessageError('Não foi encontrado nenhum fornecedor com id ' + providerId);
             }else{
-              MessageGeneratorService.createMessageError('Não foi possivel carregar informações do cliente [' + clientId + ']');
+              MessageGeneratorService.createMessageError('Não foi possivel carregar informações do fornecedor [' + providerId + ']');
             }
-            $scope.customer = {};
+            $scope.provider = {};
             ButtonGeneratorService.cleanAllButtons();
           }
         );
       }
-      getCustomerInfoInDataBase();
+      getProviderInfoInDataBase();
       ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
     }
   ]);
