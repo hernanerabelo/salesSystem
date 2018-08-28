@@ -4,19 +4,24 @@
   var app = angular.module('app');
 
   app.controller('CustomerCtrl', ['$scope', '$rootScope', '$location', 'CustomerService', 'ButtonGeneratorService',
-    'MessageGeneratorService',
-    function($scope, $rootScope, $location, CustomerService, ButtonGeneratorService, MessageGeneratorService) {
+    'MessageGeneratorService', 'NgTableParams', 'BreadCrumbGeneratorService',
+    function($scope, $rootScope, $location, CustomerService, ButtonGeneratorService, MessageGeneratorService,
+      NgTableParams, BreadCrumbGeneratorService) {
+
+      BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
+
       $scope.hasErrorInput = false;
 
       $scope.objectFind = {
         fantasyName: null,
+        legalName: null,
         document: null
       };
 
       $scope.editCustomer = function(customer){
         if(customer.id){
           ButtonGeneratorService.enableButtons();
-          $location.url('/clientes/editar/' + customer.id);
+          $location.url('/cadastros/clientes/editar/' + customer.id);
         }else{
           MessageGeneratorService.createMessageWarning('Cliente sem ID');
         }
@@ -26,32 +31,54 @@
           title: 'Novo Cliente',
           type: 'success',
           execute: function() {
-            $location.url('/clientes/novo');
+            $location.url('/cadastros/clientes/novo');
           }
         },
         {
           title: 'Buscar',
-          id: 'enterKeyActive',
           type: 'primary',
           execute: function() {
             MessageGeneratorService.cleanAllMessages();
             $scope.hasErrorInput = false;
-            if (!!$scope.objectFind.fantasyName && !!$scope.objectFind.fantasyName.trim()) {
-              $scope.customers = []; //CustomerService.getCustomerByFantasyName($scope.objectFind.fantasyName);
+            if ( !!$scope.objectFind.fantasyName && !!$scope.objectFind.fantasyName.trim() ) {
+              CustomerService.getCustomerByFantasyName( { id: $scope.objectFind.fantasyName },
+              function(response){
+                $scope.tableParams = new NgTableParams( {} , { dataset: response.content} );
+                //$scope.customers = response.content;
+              }, function(error){
+                if( error.status == '404'){
+                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o NOME FANTASIA informado');
+                }else{
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando Nome Fantasia');
+                }
+              });
+            }else if( !!$scope.objectFind.legalName && !!$scope.objectFind.legalName.trim() ){
+              CustomerService.getCustomerByLegalName( { id: $scope.objectFind.legalName },
+              function(response){
+              $scope.tableParams = new NgTableParams({}, { dataset: response.content});
+              //$scope.customers = response.content;
+              }, function(error){
+                if( error.status == '404'){
+                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o NOME LEGAL informado');
+                }else{
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando Nome Legal');
+                }
+              });
             } else if ($scope.objectFind.document && !!$scope.objectFind.document.trim()) {
               CustomerService.getCustomerByDocumentNumber({ id: $scope.objectFind.document },
               function(response){
-                $scope.customers = [response];
+                $scope.tableParams = new NgTableParams({}, { dataset: response.content});
+                //$scope.customers = response.content;
               }, function(error){
                 if( error.status == '404'){
                   MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o CPF/CNPJ informado');
                 }else{
-                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente');
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando o CPF/CNPJ');
                 }
               });
             } else {
               $scope.hasErrorInput = true;
-              MessageGeneratorService.createMessageWarning('Inserir nome ou número do documento para fazer a busca do cliente');
+              MessageGeneratorService.createMessageWarning('Preencher um dos campos para realizar a busca');
             }
           }
         }

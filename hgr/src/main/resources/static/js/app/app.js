@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var app = angular.module('app', ['ngRoute', 'ngResource']);
+  var app = angular.module('app', ['ngRoute', 'ngResource', 'ngTable']);
 
   app.config(function($routeProvider, $locationProvider) {
       $locationProvider.hashPrefix('');
@@ -9,15 +9,19 @@
         .when("/", {
           templateUrl: "views/home.html"
         })
-        .when("/clientes", {
+        .when("/cadastros", {
+          templateUrl: "views/subMenu.html",
+          controller: "RegisterCtrl"
+        })
+        .when("/cadastros/clientes", {
           templateUrl: "views/customer-find.html",
           controller: "CustomerCtrl"
         })
-        .when("/clientes/editar/:id", {
+        .when("/cadastros/clientes/editar/:id", {
           templateUrl: "views/customer-edit.html",
           controller: "CustomerEditCtrl"
         })
-        .when("/clientes/novo", {
+        .when("/cadastros/clientes/novo", {
           templateUrl: "views/customer-new.html",
           controller: "CustomerSaveCtrl"
         })
@@ -31,10 +35,11 @@
           redirectTo: '/'
         });
     })
-    .run(function($rootScope, $location,MessageGeneratorService, ButtonGeneratorService) {
+    .run(function($rootScope, $location, MessageGeneratorService, ButtonGeneratorService, BreadCrumbGeneratorService) {
       $rootScope.$on('$locationChangeStart', function() {
         MessageGeneratorService.cleanAllMessages();
         ButtonGeneratorService.cleanAllButtons();
+        BreadCrumbGeneratorService.cleanAllBreadCrumb();
 
         var url = $location.url();
         if( !!url ){

@@ -11,6 +11,8 @@ import br.com.aplication.hgr.utils.DocumentUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,8 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
   private CustomerRepository customerRepository;
 
   @Override
-  public List<Customer> findAll(){
-    return customerRepository.findAll();
+  public Page<Customer> listAllByPage( Pageable pageable, String fantasyName  ){
+    return customerRepository.findByFantasyNameLikeAllIgnoreCase( fantasyName, pageable );
   }
 
   @Override
@@ -132,7 +134,7 @@ public class CustomerServiceImpl implements CustomerService {
       throw new DocumentException("Inserir um número de documento válido (CPF/CNPJ)");
     }
 
-    Customer customerOwnerDocument = customerRepository.getCustomerByDocumentNumber(customer.getDocumentNumber());
+    Customer customerOwnerDocument = customerRepository.findByDocumentNumber(customer.getDocumentNumber());
 
     if( customerOwnerDocument != null && !customerOwnerDocument.getId().equals( customer.getId() ) ){
       throw new DocumentException("O cliente " + customerOwnerDocument.getFantasyName() +
@@ -142,9 +144,9 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional(rollbackOn = Exception.class)
-  public Customer getCustomerByDocumentNumber(String documentNumber) {
+  public Page<Customer> getCustomerByDocumentNumber( Pageable pageable ,String documentNumber ) {
     if( documentNumber != null && !"".equals(documentNumber)){
-      Customer customer = customerRepository.getCustomerByDocumentNumber(documentNumber);
+      Page<Customer> customer = customerRepository.findByDocumentNumber(documentNumber, pageable);
       if( customer != null ){
         return customer;
       }else{
@@ -156,7 +158,25 @@ public class CustomerServiceImpl implements CustomerService {
     }
   }
 
-  private void updateInformationDate( Customer customer ){
+  @Override
+  public Page<Customer> getCustomersByLegalName( Pageable pageable, String legalName ) {
+    if( !StringUtils.isEmpty( legalName ) && !StringUtils.isEmpty( legalName.trim() ) ){
+      return customerRepository.findByLegalNameLikeAllIgnoreCase( legalName, pageable );
+    }else {
+      throw new CustomerException("Nome com valor vazio");
+    }
+  }
+
+  @Override
+  public Page<Customer> getCustomersByFantasyName( Pageable pageable, String fantasyName ) {
+    if( !StringUtils.isEmpty( fantasyName ) && !StringUtils.isEmpty( fantasyName.trim() ) ){
+      return customerRepository.findByFantasyNameLikeAllIgnoreCase(fantasyName, pageable);
+    }else {
+      throw new CustomerException("Nome com valor vazio");
+    }
+  }
+
+  private void updateInformationDate(Customer customer ){
     if( customer.getCreatedAt() == null ){
       customer.setCreatedBy("criar autenticacao");
       customer.setCreatedAt(new Date());

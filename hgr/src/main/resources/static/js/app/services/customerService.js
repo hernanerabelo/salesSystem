@@ -20,6 +20,18 @@
             params: {
               service: 'document'
             }
+          },
+          getCustomerByFantasyName: {
+            method: 'GET',
+            params: {
+              service: 'fantasyName'
+            }
+          },
+          getCustomerByLegalName: {
+            method: 'GET',
+            params: {
+              service: 'legalName'
+            }
           }
         });
 

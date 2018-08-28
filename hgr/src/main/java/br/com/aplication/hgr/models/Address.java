@@ -125,7 +125,6 @@ public class Address  implements Serializable {
         ", neighborhood='" + neighborhood + '\'' +
         ", city='" + city + '\'' +
         ", state='" + state + '\'' +
-        ", customer=" + customer +
         '}';
   }
 }

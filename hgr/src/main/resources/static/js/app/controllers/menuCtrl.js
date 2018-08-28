@@ -3,14 +3,20 @@
 
   var app = angular.module('app');
 
-  app.controller('MenuCtrl', ['$scope',
-    function($scope) {
+  app.controller('MenuCtrl', ['$scope', '$location',
+    function($scope, $location) {
       $scope.currentMenu = function currentMenu(menu) {
         for (var i = 0; i < $scope.menus.length; i++) {
           $scope.menus[i].enable = false;
         }
         if (!!menu) {
           menu.enable = true;
+        }
+      };
+
+      $scope.callBreadCrumb = function(breadCrumb, index){
+        if( $location.url() != breadCrumb.url ){
+          $location.url( breadCrumb.url );
         }
       };
 
@@ -31,9 +37,9 @@
         },
         {
           enable: false,
-          name: "Clientes",
-          displayValue: 'CLIENTES',
-          url: "#/clientes",
+          name: "Cadastros",
+          displayValue: 'CADASTROS',
+          url: "#/cadastros",
           icon: ['glyphicon','glyphicon-list-alt']
         },
         {
@@ -49,20 +55,6 @@
           displayValue: 'RELATORIOS',
           url: "#/relatorios",
           icon: ['glyphicon','glyphicon-folder-open']
-        },
-        {
-          enable: false,
-          name: "Fornecedores",
-          displayValue: 'FORNECEDORES',
-          url: "#/relatorios",
-          icon: ['glyphicon','glyphicon glyphicon-user']
-        },
-        {
-          enable: false,
-          name: "Produtos",
-          displayValue: 'PRODUTOS',
-          url: "#/relatorios",
-          icon: ['glyphicon','glyphicon-shopping-cart']
         }
       ];
     }

@@ -9,6 +9,7 @@
     <script src="js/lib/angular-route.js"></script>
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/angular-resource.min.js"></script>
+    <script src="js/lib/ng-table.min.js"></script>
     <script src="js/lib/bootbox.min.js"></script>
     <script src="js/app/app.js"></script>
     <script src="js/app/directives.js"></script>
@@ -17,13 +18,17 @@
     <script src="js/app/controllers/customerCtrl.js"></script>
     <script src="js/app/controllers/customerSaveCtrl.js"></script>
     <script src="js/app/controllers/customerEditCtrl.js"></script>
+    <script src="js/app/controllers/registerCtrl.js"></script>
     <script src="js/app/services/customerService.js"></script>
     <script src="js/app/services/externalUrlService.js"></script>
     <script src="js/app/services/buttonGeneratorService.js"></script>
+    <script src="js/app/services/breadCrumbGeneratorService.js"></script>
     <script src="js/app/services/messageGeneratorService.js"></script>
     <link rel="stylesheet" href="css/lib/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/lib/ng-table.min.css"/>
     <script src="js/lib/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/app/app.css"/>
+    <link rel="stylesheet" href="css/app/breadcrumb.css"/>
 </head>
 <body ng-app="app" ng-controller="MainCtrl" ng-cloak>
 
@@ -38,8 +43,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span class="navbar-brand">
-                    <span class="glyphicon glyphicon-header hbrTextStyleMenuNav" style="font-size: 30px;"></span>
-                    <label class="hbrTextStyleMenuNav">BR</label>
+                    <span class="glyphicon glyphicon-header" style="font-size: 30px; color:black;"></span>
+                    <label style="color:black;">BR</label>
                 </span >
             </div>
             <div class="collapse navbar-collapse" id="mainMenu">
@@ -56,13 +61,22 @@
 
         <div class="clearfix container" ng-clock>
             <div class="row">
-                <div class="btn-group btn-group-lg hbrButtonMenu" ng-repeat="button in menuButtons"
-                     ng-show="menuButtons.length > 0" role="group">
-                    <button type="button hbrPositionButtonMenu" class="btn btn-{{button.type}}" ng-disabled="button.isDisabled" ng-click="button.execute()">
-                        {{button.title}}
-                    </button>
-                </div>
+                <ul id="breadcrumb">
+                    <li ng-repeat="breadCrumb in breadCrumbs" ng-class="{activeBreadCrumb:breadCrumb.active}" >
+                        <a ng-class="{activeBreadCrumb:breadCrumb.active}" ng-click="callBreadCrumb(breadCrumb, $index)">
+                            {{breadCrumb.title}}
+                        </a>
+                    </li>
+                </ul>
 
+                <div class="pull-right">
+                    <div class="btn-group btn-group-lg hbrButtonMenu" ng-repeat="button in menuButtons"
+                         ng-show="menuButtons.length > 0" role="group">
+                        <button type="button hbrPositionButtonMenu" class="btn btn-{{button.type}}" ng-disabled="button.isDisabled" ng-click="button.execute()">
+                            {{button.title}}
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="row" >
                 <div class="alert alert-{{message.type}} alert-dismissible hbrSizeAlert" ng-repeat="message in menuMessages" role="alert">

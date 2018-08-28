@@ -4,8 +4,12 @@
   var app = angular.module('app');
 
   app.controller('CustomerSaveCtrl', ['$scope', '$rootScope', '$location', 'CustomerService', 'ButtonGeneratorService',
-    'ExternalUrlService', 'MessageGeneratorService',
-    function($scope, $rootScope, $location, CustomerService, ButtonGeneratorService, ExternalUrlService, MessageGeneratorService) {
+    'ExternalUrlService', 'MessageGeneratorService', 'BreadCrumbGeneratorService',
+    function($scope, $rootScope, $location, CustomerService, ButtonGeneratorService, ExternalUrlService,
+    MessageGeneratorService, BreadCrumbGeneratorService) {
+
+      BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
+
       $scope.customer = {
         address: {},
         contacts: []
@@ -127,7 +131,7 @@
                 CustomerService.saveCustomer($scope.customer,
                   function(response) {
                     ButtonGeneratorService.enableButtons();
-                    $location.url('/clientes/editar/' + response.id);
+                    $location.url('/cadastros/clientes/editar/' + response.id);
                   },
                   function(e) {
                     console.log(e);

@@ -4,12 +4,15 @@
   var app = angular.module('app');
 
   app.controller('CustomerEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'CustomerService', 'ButtonGeneratorService',
-    'ExternalUrlService', 'MessageGeneratorService',
-    function($scope, $rootScope, $location, $routeParams, CustomerService, ButtonGeneratorService, ExternalUrlService, MessageGeneratorService) {
+    'ExternalUrlService', 'MessageGeneratorService', 'BreadCrumbGeneratorService',
+    function($scope, $rootScope, $location, $routeParams, CustomerService, ButtonGeneratorService, ExternalUrlService,
+    MessageGeneratorService, BreadCrumbGeneratorService) {
+
+      BreadCrumbGeneratorService.updateBreadCrumbUsingLocation(true);
+
       $scope.edit = {
         isDisabledWaitingEdit: true
       };
-
       function populatAddressInfo(address){
         $scope.customer.address.street = address.logradouro;
         $scope.customer.address.neighborhood = address.bairro;

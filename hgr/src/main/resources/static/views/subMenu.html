@@ -1,0 +1,13 @@
+<div class="jumbotron">
+
+    <div class="form-horizontal">
+        <div class="row" ng-repeat="subMenu in subMenus">
+            <div class="form-group">
+                <button class="btn btn-link btn-lg" ng-click="redirect(subMenu.url)">
+                    <span class="glyphicon glyphicon-expand" aria-hidden="true"></span>
+                    {{subMenu.name}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
