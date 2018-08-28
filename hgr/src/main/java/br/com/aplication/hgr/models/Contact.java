@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table( name = "HBR_CONTACT")
+@SuppressWarnings("unused")
 public class Contact implements Serializable {
   public static final long serialVersionUID = 1L;
 
@@ -28,12 +29,12 @@ public class Contact implements Serializable {
   private String observation;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "CUSTOMER_ID", nullable = true)
+  @JoinColumn(name = "CUSTOMER_ID")
   @JsonIgnore
   private Customer customer;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "PROVIDER_ID", nullable = true)
+  @JoinColumn(name = "PROVIDER_ID")
   @JsonIgnore
   private Provider provider;
 

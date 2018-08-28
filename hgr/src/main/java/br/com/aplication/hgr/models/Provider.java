@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name="HBR_PROVIDER", indexes = {
     @Index(columnList = "DOCUMENT_NUMBER", name = "IDX_DOCUMENT_NUMBER")
 })
+@SuppressWarnings("unused")
 public class Provider implements Serializable {
 
   private static final long serialVersionUID = 1L;

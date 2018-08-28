@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@SuppressWarnings("unused")
 public class ProviderServiceImpl implements ProviderService {
 
   private static final Logger logger = LogManager.getLogger(ProviderServiceImpl.class);

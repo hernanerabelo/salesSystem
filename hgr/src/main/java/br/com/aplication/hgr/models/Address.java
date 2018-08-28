@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="HBR_ADDRESS")
+@SuppressWarnings("unused")
 public class Address  implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -38,11 +39,11 @@ public class Address  implements Serializable {
   private String state;
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name="CUSTOMER_ID", nullable = true)
+  @JoinColumn(name="CUSTOMER_ID")
   private Customer customer;
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name="PROVIDER_ID", nullable = true)
+  @JoinColumn(name="PROVIDER_ID")
   private Provider Provider;
 
   public String getCep() {

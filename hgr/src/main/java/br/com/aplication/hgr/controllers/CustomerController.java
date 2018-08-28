@@ -1,7 +1,6 @@
 package br.com.aplication.hgr.controllers;
 
 import br.com.aplication.hgr.models.Address;
-import br.com.aplication.hgr.models.Contact;
 import br.com.aplication.hgr.models.Customer;
 import br.com.aplication.hgr.services.CustomerService;
 import org.apache.logging.log4j.LogManager;
@@ -19,10 +18,11 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/customer")
+@SuppressWarnings("unused")
 public class CustomerController {
   private static final Logger logger = LogManager.getLogger(CustomerController.class);
   @Autowired
-  CustomerService customerService;
+  private CustomerService customerService;
 
   @RequestMapping( method = RequestMethod.GET )
   public ResponseEntity list( Pageable pageable, @RequestParam("fantasyName") String fantasyName ) {
@@ -89,7 +89,7 @@ public class CustomerController {
 
     Customer customer = new Customer();
     customer.setAddress(new Address());
-    customer.setContacts(new ArrayList<Contact>());
+    customer.setContacts(new ArrayList<>());
     customer.setCreatedAt(new Date());
     customer.setUpdatedAt(new Date());
 
