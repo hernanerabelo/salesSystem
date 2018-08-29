@@ -63,7 +63,8 @@
                 }
               });
             } else if ($scope.objectFind.document && !!$scope.objectFind.document.trim()) {
-              ProviderService.getProviderByDocumentNumber({ id: $scope.objectFind.document },
+              var document = $scope.objectFind.document.trim().replace(/[^0-9]/g,'');
+              ProviderService.getProviderByDocumentNumber({ id: document },
               function(response){
                 $scope.tableParams = new NgTableParams({}, { dataset: response.content});
               }, function(error){

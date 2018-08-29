@@ -1,5 +1,7 @@
 package br.com.aplication.hgr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public class Provider implements Serializable {
   private Date updatedAt;
 
   @OneToOne(fetch = FetchType.LAZY,
-      mappedBy = "customer",
+      mappedBy = "provider",
       cascade = CascadeType.ALL)
   private Address address;
 
@@ -63,6 +65,12 @@ public class Provider implements Serializable {
       fetch = FetchType.LAZY,
       mappedBy = "provider")
   private List<Contact> contacts = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY,
+      mappedBy = "provider")
+  private List<Product> products = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -174,6 +182,15 @@ public class Provider implements Serializable {
 
   public void setContacts(List<Contact> contacts) {
     this.contacts = contacts;
+  }
+
+  @JsonIgnore
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<Product> products) {
+    this.products = products;
   }
 
   @Override

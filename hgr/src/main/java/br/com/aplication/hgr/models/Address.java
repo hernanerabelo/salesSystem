@@ -44,7 +44,7 @@ public class Address  implements Serializable {
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name="PROVIDER_ID")
-  private Provider Provider;
+  private Provider provider;
 
   public String getCep() {
     return cep;
@@ -121,11 +121,11 @@ public class Address  implements Serializable {
 
   @JsonIgnore
   public Provider getProvider() {
-    return Provider;
+    return provider;
   }
 
   public void setProvider(Provider provider) {
-    Provider = provider;
+    this.provider = provider;
   }
 
   @Override

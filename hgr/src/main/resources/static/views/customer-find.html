@@ -21,7 +21,7 @@
             <div class="col-md-4" >
                 <div class="input-group">
                     <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.document"><b>CPF/CNPJ</b></span></span>
-                    <input type="text" class="form-control hbrBorderRadiusRight" ng-model="objectFind.document" maxlength="18" placeholder="CPF/CNPJ" >
+                    <input type="text" cpf-cnpj-format class="form-control hbrBorderRadiusRight" ng-model="objectFind.document" maxlength="18" placeholder="CPF/CNPJ" >
                     <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
                 </div>
             </div>
@@ -48,7 +48,7 @@
 
 
             <td class="text-center hbrAjustarTextoVertical" title="'CPF/CNPJ'" filter="{ documentNumber: 'text'}" sortable="'documentNumber'">
-                {{customer.documentNumber}}
+                {{customer.documentNumber | hbrCpfCnpjFilter}}
             </td>
 
             <td class="text-center hbrAjustarTextoVertical" title="'ESTADO'" >
@@ -56,7 +56,7 @@
             </td>
 
             <td class="text-center hbrAjustarTextoVertical" title="'CEP'" >
-                {{customer.address.cep}}
+                {{customer.address.cep | hbrCEPFilter}}
             </td>
         </tr>
     </table>

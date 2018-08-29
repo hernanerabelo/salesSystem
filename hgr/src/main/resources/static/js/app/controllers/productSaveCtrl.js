@@ -4,9 +4,9 @@
   var app = angular.module('app');
 
   app.controller('ProductSaveCtrl', ['$scope', '$rootScope', '$location', 'ProductService', 'ButtonGeneratorService',
-    'ExternalUrlService', 'MessageGeneratorService', 'BreadCrumbGeneratorService', 'MeasurementService',
-    function($scope, $rootScope, $location, ProductService, ButtonGeneratorService, ExternalUrlService,
-    MessageGeneratorService, BreadCrumbGeneratorService, MeasurementService) {
+    'MessageGeneratorService', 'BreadCrumbGeneratorService', 'MeasurementService', 'ProviderService',
+    function($scope, $rootScope, $location, ProductService, ButtonGeneratorService,
+      MessageGeneratorService, BreadCrumbGeneratorService, MeasurementService, ProviderService) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
 
@@ -14,6 +14,35 @@
         measurement: {}
       };
       $scope.newMeasurement = {};
+
+      $scope.getProviderUsingDocument = function(document){
+        MessageGeneratorService.cleanAllMessages();
+        if( !!document ){
+          $scope.isDisabledSearchCpf = true;
+          document = document.replace(/[^0-9]/g,'');
+          ProviderService.getProviderByDocumentNumber({ id: document },
+            function(response){
+              if( response.content.length > 1 ){
+                MessageGeneratorService.createMessageError('Foi encontrado mais de um fornecedor para o CPF/CNPJ informado');
+              }else if( response.content.length == 0 ){
+                MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum Fornecedor para o CPF/CNPJ informado');
+              }else{
+                $scope.product.provider = response.content[0];
+              }
+              $scope.isDisabledSearchCpf = false;
+            }, function(error){
+              if( error.status == '404'){
+                MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum Fornecedor para o CPF/CNPJ informado');
+              }else{
+                MessageGeneratorService.createMessageWarning('Erro ao buscar Fornecedor utilizando o CPF/CNPJ');
+              }
+              $scope.isDisabledSearchCpf = false;
+            });
+        }else{
+          MessageGeneratorService.createMessageWarning('Para localizar o fornecedor, insira o valor CPF/CNPJ');
+        }
+      };
+
       MeasurementService.getAll({},
         function(response){
           var lastOption = {

@@ -29,9 +29,6 @@ public class Product implements Serializable {
   @JoinColumn(name = "MEASUREMENT_ID")
   private Measurement measurement;
 
-  @Column( name = "PROVIDER_ID")
-  private Long providerId;
-
   @Column(name = "CREATED_BY")
   private String createdBy;
 
@@ -43,6 +40,10 @@ public class Product implements Serializable {
 
   @Column(name = "UPDATED_AT")
   private Date updatedAt;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "PROVIDER_ID")
+  private Provider provider;
 
   public Long getId() {
     return id;
@@ -84,14 +85,6 @@ public class Product implements Serializable {
     this.measurement = measurement;
   }
 
-  public Long getProviderId() {
-    return providerId;
-  }
-
-  public void setProviderId(Long providerId) {
-    this.providerId = providerId;
-  }
-
   public String getCreatedBy() {
     return createdBy;
   }
@@ -124,6 +117,14 @@ public class Product implements Serializable {
     this.updatedAt = updatedAt;
   }
 
+  public Provider getProvider() {
+    return provider;
+  }
+
+  public void setProvider(Provider provider) {
+    this.provider = provider;
+  }
+
   @Override
   public String toString() {
     return "Product{" +
@@ -132,7 +133,6 @@ public class Product implements Serializable {
         ", value=" + value +
         ", code='" + code + '\'' +
         ", Measurement=" + measurement +
-        ", providerId=" + providerId +
         ", createdBy='" + createdBy + '\'' +
         ", createdAt=" + createdAt +
         ", updatedBy='" + updatedBy + '\'' +

@@ -4,16 +4,38 @@
   var app = angular.module('app');
 
   app.controller('ProductEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'ProductService', 'ButtonGeneratorService',
-    'ExternalUrlService', 'MessageGeneratorService', 'BreadCrumbGeneratorService', 'MeasurementService',
-    function($scope, $rootScope, $location, $routeParams, ProductService, ButtonGeneratorService, ExternalUrlService,
+    'ProviderService', 'MessageGeneratorService', 'BreadCrumbGeneratorService', 'MeasurementService',
+    function($scope, $rootScope, $location, $routeParams, ProductService, ButtonGeneratorService, ProviderService,
     MessageGeneratorService, BreadCrumbGeneratorService, MeasurementService) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation(true, true);
-
+      $scope.objectFind = { document : ''};
       $scope.edit = {
         isDisabledWaitingEdit: true
       };
 
+      $scope.getProviderUsingDocument = function(document){
+        $scope.isDisabledSearchCpf = true;
+        document = document.replace(/[^0-9]/g,'');
+        ProviderService.getProviderByDocumentNumber({ id: document },
+          function(response){
+            if( response.content.length > 1 ){
+              MessageGeneratorService.createMessageError('Foi encontrado mais de um fornecedor para o CPF/CNPJ informado');
+            }else if( response.content.length == 0 ){
+              MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum Fornecedor para o CPF/CNPJ informado');
+            }else{
+              $scope.product.provider = response.content[0];
+            }
+            $scope.isDisabledSearchCpf = false;
+          }, function(error){
+            if( error.status == '404'){
+              MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum Fornecedor para o CPF/CNPJ informado');
+            }else{
+              MessageGeneratorService.createMessageWarning('Erro ao buscar Fornecedor utilizando o CPF/CNPJ');
+            }
+            $scope.isDisabledSearchCpf = false;
+          });
+      };
       var buttonSave = {
         title: 'Salvar',
         type: 'success',
@@ -113,8 +135,7 @@
                 }
               }
             },
-            function(error){
-              console.log(error);
+            function(){
               MessageGeneratorService.createMessageError('Não foi possivel buscar unidade de medição');
             }
           );
@@ -166,6 +187,7 @@
           function(response) {
             $scope.product = response;
             $scope.measurementOptions = [ $scope.product.measurement ];
+            $scope.objectFind.document = $scope.product.provider.documentNumber;
           },
           function( error ) {
             if( !!error && error.status == '404' ){

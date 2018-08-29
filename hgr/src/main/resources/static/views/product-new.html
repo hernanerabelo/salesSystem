@@ -51,6 +51,33 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.document"><b>CPF/CNPJ do Fornecedor</b></span></span>
+                        <input cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.document" maxlength="18" placeholder="CPF/CNPJ do Fornecedor" >
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCpf" ng-click="getProviderUsingDocument(objectFind.document)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="product.provider">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.provider.legalName"><b>Nome Legal</b></span></span>
+                        <input type="text" class="form-control"  ng-disabled="true" hbr-uppercase ng-model="product.provider.legalName" placeholder="Nome Legal" >
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.provider.fantasyName"><b>Nome Fantasia</b></span></span>
+                        <input type="text" class="form-control" ng-disabled="true" hbr-uppercase ng-model="product.provider.fantasyName" placeholder="Nome Fantasia" >
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
