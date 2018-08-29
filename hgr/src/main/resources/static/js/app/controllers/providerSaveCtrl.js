@@ -114,7 +114,7 @@
           bootbox.confirm({
             size: "small",
             title: "<center><b>ATENÇÃO<b><center>",
-            message: 'Deseja realmente <b>Salvar</b> o provider?',
+            message: 'Deseja realmente <b>Salvar</b> o fornecedor?',
             buttons: {
               confirm: {
                 label: 'Sim',
@@ -134,7 +134,6 @@
                     $location.url('/cadastros/fornecedores/editar/' + response.id);
                   },
                   function(e) {
-                    console.log(e);
                     var message = '';
                     if( !!e.data && e.data.status == '400' && !!e.data.message ){
                       message = ' - ' + e.data.message;
@@ -145,7 +144,7 @@
                 );
               }else{
                 ButtonGeneratorService.enableButtons();
-                MessageGeneratorService.createMessageInfo('Ação cancelada pelo fornecedor');
+                MessageGeneratorService.createMessageInfo('Ação cancelada pelo usuário');
                 $scope.$apply();
               }
             }

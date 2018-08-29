@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,10 +27,13 @@ public class ProviderController {
   private ProviderService providerService;
 
   @RequestMapping( method = RequestMethod.GET )
-  public ResponseEntity list(Pageable pageable, @RequestParam("fantasyName") String fantasyName ) {
+  public ResponseEntity list(Pageable pageable) {
 
-    Page<Provider> providers = providerService.listAllByPage( pageable, fantasyName );
-
+    Page<Provider> providers = providerService.listAllByPage( pageable );
+    logger.info("total de fornecedores encontrado" + providers.getTotalElements());
+    if( providers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(providers, HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(providers, HttpStatus.OK);
   }
 
@@ -53,7 +56,7 @@ public class ProviderController {
   }
 
   @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public ResponseEntity save( @RequestBody Provider provider ){
     providerService.save( provider );
     return new ResponseEntity<>( provider , HttpStatus.CREATED);
@@ -63,18 +66,22 @@ public class ProviderController {
   public ResponseEntity getProviderByDocumentNumber( Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
     logger.info("Buscando cliente pelo documentNumber " + documentNumber );
 
-    Page<Provider> provider = providerService.getProviderByDocumentNumber( pageable, documentNumber );
-    if( provider == null){
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    Page<Provider> providers = providerService.getProviderByDocumentNumber( pageable, documentNumber );
+    logger.info("total de fornecedores encontrado" + providers.getTotalElements());
+    if( providers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(providers, HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(  provider, HttpStatus.OK );
+    return new ResponseEntity<>(  providers, HttpStatus.OK );
   }
 
   @RequestMapping( value = "/legalName/{legalName}", method = RequestMethod.GET)
   public ResponseEntity getProviderByLegalName( Pageable pageable, @PathVariable("legalName") String legalName ){
     logger.info("Buscando cliente pelo legalName " + legalName );
     Page<Provider> providers = providerService.getProvidersByLegalName( pageable, legalName );
-    logger.info(providers);
+    logger.info("total de fornecedores encontrado" + providers.getTotalElements());
+    if( providers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(providers, HttpStatus.NOT_FOUND);
+    }
 
     return new ResponseEntity<>(  providers, HttpStatus.OK );
   }
@@ -83,7 +90,10 @@ public class ProviderController {
   public ResponseEntity getProviderByFantasyName( Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
     logger.info("Buscando cliente pelo fantasyName " + fantasyName );
     Page<Provider> providers = providerService.getProvidersByFantasyName( pageable, fantasyName );
-
+    logger.info("total de fornecedores encontrado" + providers.getTotalElements());
+    if( providers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(providers, HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(  providers, HttpStatus.OK );
   }
 

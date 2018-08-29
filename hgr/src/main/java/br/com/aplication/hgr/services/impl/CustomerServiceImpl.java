@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Customer findById( Long id ){
     logger.info("Buscando cliente com id " + id );
     Customer customer = customerRepository.findOne( id );
@@ -48,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Customer update( Customer customer ){
     if( customerRepository.exists( customer.getId() ) ){
 
@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public void save( Customer customer ){
 
     if( customer.getId() == null ){
@@ -116,7 +116,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
   }
 
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   private void validAndFormatDocumentNumber(Customer customer) {
     customer.setDocumentNumber( formatDocumentNumber(customer.getDocumentNumber() ) );
     if( customer.getDocumentNumber().length() == 14 ){
@@ -144,7 +144,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Page<Customer> getCustomerByDocumentNumber( Pageable pageable ,String documentNumber ) {
     if( documentNumber != null && !"".equals(documentNumber)){
       Page<Customer> customer = customerRepository.findByDocumentNumber(documentNumber, pageable);

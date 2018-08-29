@@ -28,7 +28,9 @@ public class CustomerController {
   public ResponseEntity list( Pageable pageable, @RequestParam("fantasyName") String fantasyName ) {
 
     Page<Customer> customers = customerService.listAllByPage( pageable, fantasyName );
-
+    if( customers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(customers, HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(customers, HttpStatus.OK);
   }
 
@@ -60,19 +62,21 @@ public class CustomerController {
   public ResponseEntity getCustomerByDocumentNumber( Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
     logger.info("Buscando cliente pelo documentNumber " + documentNumber );
 
-    Page<Customer> customer = customerService.getCustomerByDocumentNumber( pageable, documentNumber );
-    if( customer == null){
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    Page<Customer> customers = customerService.getCustomerByDocumentNumber( pageable, documentNumber );
+    if( customers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(customers, HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(  customer, HttpStatus.OK );
+    return new ResponseEntity<>(  customers, HttpStatus.OK );
   }
 
   @RequestMapping( value = "/legalName/{legalName}", method = RequestMethod.GET)
   public ResponseEntity getCustomerByLegalName( Pageable pageable, @PathVariable("legalName") String legalName ){
     logger.info("Buscando cliente pelo legalName " + legalName );
     Page<Customer> customers = customerService.getCustomersByLegalName( pageable, legalName );
-    logger.info(customers);
-
+    logger.info("total de cliente encontrado" + customers.getTotalElements());
+    if( customers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(customers, HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(  customers, HttpStatus.OK );
   }
 
@@ -80,7 +84,10 @@ public class CustomerController {
   public ResponseEntity getCustomerByFantasyName( Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
     logger.info("Buscando cliente pelo fantasyName " + fantasyName );
     Page<Customer> customers = customerService.getCustomersByFantasyName( pageable, fantasyName );
-
+    logger.info("total de cliente encontrado" + customers.getTotalElements());
+    if( customers.getTotalElements() == 0 ){
+      return new ResponseEntity<>(customers, HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(  customers, HttpStatus.OK );
   }
 

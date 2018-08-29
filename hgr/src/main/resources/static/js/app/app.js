@@ -37,6 +37,21 @@
           templateUrl: "views/provider-new.html",
           controller: "ProviderSaveCtrl"
         })
+
+        .when("/cadastros/produtos", {
+          templateUrl: "views/product-find.html",
+          controller: "ProductCtrl"
+        })
+        .when("/cadastros/produtos/editar/:id", {
+          templateUrl: "views/product-edit.html",
+          controller: "ProductEditCtrl"
+        })
+        .when("/cadastros/produtos/novo", {
+          templateUrl: "views/product-new.html",
+          controller: "ProductSaveCtrl"
+        })
+
+
         .when("/vendas", {
           templateUrl: "views/sales-find.html"
         })

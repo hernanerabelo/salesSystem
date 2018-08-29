@@ -30,12 +30,10 @@ public class Contact implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CUSTOMER_ID")
-  @JsonIgnore
   private Customer customer;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PROVIDER_ID")
-  @JsonIgnore
   private Provider provider;
 
   public String getName() {
@@ -70,6 +68,7 @@ public class Contact implements Serializable {
     this.observation = observation;
   }
 
+  @JsonIgnore
   public Customer getCustomer() {
     return customer;
   }
@@ -86,6 +85,7 @@ public class Contact implements Serializable {
     this.id = id;
   }
 
+  @JsonIgnore
   public Provider getProvider() {
     return provider;
   }

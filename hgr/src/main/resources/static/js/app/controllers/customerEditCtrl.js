@@ -114,7 +114,7 @@
           bootbox.confirm({
             size: "small",
             title: "<center><b>ATENÇÃO<b><center>",
-            message: 'Deseja realmente <b>Salvar</b> o cliente?',
+            message: 'Deseja realmente <b>Atualizar</b> o cliente?',
             buttons: {
               confirm: {
                 label: 'Sim',
@@ -192,6 +192,9 @@
                 ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
                 $scope.edit.isDisabledWaitingEdit = true;
                 $scope.customer = $scope.customerTemp;
+              }else{
+                ButtonGeneratorService.enableButtons();
+                MessageGeneratorService.createMessageInfo('Atualização cancelada pelo usuário');
               }
               $scope.$apply();
             }

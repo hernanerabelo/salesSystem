@@ -90,3 +90,8 @@ body{
   border-radius: 6px;
 }
 
+.selectMax{
+   max-height: 30px !important;
+   overflow-y: auto !important;
+   overflow-x: hidden !important;
+}

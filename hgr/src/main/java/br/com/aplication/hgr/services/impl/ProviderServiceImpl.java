@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -30,12 +30,12 @@ public class ProviderServiceImpl implements ProviderService {
   private ProviderRepository providerRepository;
 
   @Override
-  public Page<Provider> listAllByPage(Pageable pageable, String fantasyName  ){
-    return providerRepository.findByFantasyNameLikeAllIgnoreCase( fantasyName, pageable );
+  public Page<Provider> listAllByPage(Pageable pageable ){
+    return providerRepository.findAll( pageable );
   }
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Provider findById( Long id ){
     logger.info("Buscando fornecedor com id " + id );
     Provider provider = providerRepository.findOne( id );
@@ -49,7 +49,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Provider update( Provider provider ){
     if( providerRepository.exists( provider.getId() ) ){
 
@@ -65,7 +65,7 @@ public class ProviderServiceImpl implements ProviderService {
   }
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public void save( Provider provider ){
 
     if( provider.getId() == null ){
@@ -117,7 +117,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
   }
 
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   private void validAndFormatDocumentNumber(Provider provider) {
     provider.setDocumentNumber( formatDocumentNumber(provider.getDocumentNumber() ) );
     if( provider.getDocumentNumber().length() == 14 ){
@@ -145,7 +145,7 @@ public class ProviderServiceImpl implements ProviderService {
   }
 
   @Override
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Page<Provider> getProviderByDocumentNumber( Pageable pageable ,String documentNumber ) {
     if( documentNumber != null && !"".equals(documentNumber)){
       Page<Provider> provider = providerRepository.findByDocumentNumber(documentNumber, pageable);

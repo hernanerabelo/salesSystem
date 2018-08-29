@@ -1,0 +1,43 @@
+<div class="row">
+    <center><h3>Produtos</h3></center>
+</div>
+<div class="row" style="padding-bottom:10px">
+    <form ng-class="{'form-horizontal':hasErrorInput}" >
+        <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
+            <div class="col-md-6" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.description"><b>Descrição</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.description" placeholder="Descrição" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+            <div class="col-md-6" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.code"><b>Nome Legal</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.code" placeholder="Código" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" ng-table="tableParams" class="table" show-filter="true">
+        <tr ng-repeat="product in $data">
+            <td class="text-center hbrAjustarTextoVertical" title="'EXPANDIR'">
+                <button class="btn btn-info" ng-click="editProduct(product)">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'CÓDIGO'" filter="{ fantasyName: 'text'}" sortable="'fantasyName'">
+                {{product.code}}
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'DESCRIÇÃO'" filter="{ description: 'text'}" sortable="'description'">
+                {{product.description}}
+            </td>
+        </tr>
+    </table>
+</div>

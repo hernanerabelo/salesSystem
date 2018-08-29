@@ -1,0 +1,56 @@
+<div class="row">
+    <center><h1>Editar Produto</h1></center>
+</div>
+
+<div class="container" ng-clock>
+    <div class="row hbrBlueDegrade"  ng-dblclick="form1 = !form1">
+        <label style="margin: 6px 12px;">Dados do Produto</label>
+        <div class="pull-right btn" ng-click="form1 = !form1">
+            <span ng-show="form1" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+            <span ng-show="!form1" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
+            <div class="form-group">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.code"><b>Código</b></span></span>
+                        <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" hbr-uppercase ng-model="product.code" placeholder="Código" >
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.description"><b>Descrição</b></span></span>
+                        <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" hbr-uppercase ng-model="product.description" placeholder="Descrição" >
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.measurement.type"><b>Unidade de Medição</b></span></span>
+                        <select class="form-control" ng-disabled="edit.isDisabledWaitingEdit" size="1" ng-model="product.measurement"
+                                ng-options="measurement.type for measurement in measurementOptions"></select>
+                    </div>
+                </div>
+                <div class="col-md-5" ng-show="product.measurement.type == 'NOVA UNIDADE DE MEDIÇÃO'">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!newMeasurementType"><b>NOVA UNIDADE DE MEDIÇÃO</b></span></span>
+                        <input type="text" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" class="form-control" maxlength="29" ng-model="newMeasurement.type" placeholder="NOVA UNIDADE DE MEDIÇÃO" >
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.value"><b>Valor - R$</b></span></span>
+                        <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" maxlength="15" ng-model="product.value" placeholder="Valor - R$ 000000.00" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

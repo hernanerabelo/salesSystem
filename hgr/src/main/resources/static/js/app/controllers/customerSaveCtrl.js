@@ -134,7 +134,6 @@
                     $location.url('/cadastros/clientes/editar/' + response.id);
                   },
                   function(e) {
-                    console.log(e);
                     var message = '';
                     if( !!e.data && e.data.status == '400' && !!e.data.message ){
                       message = ' - ' + e.data.message;
