@@ -53,8 +53,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span class="navbar-brand">
-                    <span class="glyphicon glyphicon-header" style="font-size: 30px; color:black;"></span>
-                    <label style="color:black;">BR</label>
+                    <span class="glyphicon glyphicon-header" style="font-size: 40px; color:black;"></span>
+                    <label style="color:black;">CRM</label>
                 </span >
             </div>
             <div class="collapse navbar-collapse" id="mainMenu">
@@ -83,6 +83,7 @@
                     <div class="btn-group btn-group-lg hbrButtonMenu" ng-repeat="button in menuButtons"
                          ng-show="menuButtons.length > 0" role="group">
                         <button type="button hbrPositionButtonMenu" class="btn btn-{{button.type}}" ng-disabled="button.isDisabled" ng-click="button.execute()">
+                            <span class="{{button.icon}} ng-show=!!button.icon"></span>
                             {{button.title}}
                         </button>
                     </div>
@@ -96,7 +97,7 @@
             </div>
         </div>
 
-        <div class="container" ng-cloak>
+        <div class="container jumbotron" style="padding-top: 0px;" ng-cloak>
             <div ng-view />
         </div>
 

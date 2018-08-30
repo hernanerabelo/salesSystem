@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
         measurementService.save( product.getMeasurement() );
       }
       productRepository.save( product );
-      logger.info("Criado product " + product );
+      logger.info("Criado product " + product.getId() );
 
     }else{
       throw new ProductException( "Produto não pode ter id para ser salvo." );

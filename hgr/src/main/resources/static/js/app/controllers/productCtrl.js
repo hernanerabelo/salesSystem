@@ -29,6 +29,7 @@
       ButtonGeneratorService.putButtonsInSubMenu([{
           title: 'Novo Produto',
           type: 'success',
+          icon: 'glyphicon glyphicon-user',
           execute: function() {
             $location.url('/cadastros/produtos/novo');
           }
@@ -36,6 +37,7 @@
         {
           title: 'Buscar',
           type: 'primary',
+          icon: 'glyphicon glyphicon-search',
           execute: function() {
             MessageGeneratorService.cleanAllMessages();
             $scope.hasErrorInput = false;

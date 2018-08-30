@@ -30,6 +30,7 @@
       ButtonGeneratorService.putButtonsInSubMenu([{
           title: 'Novo Cliente',
           type: 'success',
+          icon: 'glyphicon glyphicon-user',
           execute: function() {
             $location.url('/cadastros/clientes/novo');
           }
@@ -37,6 +38,7 @@
         {
           title: 'Buscar',
           type: 'primary',
+          icon: 'glyphicon glyphicon-search',
           execute: function() {
             MessageGeneratorService.cleanAllMessages();
             $scope.hasErrorInput = false;

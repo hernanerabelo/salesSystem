@@ -6,6 +6,7 @@
   //  title: 'Salvar',
   //  type: 'success',
   //  isDisabled: false,
+  //  icon: 'glyphicon glyphicon-search'
   //  execute: function(){
   //  }
   //}

@@ -107,6 +107,7 @@
 
       ButtonGeneratorService.putButtonsInSubMenu([{
         title: 'Salvar',
+        icon: 'glyphicon glyphicon-ok',
         type: 'success',
         execute: function() {
           this.isDisabled = true;

@@ -107,6 +107,7 @@
 
       var buttonSave = {
         title: 'Salvar',
+        icon: 'glyphicon glyphicon-ok',
         type: 'success',
         execute: function() {
           this.isDisabled = true;
@@ -156,6 +157,7 @@
       var buttonEdit = {
         title: 'Editar',
         type: 'primary',
+        icon: 'glyphicon glyphicon-edit',
         execute: function() {
           ButtonGeneratorService.cleanAllButtons();
           MessageGeneratorService.cleanAllMessages();
@@ -167,6 +169,7 @@
 
       var buttonCancel = {
         title: 'Cancelar',
+        icon: 'glyphicon glyphicon-remove-sign',
         type: 'danger',
         execute: function() {
           this.isDisabled = true;

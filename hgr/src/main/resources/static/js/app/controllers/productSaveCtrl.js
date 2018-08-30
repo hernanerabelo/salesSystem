@@ -53,15 +53,18 @@
           $scope.measurementOptions.push( lastOption );
           $scope.product.measurement = $scope.measurementOptions[0];
         },
-        function(error){
-          console.log(error);
-          MessageGeneratorService.createMessageError('Não foi possivel buscar unidade de medição');
+        function(){
+          $scope.measurementOptions = [{
+                                         type: 'NOVA UNIDADE DE MEDIÇÃO'
+                                       }];
+          $scope.product.measurement = $scope.measurementOptions[0];
         }
       );
 
 
       ButtonGeneratorService.putButtonsInSubMenu([{
         title: 'Salvar',
+        icon: 'glyphicon glyphicon-ok',
         type: 'success',
         execute: function() {
           this.isDisabled = true;
@@ -103,6 +106,12 @@
                 }else{
                   ButtonGeneratorService.enableButtons();
                   MessageGeneratorService.createMessageError('Inserir um valor para o produto');
+                  $scope.$apply();
+                  return;
+                }
+                if( !$scope.product.provider ){
+                  ButtonGeneratorService.enableButtons();
+                  MessageGeneratorService.createMessageError('Inserir a empresa fornecedora do produto');
                   $scope.$apply();
                   return;
                 }
