@@ -40,8 +40,16 @@
           return value;
         }
 
-        element.bind('keyup', function() {
-          if( !!ctrl.$viewValue ) {
+        element.bind('keyup', function(event) {
+          if( !!ctrl.$viewValue &&
+              ( (
+                  'Backspace' != event.key &&
+                  'Delete' != event.key &&
+                  !/[^0-9]/g.test( ctrl.$viewValue )
+                ) ||
+                ctrl.$viewValue.replace(/[^0-9]/g,'').length == 14
+              ) ) {
+
             ctrl.$setViewValue( formatDoc( ctrl.$viewValue ) );
             ctrl.$render();
           }

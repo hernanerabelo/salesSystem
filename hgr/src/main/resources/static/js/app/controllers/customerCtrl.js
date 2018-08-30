@@ -59,9 +59,9 @@
               $scope.tableParams = new NgTableParams({}, { dataset: response.content});
               }, function(error){
                 if( error.status == '404'){
-                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o NOME LEGAL informado');
+                  MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o NOME LEGAL / RAZÃO SOCIAL informado');
                 }else{
-                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando Nome Legal');
+                  MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando Nome Legal / Razão Social');
                 }
               });
             } else if ($scope.objectFind.document && !!$scope.objectFind.document.trim()) {

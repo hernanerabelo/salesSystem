@@ -46,6 +46,10 @@ public class Address  implements Serializable {
   @JoinColumn(name="PROVIDER_ID")
   private Provider provider;
 
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name="CARRIER_ID")
+  private Carrier carrier;
+
   public String getCep() {
     return cep;
   }
@@ -126,6 +130,15 @@ public class Address  implements Serializable {
 
   public void setProvider(Provider provider) {
     this.provider = provider;
+  }
+
+  @JsonIgnore
+  public Carrier getCarrier() {
+    return carrier;
+  }
+
+  public void setCarrier(Carrier carrier) {
+    this.carrier = carrier;
   }
 
   @Override

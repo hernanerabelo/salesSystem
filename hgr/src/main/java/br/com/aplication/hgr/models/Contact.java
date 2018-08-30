@@ -22,6 +22,9 @@ public class Contact implements Serializable {
   @Column(name = "PHONE")
   private String phone;
 
+  @Column(name = "PHONE_2")
+  private String phone2;
+
   @Column(name = "EMAIL")
   private String email;
 
@@ -35,6 +38,11 @@ public class Contact implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PROVIDER_ID")
   private Provider provider;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "CARRIER_ID")
+  private Carrier carrier;
+
 
   public String getName() {
     return name;
@@ -68,6 +76,14 @@ public class Contact implements Serializable {
     this.observation = observation;
   }
 
+  public String getPhone2() {
+    return phone2;
+  }
+
+  public void setPhone2(String phone2) {
+    this.phone2 = phone2;
+  }
+
   @JsonIgnore
   public Customer getCustomer() {
     return customer;
@@ -94,12 +110,22 @@ public class Contact implements Serializable {
     this.provider = provider;
   }
 
+  @JsonIgnore
+  public Carrier getCarrier() {
+    return carrier;
+  }
+
+  public void setCarrier(Carrier carrier) {
+    this.carrier = carrier;
+  }
+
   @Override
   public String toString() {
     return "Contact{" +
         "id=" + id +
         ", name='" + name + '\'' +
         ", phone='" + phone + '\'' +
+        ", phone2='" + phone2 + '\'' +
         ", email='" + email + '\'' +
         ", observation='" + observation + '\'' +
         '}';

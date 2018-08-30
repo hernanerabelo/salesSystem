@@ -13,8 +13,8 @@
             </div>
             <div class="col-md-6" >
                 <div class="input-group">
-                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.legalName"><b>Nome Legal</b></span></span>
-                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.legalName" placeholder="Nome Legal" >
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.legalName"><b>Nome Legal / Razão Social</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.legalName" placeholder="Nome Legal / Razão Social" >
                     <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 {{provider.fantasyName}}
             </td>
 
-            <td class="text-center hbrAjustarTextoVertical" title="'NOME LEGAL'" filter="{ legalName: 'text'}" sortable="'legalName'">
+            <td class="text-center hbrAjustarTextoVertical" title="'NOME LEGAL / RAZÃO SOCIAL'" filter="{ legalName: 'text'}" sortable="'legalName'">
                 {{provider.legalName}}
             </td>
 
