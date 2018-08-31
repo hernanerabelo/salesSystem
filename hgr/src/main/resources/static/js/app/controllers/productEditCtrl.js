@@ -15,7 +15,7 @@
       };
 
       $scope.getProviderUsingDocument = function(document){
-        $scope.isDisabledSearchCpf = true;
+        $scope.isDisabledSearchDocument = true;
         document = document.replace(/[^0-9]/g,'');
         ProviderService.getProviderByDocumentNumber({ id: document },
           function(response){
@@ -26,14 +26,14 @@
             }else{
               $scope.product.provider = response.content[0];
             }
-            $scope.isDisabledSearchCpf = false;
+            $scope.isDisabledSearchDocument = false;
           }, function(error){
             if( error.status == '404'){
               MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum Fornecedor para o CPF/CNPJ informado');
             }else{
               MessageGeneratorService.createMessageWarning('Erro ao buscar Fornecedor utilizando o CPF/CNPJ');
             }
-            $scope.isDisabledSearchCpf = false;
+            $scope.isDisabledSearchDocument = false;
           });
       };
       var buttonSave = {

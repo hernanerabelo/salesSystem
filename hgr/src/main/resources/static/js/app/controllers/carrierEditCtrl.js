@@ -3,9 +3,9 @@
 
   var app = angular.module('app');
 
-  app.controller('ProviderEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'ProviderService', 'ButtonGeneratorService',
+  app.controller('CarrierEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'CarrierService', 'ButtonGeneratorService',
     'ExternalUrlService', 'MessageGeneratorService', 'BreadCrumbGeneratorService',
-    function($scope, $rootScope, $location, $routeParams, ProviderService, ButtonGeneratorService, ExternalUrlService,
+    function($scope, $rootScope, $location, $routeParams, CarrierService, ButtonGeneratorService, ExternalUrlService,
     MessageGeneratorService, BreadCrumbGeneratorService) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation(true, true);
@@ -14,12 +14,12 @@
         isDisabledWaitingEdit: true
       };
       function populatAddressInfo(address){
-        $scope.provider.address.street = address.logradouro;
-        $scope.provider.address.neighborhood = address.bairro;
-        $scope.provider.address.city = address.localidade;
-        $scope.provider.address.state = address.uf;
-        $scope.provider.address.number = null;
-        $scope.provider.address.complement = null;
+        $scope.carrier.address.street = address.logradouro;
+        $scope.carrier.address.neighborhood = address.bairro;
+        $scope.carrier.address.city = address.localidade;
+        $scope.carrier.address.state = address.uf;
+        $scope.carrier.address.number = null;
+        $scope.carrier.address.complement = null;
       }
 
       function getValue(value){
@@ -29,11 +29,11 @@
         return '';
       }
 
-      $scope.removeContactInProvider = function removeContactInProvider(index){
+      $scope.removeContactInCarrier = function removeContactInCarrier(index){
         bootbox.confirm({
           size: "small",
           title: "<center><b>ATENÇÃO<b><center>",
-          message: '<b>Remover</b> o Contato ' + getValue( $scope.provider.contacts[index].name )+ '?',
+          message: '<b>Remover</b> o Contato ' + getValue( $scope.carrier.contacts[index].name )+ '?',
           buttons: {
             confirm: {
               label: 'Sim',
@@ -46,7 +46,7 @@
           },
           callback: function(result){
             if( result ){
-              $scope.provider.contacts.splice(index, 1);
+              $scope.carrier.contacts.splice(index, 1);
               $scope.$digest();
             }
           }
@@ -54,17 +54,17 @@
       };
 
       function cleanInputAddress(){
-        $scope.provider.address.street = '';
-        $scope.provider.address.neighborhood = '';
-        $scope.provider.address.city = '';
-        $scope.provider.address.state = '';
+        $scope.carrier.address.street = '';
+        $scope.carrier.address.neighborhood = '';
+        $scope.carrier.address.city = '';
+        $scope.carrier.address.state = '';
       }
 
-      $scope.createContactInProvider = function createContactInProvider(){
-        if( !$scope.provider.contacts ){
-          $scope.provider.contacts = [];
+      $scope.createContactInCarrier = function createContactInCarrier(){
+        if( !$scope.carrier.contacts ){
+          $scope.carrier.contacts = [];
         }
-        $scope.provider.contacts.push({});
+        $scope.carrier.contacts.push({});
       };
 
       $scope.populateAddressUsingCep = function populateAddressUsingCep(cep){
@@ -117,7 +117,7 @@
           bootbox.confirm({
             size: "small",
             title: "<center><b>ATENÇÃO<b><center>",
-            message: 'Deseja realmente <b>Atualizar</b> o fornecedor?',
+            message: 'Deseja realmente <b>Atualizar</b> a transportadora?',
             buttons: {
               confirm: {
                 label: 'Sim',
@@ -131,9 +131,9 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
               if( result ){
-                ProviderService.updateProvider($scope.provider,
+                CarrierService.updateCarrier($scope.carrier,
                   function(response) {
-                    $scope.provider = response;
+                    $scope.carrier = response;
                     ButtonGeneratorService.enableButtons();
                     MessageGeneratorService.cleanAllMessages();
                     MessageGeneratorService.createMessageSuccess('Informações atualizadas com sucesso');
@@ -143,7 +143,7 @@
                   },
                   function(e) {
                     ButtonGeneratorService.enableButtons();
-                    MessageGeneratorService.createMessageError('Não foi possivel atualizar informações do usuário - ' + e.data.message);
+                    MessageGeneratorService.createMessageError('Não foi possivel atualizar informações da transportadora - ' + e.data.message);
                   }
                 );
               }else{
@@ -165,7 +165,7 @@
           MessageGeneratorService.cleanAllMessages();
           ButtonGeneratorService.putButtonsInSubMenu([buttonSave, buttonCancel]);
           $scope.edit.isDisabledWaitingEdit = false;
-          $scope.providerTemp = angular.copy( $scope.provider );
+          $scope.carrierTemp = angular.copy( $scope.carrier );
         }
       };
 
@@ -196,7 +196,7 @@
                 MessageGeneratorService.cleanAllMessages();
                 ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
                 $scope.edit.isDisabledWaitingEdit = true;
-                $scope.provider = $scope.providerTemp;
+                $scope.carrier = $scope.carrierTemp;
               }else{
                 ButtonGeneratorService.enableButtons();
                 MessageGeneratorService.createMessageInfo('Atualização cancelada pelo usuário');
@@ -207,28 +207,24 @@
         }
       };
 
-      function getProviderInfoInDataBase(){
-        var providerId = $routeParams.id;
-        ProviderService.getProviderById({id : providerId},
+      function getCarrierInfoInDataBase(){
+        var clientId = $routeParams.id;
+        CarrierService.getCarrierById({id : clientId},
           function(response) {
-            $scope.provider = response;
-
-            if( !!$scope.provider.foundationDate ){
-              $scope.foundationDateFormated = new Date($scope.provider.foundationDate);
-            }
+            $scope.carrier = response;
           },
           function( error ) {
             if( !!error && error.status == '404' ){
-              MessageGeneratorService.createMessageError('Não foi encontrado nenhum fornecedor com id ' + providerId);
+              MessageGeneratorService.createMessageError('Não foi encontrado nenhuma transportadora com id ' + clientId);
             }else{
-              MessageGeneratorService.createMessageError('Não foi possivel carregar informações do fornecedor [' + providerId + ']');
+              MessageGeneratorService.createMessageError('Não foi possivel carregar informações da transportadora [' + clientId + ']');
             }
-            $scope.provider = {};
+            $scope.carrier = {};
             ButtonGeneratorService.cleanAllButtons();
           }
         );
       }
-      getProviderInfoInDataBase();
+      getCarrierInfoInDataBase();
       ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
     }
   ]);

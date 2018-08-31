@@ -3,25 +3,25 @@
 
   var app = angular.module('app');
 
-  app.controller('ProviderSaveCtrl', ['$scope', '$rootScope', '$location', 'ProviderService', 'ButtonGeneratorService',
+  app.controller('CarrierSaveCtrl', ['$scope', '$rootScope', '$location', 'CarrierService', 'ButtonGeneratorService',
     'ExternalUrlService', 'MessageGeneratorService', 'BreadCrumbGeneratorService',
-    function($scope, $rootScope, $location, ProviderService, ButtonGeneratorService, ExternalUrlService,
+    function($scope, $rootScope, $location, CarrierService, ButtonGeneratorService, ExternalUrlService,
     MessageGeneratorService, BreadCrumbGeneratorService) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
 
-      $scope.provider = {
+      $scope.carrier = {
         address: {},
         contacts: []
       };
 
       function populatAddressInfo(address){
-        $scope.provider.address.street = address.logradouro;
-        $scope.provider.address.neighborhood = address.bairro;
-        $scope.provider.address.city = address.localidade;
-        $scope.provider.address.state = address.uf;
-        $scope.provider.address.number = null;
-        $scope.provider.address.complement = null;
+        $scope.carrier.address.street = address.logradouro;
+        $scope.carrier.address.neighborhood = address.bairro;
+        $scope.carrier.address.city = address.localidade;
+        $scope.carrier.address.state = address.uf;
+        $scope.carrier.address.number = null;
+        $scope.carrier.address.complement = null;
       }
 
       function getValue(value){
@@ -30,11 +30,11 @@
         }
         return '';
       }
-      $scope.removeContactInProvider = function removeContactInProvider(index){
+      $scope.removeContactInCarrier = function removeContactInCarrier(index){
         bootbox.confirm({
           size: "small",
           title: "<center><b>ATENÇÃO<b><center>",
-          message: '<b>Remover</b> o Contato ' + getValue( $scope.provider.contacts[index].name )+ '?',
+          message: '<b>Remover</b> o Contato ' + getValue( $scope.carrier.contacts[index].name )+ '?',
           buttons: {
             confirm: {
               label: 'Sim',
@@ -47,7 +47,7 @@
           },
           callback: function(result){
             if( result ){
-              $scope.provider.contacts.splice(index, 1);
+              $scope.carrier.contacts.splice(index, 1);
               $scope.$digest();
             }
           }
@@ -55,17 +55,17 @@
       };
 
       function cleanInputAddress(){
-        $scope.provider.address.street = '';
-        $scope.provider.address.neighborhood = '';
-        $scope.provider.address.city = '';
-        $scope.provider.address.state = '';
+        $scope.carrier.address.street = '';
+        $scope.carrier.address.neighborhood = '';
+        $scope.carrier.address.city = '';
+        $scope.carrier.address.state = '';
       }
 
-      $scope.createContactInProvider = function createContactInProvider(){
-        if( !$scope.provider.contacts ){
-          $scope.provider.contacts = [];
+      $scope.createContactInCarrier = function createContactInCarrier(){
+        if( !$scope.carrier.contacts ){
+          $scope.carrier.contacts = [];
         }
-        $scope.provider.contacts.push({});
+        $scope.carrier.contacts.push({});
       };
 
       $scope.populateAddressUsingCep = function populateAddressUsingCep(cep){
@@ -117,7 +117,7 @@
           bootbox.confirm({
             size: "small",
             title: "<center><b>ATENÇÃO<b><center>",
-            message: 'Deseja realmente <b>Salvar</b> o fornecedor?',
+            message: 'Deseja realmente <b>Salvar</b> a transportadora?',
             buttons: {
               confirm: {
                 label: 'Sim',
@@ -131,10 +131,10 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
               if( result ){
-                ProviderService.saveProvider($scope.provider,
+                CarrierService.saveCarrier($scope.carrier,
                   function(response) {
                     ButtonGeneratorService.enableButtons();
-                    $location.url('/cadastros/fornecedores/editar/' + response.id);
+                    $location.url('/cadastros/transportadoras/editar/' + response.id);
                   },
                   function(e) {
                     var message = '';
@@ -142,7 +142,7 @@
                       message = ' - ' + e.data.message;
                     }
                     ButtonGeneratorService.enableButtons();
-                    MessageGeneratorService.createMessageError('Não foi possivel salvar o fornecedor ' + message);
+                    MessageGeneratorService.createMessageError('Não foi possivel salvar a transportadora ' + message);
                   }
                 );
               }else{

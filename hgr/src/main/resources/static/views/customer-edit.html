@@ -76,7 +76,7 @@
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!customer.address.cep"><b>CEP</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="customer.address.cep" placeholder="CEP" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCpf && !edit.isDisabledWaitingEdit" ng-click="populateAddressUsingCep(customer.address.cep)">
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCep && !edit.isDisabledWaitingEdit" ng-click="populateAddressUsingCep(customer.address.cep)">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                     </div>
@@ -185,7 +185,7 @@
 <div class="container" ng-show="!edit.isDisabledWaitingEdit" style="padding: 8px 8px 8px;">
     <center>
         <button class="btn btn-info btn-lg" ng-click="createContactInCustomer()">
-            <span class="glyphicon glyphicon-user"></span> Criar Contato
+            <span class="glyphicon glyphicon-user"></span> Adicionar Contato
         </button>
     </center>
 </div>

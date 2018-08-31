@@ -52,8 +52,10 @@ public class CarrierController {
     logger.info("Atualizando a transportadora " + carrier.getName() );
 
     Carrier retorno = carrierService.update( carrier );
-
-    return new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
+    if( retorno == null ){
+      return new ResponseEntity<>( HttpStatus.BAD_REQUEST );
+    }
+    return new ResponseEntity<>( retorno, HttpStatus.ACCEPTED );
   }
 
   @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

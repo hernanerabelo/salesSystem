@@ -16,17 +16,22 @@
         {
           name: 'Clientes',
           url: 'clientes',
-          icon: ''
+          icon: 'glyphicon glyphicon-zoom-in'
         },
         {
           name: 'Fornecedores',
           url: 'fornecedores',
-          icon: ''
+          icon: 'glyphicon glyphicon-zoom-in'
         },
         {
           name: 'Produtos',
           url: 'produtos',
-          icon: ''
+          icon: 'glyphicon glyphicon-zoom-in'
+        },
+        {
+          name: 'Transportadoras',
+          url: 'transportadoras',
+          icon: 'glyphicon glyphicon-zoom-in'
         }
       ];
 

@@ -1,0 +1,40 @@
+<div class="row">
+    <center><h3>Transportadoras</h3></center>
+</div>
+<div class="row" style="padding-bottom:10px">
+    <form ng-class="{'form-horizontal':hasErrorInput}" >
+        <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
+            <div class="col-md-6" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.name"><b>Nome da transportadora</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.name" placeholder="Nome da transportadora" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" ng-table="tableParams" class="table" show-filter="true">
+        <tr ng-repeat="carrier in $data">
+            <td class="text-center hbrAjustarTextoVertical" title="'EXPANDIR'">
+                <button class="btn btn-info" ng-click="editCarrier(carrier)">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'NOME'" filter="{ name: 'text'}" sortable="'name'">
+                {{carrier.name}}
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'ESTADO'" >
+                {{carrier.address.state}}
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'CEP'" >
+                {{carrier.address.cep | hbrCEPFilter}}
+            </td>
+        </tr>
+    </table>
+</div>

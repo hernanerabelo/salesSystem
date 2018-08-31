@@ -20,6 +20,8 @@
         $scope.customer.address.neighborhood = address.bairro;
         $scope.customer.address.city = address.localidade;
         $scope.customer.address.state = address.uf;
+        $scope.customer.address.number = null;
+        $scope.customer.address.complement = null;
       }
 
       function getValue(value){
@@ -78,10 +80,10 @@
 
           //Valida o formato do CEP.
           if(validacep.test(cep)) {
-            $scope.isDisabledSearchCpf = true;
+            $scope.isDisabledSearchCep = true;
             ExternalUrlService.getEnderecoByCEP( {"cep" : cep},
               function(response) {
-                $scope.isDisabledSearchCpf = false;
+                $scope.isDisabledSearchCep = false;
                 if( !( response.erro ) ){
                   MessageGeneratorService.cleanAllMessages();
                   populatAddressInfo(response);
@@ -91,7 +93,7 @@
                 }
               },
               function() {
-                $scope.isDisabledSearchCpf = false;
+                $scope.isDisabledSearchCep = false;
                 MessageGeneratorService.cleanAllMessages();
                 MessageGeneratorService.createMessageError('Não foi possivel buscar informação pelo CEP');
               });

@@ -13,6 +13,7 @@
           templateUrl: "views/subMenu.html",
           controller: "RegisterCtrl"
         })
+
         .when("/cadastros/clientes", {
           templateUrl: "views/customer-find.html",
           controller: "CustomerCtrl"
@@ -25,6 +26,7 @@
           templateUrl: "views/customer-new.html",
           controller: "CustomerSaveCtrl"
         })
+
         .when("/cadastros/fornecedores", {
           templateUrl: "views/provider-find.html",
           controller: "ProviderCtrl"
@@ -36,6 +38,19 @@
         .when("/cadastros/fornecedores/novo", {
           templateUrl: "views/provider-new.html",
           controller: "ProviderSaveCtrl"
+        })
+
+        .when("/cadastros/transportadoras", {
+          templateUrl: "views/carrier-find.html",
+          controller: "CarrierCtrl"
+        })
+        .when("/cadastros/transportadoras/editar/:id", {
+          templateUrl: "views/carrier-edit.html",
+          controller: "CarrierEditCtrl"
+        })
+        .when("/cadastros/transportadoras/novo", {
+          templateUrl: "views/carrier-new.html",
+          controller: "CarrierSaveCtrl"
         })
 
         .when("/cadastros/produtos", {

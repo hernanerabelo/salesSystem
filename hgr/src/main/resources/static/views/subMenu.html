@@ -3,7 +3,7 @@
         <div class="form-group">
             <div class="row" ng-repeat="subMenu in subMenus">
                 <div class="btn btn-link btn-lg"  ng-click="redirect(subMenu.url)">
-                    <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+                    <span class="{{subMenu.icon}}" aria-hidden="true"></span>
                     {{subMenu.name}}
                 </div>
             </div>
