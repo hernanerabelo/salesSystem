@@ -3,10 +3,8 @@
 
   var app = angular.module('app');
 
-  app.controller('RegisterCtrl', [ '$scope', '$location', 'BreadCrumbGeneratorService',
-    function( $scope, $location, BreadCrumbGeneratorService ) {
-
-       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
+  app.controller('RegisterCtrl', [ '$scope', '$location',
+    function( $scope, $location ) {
 
       $scope.redirect = function(url){
         $location.url( '/cadastros/' + url );

@@ -68,7 +68,8 @@
 
 
         .when("/vendas", {
-          templateUrl: "views/sales-find.html"
+          templateUrl: "views/sales-find.html",
+          controller: "SalesCtrl"
         })
         .when("/relatorios", {
           templateUrl: "views/report-find.html"
