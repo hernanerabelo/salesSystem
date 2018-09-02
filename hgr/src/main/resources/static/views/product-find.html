@@ -38,6 +38,14 @@
             <td class="text-center hbrAjustarTextoVertical" title="'DESCRIÇÃO'" filter="{ description: 'text'}" sortable="'description'">
                 {{product.description}}
             </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'CRIADO POR'" filter="{ createdBy: 'text'}" sortable="'createdBy'">
+                {{product.createdBy}}
+            </td>
+
+            <td class="text-center hbrAjustarTextoVertical" title="'CRIADO EM'" filter="{ createdAt: 'text'}" sortable="'createdAt'">
+                {{product.createdAt | date}}
+            </td>
         </tr>
     </table>
 </div>

@@ -43,24 +43,63 @@
         }
       };
 
-      MeasurementService.getAll({},
-        function(response){
-          var lastOption = {
-                                type: 'NOVA UNIDADE DE MEDIÇÃO'
-                              };
+      var populateMeasurementOptions = function(){
+        MeasurementService.getAll({},
+          function(response){
+            var lastOption = {
+                                  type: 'NOVA UNIDADE DE MEDIÇÃO'
+                                };
 
-          $scope.measurementOptions = response;
-          $scope.measurementOptions.push( lastOption );
-          $scope.product.measurement = $scope.measurementOptions[0];
-        },
-        function(){
-          $scope.measurementOptions = [{
-                                         type: 'NOVA UNIDADE DE MEDIÇÃO'
-                                       }];
-          $scope.product.measurement = $scope.measurementOptions[0];
+            $scope.measurementOptions = response;
+            $scope.measurementOptions.push( lastOption );
+            $scope.product.measurement = $scope.measurementOptions[0];
+          },
+          function(){
+            $scope.measurementOptions = [{
+                                           type: 'NOVA UNIDADE DE MEDIÇÃO'
+                                         }];
+            $scope.product.measurement = $scope.measurementOptions[0];
+          }
+        );
+      };
+
+      function cleanAllInput(){
+        if( !!$scope.newMeasurement ){
+          $scope.newMeasurement = '';
+          populateMeasurementOptions();
         }
-      );
+        $scope.product.code = '';
+        $scope.product.description = '';
+        $scope.product.value = '';
+      }
 
+      var validIfCreateOtherProdut = function(){
+        bootbox.confirm({
+          size: "small",
+          title: "<center><b>ATENÇÃO<b><center>",
+          message: 'Deseja <b>Cadastrar</b> outro produto?',
+          buttons: {
+            confirm: {
+              label: 'Sim',
+              className: 'btn-success'
+            },
+            cancel: {
+              label: 'Não',
+              className: 'btn-danger'
+            }
+          },
+          callback: function(result){
+            if( result ){
+              cleanAllInput();
+              $scope.$apply();
+            }else{
+              ButtonGeneratorService.enableButtons();
+              $location.url('/cadastros/produtos');
+              $scope.$apply();
+            }
+          }
+        });
+      };
 
       ButtonGeneratorService.putButtonsInSubMenu([{
         title: 'Salvar',
@@ -96,7 +135,7 @@
                     $scope.product.measurement = $scope.newMeasurement;
                   }else{
                     ButtonGeneratorService.enableButtons();
-                    MessageGeneratorService.createMessageError('Inserir um valor para unidade de medição');
+                    MessageGeneratorService.createMessageError('Cadastrar um valor para unidade de medição');
                     $scope.$apply();
                     return;
                   }
@@ -105,20 +144,21 @@
                   $scope.product.value = $scope.product.value.replace( ',', '.' );
                 }else{
                   ButtonGeneratorService.enableButtons();
-                  MessageGeneratorService.createMessageError('Inserir um valor para o produto');
+                  MessageGeneratorService.createMessageError('Cadastrar um valor para o produto');
                   $scope.$apply();
                   return;
                 }
                 if( !$scope.product.provider ){
                   ButtonGeneratorService.enableButtons();
-                  MessageGeneratorService.createMessageError('Inserir a empresa fornecedora do produto');
+                  MessageGeneratorService.createMessageError('Cadastrar a empresa fornecedora do produto');
                   $scope.$apply();
                   return;
                 }
                 ProductService.save($scope.product,
                   function(response) {
+                    MessageGeneratorService.createMessageSuccess( 'Produto ' + response.id + ' cadastrado com sucesso' );
                     ButtonGeneratorService.enableButtons();
-                    $location.url('/cadastros/produtos/editar/' + response.id);
+                    validIfCreateOtherProdut();
                   },
                   function(e) {
                     var message = '';
@@ -139,6 +179,7 @@
         }
       }]);
 
+      populateMeasurementOptions();
     }
   ]);
 })();
