@@ -1,6 +1,6 @@
 package br.com.aplication.hgr.controllers;
 
-import br.com.aplication.hgr.models.Sales;
+import br.com.aplication.hgr.models.*;
 import br.com.aplication.hgr.services.SalesService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/sales")
@@ -34,5 +37,21 @@ public class SalesController {
       return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(  sales, HttpStatus.OK );
+  }
+
+  @RequestMapping( value = "/json", method = RequestMethod.GET )
+  public ResponseEntity getJsonProvider( ){
+
+    Sales sales = new Sales();
+    sales.setAddress( new Address() );
+    sales.setCarrier( new Carrier() );
+    sales.setCustomer( new Customer() );
+    sales.setProvider( new Provider() );
+    sales.setContacts( new ArrayList<>() );
+    sales.getContacts().add(new Contact());
+    sales.setCreatedAt( new Date() );
+    sales.setUpdatedAt (new Date() );
+
+    return new ResponseEntity<>(sales, HttpStatus.OK);
   }
 }

@@ -43,6 +43,9 @@ public class Contact implements Serializable {
   @JoinColumn(name = "CARRIER_ID")
   private Carrier carrier;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "SALES_ID")
+  private Sales sales;
 
   public String getName() {
     return name;
@@ -117,6 +120,15 @@ public class Contact implements Serializable {
 
   public void setCarrier(Carrier carrier) {
     this.carrier = carrier;
+  }
+
+  @JsonIgnore
+  public Sales getSales() {
+    return sales;
+  }
+
+  public void setSales(Sales sales) {
+    this.sales = sales;
   }
 
   @Override

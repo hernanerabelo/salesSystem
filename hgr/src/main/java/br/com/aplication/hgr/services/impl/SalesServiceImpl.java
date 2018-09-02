@@ -18,4 +18,9 @@ public class SalesServiceImpl implements SalesService {
   public Page<Sales> getSalesByCustomerDocumentNumber(Pageable pageable, String documentNumber) {
     return salesRepository.findAll(pageable);
   }
+
+  @Override
+  public void save(Sales sales) {
+    salesRepository.save(sales);
+  }
 }

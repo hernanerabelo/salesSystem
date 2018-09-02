@@ -1,5 +1,7 @@
 package br.com.aplication.hgr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class Carrier   implements Serializable {
 
   @OneToOne(fetch = FetchType.LAZY,
       mappedBy = "carrier",
+      orphanRemoval = true,
       cascade = CascadeType.ALL)
   Address address;
 
@@ -44,6 +47,10 @@ public class Carrier   implements Serializable {
       mappedBy = "carrier")
   List<Contact> contacts = new ArrayList<>();
 
+  @OneToMany(cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      mappedBy = "carrier")
+  private List<Sales> sales = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -107,5 +114,14 @@ public class Carrier   implements Serializable {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  @JsonIgnore
+  public List<Sales> getSales() {
+    return sales;
+  }
+
+  public void setSales(List<Sales> sales) {
+    this.sales = sales;
   }
 }

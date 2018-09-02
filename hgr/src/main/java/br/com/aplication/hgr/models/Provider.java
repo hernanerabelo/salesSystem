@@ -43,6 +43,11 @@ public class Provider implements Serializable {
   @Column( name = "FOUNDATION_DATE")
   private Date foundationDate;
 
+  @OneToMany(cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      mappedBy = "provider")
+  private List<Sales> sales = new ArrayList<>();
+
   @Column(name = "CREATED_BY")
   private String createdBy;
 
@@ -191,6 +196,15 @@ public class Provider implements Serializable {
 
   public void setProducts(List<Product> products) {
     this.products = products;
+  }
+
+  @JsonIgnore
+  public List<Sales> getSales() {
+    return sales;
+  }
+
+  public void setSales(List<Sales> sales) {
+    this.sales = sales;
   }
 
   @Override

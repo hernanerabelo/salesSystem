@@ -17,7 +17,7 @@
       $scope.editSales = function(sales){
         if(sales.id){
           ButtonGeneratorService.enableButtons();
-          $location.url('/cadastros/vendas/editar/' + sales.id);
+          $location.url('/vendas/editar/' + sales.id);
         }else{
           MessageGeneratorService.createMessageWarning('Vendas sem ID');
         }
@@ -28,7 +28,7 @@
           type: 'success',
           icon: 'glyphicon glyphicon-user',
           execute: function() {
-            $location.url('/cadastros/vendas/novo');
+            $location.url('/vendas/novo');
           }
         },
         {
