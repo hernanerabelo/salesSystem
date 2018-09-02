@@ -1,0 +1,12 @@
+Venda
+	busca o cliente
+	insere o contato
+	insere endereço de entrega
+	insere
+	tipo de frete CIF(frete de graça, frete pela industria) e FOB (frete pago pelo cliente)
+		-se for CIF não faz nada, se for FOB procura a transportadora
+
+
+
+Fornecedor
+	- Criar campo com valor da meta daquele fornecedor
