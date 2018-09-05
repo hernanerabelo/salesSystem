@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
     if( !StringUtils.isEmpty( description ) && !StringUtils.isEmpty( description.trim() ) ){
       return productRepository.findByDescriptionLikeIgnoreCase( description, pageable );
     }else {
-      throw new ProductException("Code com valor vazio");
+      throw new ProductException("Descrição com valor vazio");
     }
   }
 
@@ -99,6 +99,15 @@ public class ProductServiceImpl implements ProductService {
       return productRepository.findByCodeLikeIgnoreCase( code, pageable );
     }else {
       throw new ProductException("Code com valor vazio");
+    }
+  }
+
+  @Override
+  public Page<Product> getByProviderDocument(Pageable pageable, String providerDocument) {
+    if( !StringUtils.isEmpty( providerDocument ) && !StringUtils.isEmpty( providerDocument.trim() ) ){
+      return productRepository.findByProviderDocument( providerDocument, pageable );
+    }else {
+      throw new ProductException("Não foi encontrado número do documento do fornecedor");
     }
   }
 

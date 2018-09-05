@@ -17,4 +17,6 @@ public interface ProductService {
   Page<Product> getByDescription( Pageable pageable, String description );
 
   Page<Product> getByCode( Pageable pageable, String code );
+
+  Page<Product> getByProviderDocument( Pageable pageable, String providerDocument );
 }

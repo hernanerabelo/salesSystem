@@ -26,7 +26,13 @@
             params: {
               service: 'code'
             }
-          }
+          },
+           getByProviderDocument: {
+             method: 'GET',
+             params: {
+               service: 'providerDocument'
+             }
+           }
         });
 
       }

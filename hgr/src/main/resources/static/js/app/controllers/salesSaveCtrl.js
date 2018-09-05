@@ -45,6 +45,7 @@
       		name: ''
       	}
       };
+      $scope.providerProducts = [];
 
       $scope.getCustomerUsingDocument = function(){
         $scope.customer = null;
