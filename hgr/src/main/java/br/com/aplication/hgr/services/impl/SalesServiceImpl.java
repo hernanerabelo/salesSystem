@@ -21,6 +21,7 @@ public class SalesServiceImpl implements SalesService {
 
   @Override
   public void save(Sales sales) {
+    //todo se tiver id no endereço ou no contato subir erro
     salesRepository.save(sales);
   }
 }

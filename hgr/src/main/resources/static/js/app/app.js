@@ -71,7 +71,7 @@
           templateUrl: "views/sales-find.html",
           controller: "SalesCtrl"
         })
-        .when("/vendas/novo", {
+        .when("/vendas/criar", {
           templateUrl: "views/sales-new.html",
           controller: "SalesSaveCtrl"
         })

@@ -28,7 +28,7 @@
           type: 'success',
           icon: 'glyphicon glyphicon-user',
           execute: function() {
-            $location.url('/vendas/novo');
+            $location.url('/vendas/criar');
           }
         },
         {

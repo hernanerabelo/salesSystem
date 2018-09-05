@@ -48,6 +48,7 @@ public class ProviderController {
   }
 
   @RequestMapping(  method = RequestMethod.PUT )
+  @Transactional(rollbackFor = Exception.class)
   public ResponseEntity update( @RequestBody Provider provider ){
 
     Provider retorno = providerService.update( provider );

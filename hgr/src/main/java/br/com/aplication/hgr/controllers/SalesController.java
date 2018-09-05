@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +36,13 @@ public class SalesController {
       return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(  sales, HttpStatus.OK );
+  }
+
+  @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @Transactional(rollbackFor = Exception.class)
+  public ResponseEntity save( @RequestBody Sales sales ){
+    salesService.save( sales );
+    return new ResponseEntity<>( sales , HttpStatus.CREATED);
   }
 
   @RequestMapping( value = "/json", method = RequestMethod.GET )

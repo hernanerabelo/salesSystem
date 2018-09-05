@@ -18,6 +18,9 @@ public class Sales implements Serializable {
   @Column(name = "ID")
   private Long id;
 
+  @Column(name = "TYPE")
+  private String type;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CARRIER_ID")
   private Carrier carrier;
@@ -129,7 +132,17 @@ public class Sales implements Serializable {
     return contacts;
   }
 
-  public void setContacts(List contacts) {
+  public void setContacts(List<Contact> contacts) {
     this.contacts = contacts;
   }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+
 }
