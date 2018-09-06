@@ -209,9 +209,7 @@
         documentNumber = documentNumber.trim().replace(/[^0-9]/g,'');
         ProductService.getByProviderDocument( { id: documentNumber },
           function(response){
-            $scope.providerProducts = response;
-
-            $scope.selectedProductsTable = new NgTableParams( {} , { dataset: response } );
+            $scope.providerProductsTable = new NgTableParams( {} , { dataset: response } );
 
           }, function(error){
             console.log(error);
@@ -223,9 +221,25 @@
           });
       };
 
-      $scope.selectedProducts = [];
-      $scope.createNewProduct = function(){
-        $scope.selectedProductsTable = new NgTableParams( {} , { dataset: $scope.selectedProducts } );
+      $scope.selectedProductsTable = new NgTableParams( {} , { dataset: [] } );
+
+      $scope.selectProduct = function( product ){
+        $scope.productSelected = {
+          code: product.code,
+          description: product.description,
+          value: product.value,
+          measurement: product.measurement.type,
+          discount: 0.00,
+          count: '',
+          total: ''
+        };
+      };
+
+
+      $scope.addProductToSales = function( product ){
+        product.total = ( ( product.value * product.count ) - product.discount).toFixed(2);
+        $scope.selectedProductsTable.data.push( product );
+        $scope.productSelected = {};
       };
 
     }
