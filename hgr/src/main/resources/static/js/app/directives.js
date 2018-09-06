@@ -64,5 +64,45 @@
         });
       }
     };
+  }])
+  .directive('moneyFormat', [ function(){
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, ctrl ) {
+
+        function formatMoney( value ){
+          var cents = '00';
+          var real = '0';
+          if( !!value ){
+            value = value.replace(/[^0-9]/g,'');
+            value = parseInt(value) + "";
+            if( value.length > 2 ) {
+              cents = value.substr(-2);
+              real = value.substr(0, value.length -2);
+            } else if( value.length == 1){
+              cents = "0" + value;
+            } else if( value.length == 2 ){
+              cents = value;
+            }
+          }
+          return real + "." + cents;
+        }
+
+        element.bind('keyup', function( ) {
+          if( !!ctrl.$viewValue ) {
+            ctrl.$setViewValue( formatMoney( ctrl.$viewValue ) );
+            ctrl.$render();
+          }
+        });
+
+        ctrl.$parsers.push(function(input) {
+          return input ? formatMoney(input) : "0.00";
+        });
+
+        ctrl.$formatters.push(function(input) {
+          return input ? formatMoney(input) : "0.00";
+        });
+      }
+    };
   }]);
 })();

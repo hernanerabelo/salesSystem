@@ -44,7 +44,7 @@
             if ( !!$scope.objectFind.description && !!$scope.objectFind.description.trim() ) {
               ProductService.getByDescription( { id: $scope.objectFind.description },
               function(response){
-                $scope.tableParams = new NgTableParams( {} , { dataset: response.content} );
+                $scope.tableParams = new NgTableParams( {} , { dataset: response.content } );
               }, function(error){
                 if( error.status == '404'){
                   MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum produto para a Descrição informado');

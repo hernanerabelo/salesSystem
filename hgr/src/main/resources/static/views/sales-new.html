@@ -18,7 +18,7 @@
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.customerDocumentNumber"><b>CPF/CNPJ do Cliente</b></span></span>
                         <input cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.customerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Cliente" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchDocument" ng-click="getCustomerUsingDocument()">
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCustomerDocument" ng-click="getCustomerUsingDocument()">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                     </div>
@@ -201,7 +201,7 @@
     </div>
 </div>
 
-<div class="container" ng-show="!!contact">
+<div class="container" ng-show="!!customer">
     <div class="row hbrBlueDegrade"  ng-dblclick="form5 = !form5">
         <label style="margin: 6px 12px;">Produtos</label>
         <div class="pull-right btn" ng-click="form5 = !form5">
@@ -209,25 +209,88 @@
             <span ng-show="!form5" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
         </div>
     </div>
-    <div class="row">
-        <div class="form-horizontal hbrFormInput" ng-show="form5" ng-init="form5=true">
+    <div class="row" ng-show="form5" ng-init="form5=true">
+        <div class="form-horizontal hbrFormInput">
             <div class="container" style="padding: 8px 8px 8px;">
-                <center>
-                    <button class="btn btn-default" ng-click="createNewProduct()">
-                        <span class="glyphicon glyphicon-plus"></span> Adicionar Produto
-                    </button>
-                </center>
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerDocumentNumber"><b>CPF/CNPJ do Fornecedor</b></span></span>
+                            <input cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.providerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Cliente" >
+                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProviderDocument" ng-click="getProviderUsingDocument()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="!!provider">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!provider.legalName"><b>Nome Legal / Razão Social</b></span></span>
+                            <input type="text" class="form-control"  ng-disabled="true" hbr-uppercase ng-model="provider.legalName" placeholder="Nome Legal / Razão Social" >
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!provider.fantasyName"><b>Nome Fantasia</b></span></span>
+                            <input type="text" class="form-control" ng-disabled="true" hbr-uppercase ng-model="provider.fantasyName" placeholder="Nome Fantasia" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="!!provider">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#newProductModal" ng-click="createNewProduct()">
+                                <span class="glyphicon glyphicon-plus"></span> Adicionar Produto
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" ng-table="selectedProductsTable" class="table" show-filter="true">
+                <tr ng-repeat="product in $data">
+                    <td class="text-center hbrAjustarTextoVertical" title="'REMOVER'">
+                        <button class="btn btn-danger" ng-click="removeProduct($index)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </td>
+
+                    <td class="text-center hbrAjustarTextoVertical" title="'CÓDIGO'" filter="{ code: 'text'}" sortable="'code'">
+                        {{product.code}}
+                    </td>
+
+                    <td class="text-center hbrAjustarTextoVertical" title="'DESCRIÇÃO'" filter="{ description: 'text'}" sortable="'description'">
+                        {{product.description}}
+                    </td>
+
+                    <td class="text-center hbrAjustarTextoVertical" title="'VALOR'" filter="{ value: 'text'}" sortable="'value'">
+                        {{product.value}}
+                    </td>
+
+                    <td class="text-center hbrAjustarTextoVertical" title="'QUANTIDADE'" filter="{ count: 'text'}" sortable="'count'">
+                        {{product.count}}
+                    </td>
+
+                    <td class="text-center hbrAjustarTextoVertical" title="'UNIDADE'" filter="{ measurement: 'text'}" sortable="'measurement'">
+                        {{product.measurement}}
+                    </td>
+
+                    <td class="text-center hbrAjustarTextoVertical" title="'TOTAL'" filter="{ total: 'text'}" sortable="'total'">
+                        {{product.total}}
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
 
-
 <div class="container">
-    <h2>Modal Example</h2>
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newProductModal">Open Modal</button>
-
     <!-- Modal -->
     <div class="modal fade" id="newProductModal" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -244,8 +307,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Salvar</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success btn-sm">Adicionar</button>
                 </div>
             </div>
 

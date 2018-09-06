@@ -1,6 +1,8 @@
 package br.com.aplication.hgr.services.impl;
 
+import br.com.aplication.hgr.exceptions.CustomerException;
 import br.com.aplication.hgr.exceptions.ProductException;
+import br.com.aplication.hgr.exceptions.ProviderException;
 import br.com.aplication.hgr.models.Product;
 import br.com.aplication.hgr.repositories.ProductRepository;
 import br.com.aplication.hgr.services.MeasurementService;
@@ -15,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @SuppressWarnings("unused")
@@ -103,11 +106,11 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Page<Product> getByProviderDocument(Pageable pageable, String providerDocument) {
+  public List<Product> getByProviderDocument( String providerDocument) {
     if( !StringUtils.isEmpty( providerDocument ) && !StringUtils.isEmpty( providerDocument.trim() ) ){
-      return productRepository.findByProviderDocument( providerDocument, pageable );
+      return productRepository.findByProviderDocument( formatDocumentNumber( providerDocument ) );
     }else {
-      throw new ProductException("Não foi encontrado número do documento do fornecedor");
+      throw new ProductException("Número do documento fornecido está vazio");
     }
   }
 
@@ -119,5 +122,16 @@ public class ProductServiceImpl implements ProductService {
       product.setUpdatedBy("criar autenticacao");
       product.setUpdatedAt(new Date());
     }
+  }
+
+  private String formatDocumentNumber( String documentNumber ){
+    if( documentNumber != null ){
+      documentNumber = documentNumber.replaceAll("[^\\d]", "");
+    }
+
+    if( documentNumber == null || "".equals( documentNumber ) ){
+      throw new ProviderException("Número do documento no formato inválido!!!");
+    }
+    return documentNumber;
   }
 }

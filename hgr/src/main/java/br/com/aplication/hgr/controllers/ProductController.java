@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/product")
@@ -83,14 +84,13 @@ public class ProductController {
   }
 
   @RequestMapping( value = "/providerDocument/{document}", method = RequestMethod.GET)
-  public ResponseEntity getByProviderDocument( Pageable pageable, @PathVariable("document") String document ){
+  public ResponseEntity getProductsByProviderDocument( @PathVariable("document") String document ){
     logger.info("Buscando produto pelo code " + document );
-    Page<Product> products = productService.getByProviderDocument( pageable, document );
-    logger.info("total encontrados = " + products.getTotalElements());
-    if( products.getTotalElements() == 0){
+    List<Product> products = productService.getByProviderDocument( document );
+    if( products == null || products.size() == 0){
       return new ResponseEntity<>(  products, HttpStatus.NOT_FOUND );
     }
-    return new ResponseEntity<>(  products, HttpStatus.OK );
+    return new ResponseEntity<>( products, HttpStatus.OK );
   }
 
   @RequestMapping( value = "/json", method = RequestMethod.GET )

@@ -4,6 +4,8 @@ import br.com.aplication.hgr.models.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ProductService {
 
   Page<Product> listAllByPage(Pageable pageable  );
@@ -18,5 +20,5 @@ public interface ProductService {
 
   Page<Product> getByCode( Pageable pageable, String code );
 
-  Page<Product> getByProviderDocument( Pageable pageable, String providerDocument );
+  List<Product> getByProviderDocument( String providerDocument );
 }

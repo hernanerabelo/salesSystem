@@ -29,6 +29,7 @@
           },
            getByProviderDocument: {
              method: 'GET',
+             isArray: true,
              params: {
                service: 'providerDocument'
              }
