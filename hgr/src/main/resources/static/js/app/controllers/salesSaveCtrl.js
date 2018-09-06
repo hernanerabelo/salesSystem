@@ -49,10 +49,6 @@
       	}
       };
 
-      $scope.removeProduct = function(index){
-
-      };
-
       $scope.removeProduct = function (index){
         bootbox.confirm({
           size: "small",
