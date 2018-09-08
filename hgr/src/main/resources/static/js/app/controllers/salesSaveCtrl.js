@@ -14,6 +14,8 @@
 
       $scope.objectFind = {
         customerDocumentNumber: '',
+        customerLegalNamer: '',
+        providerLegalName: '',
         providerDocumentNumber: ''
       };
 
@@ -66,7 +68,8 @@
           },
           callback: function(result){
             if( result ){
-              $scope.selectedProductsTable.data.splice(index, 1);
+              $scope.selectedProductsToPutInTable.splice(index, 1);
+              $scope.selectedProductsTable = new NgTableParams( {} , { dataset: $scope.selectedProductsToPutInTable } );
               $scope.$digest();
             }
           }
@@ -75,12 +78,120 @@
 
       $scope.providerProducts = [];
 
+      $scope.getCustomerUsingLegalName = function(){
+        $scope.isDisabledSearchCustomer = true;
+          $scope.customer = null;
+          $scope.address = null;
+          $scope.contact = null;
+          $scope.carrier = null;
+          $scope.objectFind.customerDocumentNumber = null;
+          var customerLegalNamer = $scope.objectFind.customerLegalNamer;
+          if( !!customerLegalNamer && !!customerLegalNamer.trim() ){
+            MessageGeneratorService.cleanAllMessages();
+
+            CustomerService.getCustomerByLegalName({ id: customerLegalNamer },
+            function(response){
+              $scope.isDisabledSearchCustomer = false;
+              if( response.content.length > 1 ){
+                $scope.customerFindTable = new NgTableParams( {} , { dataset: response.content } );
+                $("#findCustomerModal").modal('show');
+              }else{
+                $scope.customer = response.content[0];
+                $scope.address = angular.copy($scope.customer.address);
+                $scope.address.id = null;
+                if( !!$scope.customer.contacts && $scope.customer.contacts.length > 0 ){
+                  $scope.contact = angular.copy( $scope.customer.contacts[0] );
+                  $scope.contact.id = null;
+                }else{
+                  $scope.contact = {};
+                }
+
+                $scope.carrier = {
+                  type:'CIF'
+                };
+
+                $scope.objectFind.customerDocumentNumber = $scope.customer.documentNumber;
+                $scope.objectFind.customerLegalNamer = $scope.customer.legalName;
+              }
+            }, function(error){
+              $scope.isDisabledSearchCustomer = false;
+              if( error.status == '404'){
+                MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o nome informado');
+              }else{
+                MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando o nome');
+              }
+            });
+          }else{
+            $scope.isDisabledSearchCustomer = false;
+            MessageGeneratorService.createMessageWarning( 'Por favor insira o nome do cliente' );
+          }
+      };
+
+      $scope.getProviderUsingLegalName = function(){
+        $scope.isDisabledSearchProvider = true;
+        $scope.provider = null;
+        $scope.objectFind.providerDocumentNumber = null;
+        var providerLegalName = $scope.objectFind.providerLegalName;
+        if( !!providerLegalName && !!providerLegalName.trim() ){
+          MessageGeneratorService.cleanAllMessages();
+
+          ProviderService.getProviderByLegalName({ id: providerLegalName },
+            function(response){
+              $scope.isDisabledSearchProvider = false;
+              if( response.content.length > 1 ){
+                $scope.providerFindTable = new NgTableParams( {} , { dataset: response.content } );
+                $("#findProviderModal").modal('show');
+              }else{
+                $scope.provider = response.content[0];
+
+                $scope.objectFind.providerDocumentNumber = $scope.provider.documentNumber;
+                $scope.objectFind.providerLegalName = $scope.provider.legalName;
+              }
+            }, function(error){
+              $scope.isDisabledSearchProvider = false;
+              if( error.status == '404'){
+                MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o nome informado');
+              }else{
+                MessageGeneratorService.createMessageWarning('Erro ao buscar fornecedor utilizando o nome');
+              }
+            });
+        }else{
+          $scope.isDisabledSearchProvider = false;
+          MessageGeneratorService.createMessageWarning( 'Por favor insira o nome do fornecedor' );
+        }
+      };
+
+      $scope.selectCustomer = function( customerTable ){
+        $scope.customer = customerTable;
+        $scope.address = angular.copy($scope.customer.address);
+        $scope.address.id = null;
+        if( !!$scope.customer.contacts && $scope.customer.contacts.length > 0 ){
+          $scope.contact = angular.copy( $scope.customer.contacts[0] );
+          $scope.contact.id = null;
+        }else{
+          $scope.contact = {};
+        }
+
+        $scope.carrier = {
+          type:'CIF'
+        };
+        $scope.objectFind.customerDocumentNumber = customerTable.documentNumber;
+        $scope.objectFind.customerLegalNamer = customerTable.legalName;
+      };
+
+      $scope.selectProvider = function( providerTable ){
+        $scope.provider = providerTable;
+        $scope.objectFind.providerDocumentNumber = providerTable.documentNumber;
+        $scope.objectFind.providerLegalName = providerTable.legalName;
+      };
+
       $scope.getCustomerUsingDocument = function(){
-        $scope.isDisabledSearchCustomerDocument = true;
+        $scope.isDisabledSearchCustomer = true;
         $scope.customer = null;
         $scope.address = null;
         $scope.contact = null;
         $scope.carrier = null;
+        $scope.objectFind.customerLegalNamer = null;
         var document = $scope.objectFind.customerDocumentNumber;
         if( !!document && !!document.trim() ){
           MessageGeneratorService.cleanAllMessages();
@@ -88,7 +199,7 @@
 
           CustomerService.getCustomerByDocumentNumber({ id: document },
           function(response){
-            $scope.isDisabledSearchCustomerDocument = false;
+            $scope.isDisabledSearchCustomer = false;
             $scope.customer = response.content[0];
             $scope.address = angular.copy($scope.customer.address);
             $scope.address.id = null;
@@ -102,8 +213,11 @@
             $scope.carrier = {
               type:'CIF'
             };
+
+            $scope.objectFind.customerDocumentNumber = $scope.customer.documentNumber;
+            $scope.objectFind.customerLegalNamer = $scope.customer.legalName;
           }, function(error){
-            $scope.isDisabledSearchCustomerDocument = false;
+            $scope.isDisabledSearchCustomer = false;
             if( error.status == '404'){
               MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o CPF/CNPJ informado');
             }else{
@@ -111,13 +225,13 @@
             }
           });
         }else{
-          $scope.isDisabledSearchCustomerDocument = false;
+          $scope.isDisabledSearchCustomer = false;
           MessageGeneratorService.createMessageWarning( 'Por favor insira o número do documento do cliente' );
         }
       };
 
       $scope.getProviderUsingDocument = function(){
-        $scope.isDisabledSearchProviderDocument = true;
+        $scope.isDisabledSearchprovider = true;
         $scope.provider = null;
 
         var document = $scope.objectFind.providerDocumentNumber;
@@ -127,13 +241,14 @@
 
           ProviderService.getProviderByDocumentNumber({ id: document },
           function(response){
-            $scope.isDisabledSearchProviderDocument = false;
+            $scope.isDisabledSearchprovider = false;
             $scope.provider = response.content[0];
-
+            $scope.objectFind.providerDocumentNumber = $scope.provider.documentNumber;
+            $scope.objectFind.providerLegalName = $scope.provider.legalName;
             $scope.getProductsUsingDocumentOfProvider( $scope.provider.documentNumber );
 
           }, function(error){
-            $scope.isDisabledSearchProviderDocument = false;
+            $scope.isDisabledSearchprovider = false;
             if( error.status == '404'){
               MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o CPF/CNPJ informado');
             }else{
@@ -141,7 +256,7 @@
             }
           });
         }else{
-          $scope.isDisabledSearchProviderDocument = false;
+          $scope.isDisabledSearchprovider = false;
           MessageGeneratorService.createMessageWarning( 'Por favor insira o número do documento do fornecedor' );
         }
       };
@@ -201,6 +316,10 @@
         }
       };
 
+      $scope.startModalNewProdut = function(){
+        MessageGeneratorService.cleanAllMessages();
+      };
+
       $scope.getProductsUsingDocumentOfProvider = function( documentNumber ){
         documentNumber = documentNumber.trim().replace(/[^0-9]/g,'');
         ProductService.getByProviderDocument( { id: documentNumber },
@@ -216,11 +335,12 @@
             }
           });
       };
-
-      $scope.selectedProductsTable = new NgTableParams( {} , { dataset: [] } );
+      $scope.selectedProductsToPutInTable = [];
+      $scope.selectedProductsTable = new NgTableParams( {} , { dataset: $scope.selectedProductsToPutInTable } );
 
       $scope.selectProduct = function( product ){
         $scope.productSelected = {
+          id: product.id,
           code: product.code,
           description: product.description,
           value: product.value,
@@ -233,9 +353,40 @@
 
 
       $scope.addProductToSales = function( product ){
-        product.total = ( ( product.value * product.count ) - product.discount).toFixed(2);
-        $scope.selectedProductsTable.data.push( product );
-        $scope.productSelected = {};
+        if( !!product ){
+
+          var hidProductModelFunction = function(){
+            $("#newProductModal").modal('hide');
+          };
+
+          for( var i = 0; i < $scope.selectedProductsToPutInTable.length; i++ ){
+            if( $scope.selectedProductsToPutInTable[i].id == product.id ){
+              MessageGeneratorService.createBootBoxAlert('ATENÇÃO',
+              'Esse produto já foi selecionando anteriormente', '','','', hidProductModelFunction);
+
+              return;
+            }
+          }
+
+
+          if( !!product.count ){
+            product.total = ( ( product.value * product.count ) - product.discount).toFixed(2);
+            $scope.selectedProductsToPutInTable.push( product );
+            $scope.selectedProductsTable = new NgTableParams( {} , { dataset: $scope.selectedProductsToPutInTable } );
+
+            $scope.productSelected = null;
+          }else{
+            MessageGeneratorService.createBootBoxAlert('ATENÇÃO',
+              'Inserir a quantidade de produto', '','','', function(){
+                $("#newProductModal").modal('hide');
+              });
+          }
+        }else{
+          MessageGeneratorService.createBootBoxAlert( 'ATENÇÃO',
+              'Não foi selecionando nenhum produto para adicionar', '','','', function(){
+                $("#newProductModal").modal('hide');
+              });
+        }
       };
 
     }

@@ -8,6 +8,8 @@
     "console": true,
     "alert": true,
     "window": true,
-    "bootbox": true
+    "bootbox": true,
+    "$": true,
+    "document": true
   }
 }
