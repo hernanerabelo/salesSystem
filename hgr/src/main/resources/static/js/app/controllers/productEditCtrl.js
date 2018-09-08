@@ -94,7 +94,7 @@
                     ButtonGeneratorService.cleanAllButtons();
                     ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
                     $scope.edit.isDisabledWaitingEdit = true;
-                    $scope.newMeasurement = { type: ''}
+                    $scope.newMeasurement = { type: ''};
                   },
                   function(e) {
                     ButtonGeneratorService.enableButtons();
