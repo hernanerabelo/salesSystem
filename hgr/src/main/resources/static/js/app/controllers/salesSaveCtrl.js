@@ -55,7 +55,7 @@
         bootbox.confirm({
           size: "small",
           title: "<center><b>ATENÇÃO<b><center>",
-          message: '<b>Remover</b> o produto?',
+          message: '<b>Remover</b> o produto da lista?',
           buttons: {
             confirm: {
               label: 'Sim',
@@ -146,6 +146,7 @@
 
                 $scope.objectFind.providerDocumentNumber = $scope.provider.documentNumber;
                 $scope.objectFind.providerLegalName = $scope.provider.legalName;
+                $scope.getProductsUsingDocumentOfProvider( $scope.provider.documentNumber );
               }
             }, function(error){
               $scope.isDisabledSearchProvider = false;
@@ -183,6 +184,7 @@
         $scope.provider = providerTable;
         $scope.objectFind.providerDocumentNumber = providerTable.documentNumber;
         $scope.objectFind.providerLegalName = providerTable.legalName;
+        $scope.getProductsUsingDocumentOfProvider( $scope.provider.documentNumber );
       };
 
       $scope.getCustomerUsingDocument = function(){

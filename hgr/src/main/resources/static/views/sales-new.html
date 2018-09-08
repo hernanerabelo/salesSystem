@@ -136,13 +136,13 @@
             </div>
 
             <div class="form-group">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-model="contact.phone" placeholder="Telefone" >
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone2"><b>Telefone</b></span></span>
                         <input type="text" class="form-control" hbr-uppercase ng-model="contact.phone2" placeholder="Telefone" >
@@ -320,7 +320,7 @@
                             <tr ng-repeat="product in $data">
 
                                 <td class="text-center hbrAjustarTextoVertical" title="'REMOVER'">
-                                    <button class="btn btn-primary" ng-click="selectProduct(product)">
+                                    <button class="btn btn-primary" ng-class="{'btn-success': product.id == productSelected.id}" ng-click="selectProduct(product)">
                                         <span class="glyphicon glyphicon-check"></span>
                                     </button>
                                 </td>
@@ -334,7 +334,7 @@
                                 </td>
 
                                 <td class="text-center hbrAjustarTextoVertical" title="'VALOR'" filter="{ value: 'text'}" sortable="'value'">
-                                    {{product.value}}
+                                    R$ {{product.value}}
                                 </td>
 
                                 <td class="text-center hbrAjustarTextoVertical" title="'UNIDADE'">

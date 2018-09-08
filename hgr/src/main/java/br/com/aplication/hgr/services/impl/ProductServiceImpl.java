@@ -77,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
       if( product.getMeasurement() != null ){
         measurementService.save( product.getMeasurement() );
       }
+      //todo validar se code já existe se existir não inserir
       productRepository.save( product );
       logger.info("Criado product " + product.getId() );
 

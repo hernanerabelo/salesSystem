@@ -102,9 +102,9 @@ public class CustomerServiceImpl implements CustomerService {
     List<Contact> contacts = customer.getContacts();
     if( contacts != null ){
       for (Contact contact : contacts) {
-        if( !StringUtils.isEmpty( contact.getName() ) &&
-            !StringUtils.isEmpty( contact.getEmail() ) &&
-            !StringUtils.isEmpty( contact.getObservation() ) &&
+        if( !StringUtils.isEmpty( contact.getName() ) ||
+            !StringUtils.isEmpty( contact.getEmail() ) ||
+            !StringUtils.isEmpty( contact.getObservation() ) ||
             !StringUtils.isEmpty( contact.getPhone() ) ){
           contact.setCustomer(customer);
         }else {

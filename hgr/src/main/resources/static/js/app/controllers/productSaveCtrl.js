@@ -65,7 +65,7 @@
 
       function cleanAllInput(){
         if( !!$scope.newMeasurement ){
-          $scope.newMeasurement = '';
+          $scope.newMeasurement = {};
           populateMeasurementOptions();
         }
         $scope.product.code = '';
@@ -92,6 +92,7 @@
             if( result ){
               cleanAllInput();
               $scope.$apply();
+              $scope.newMeasurement = { type: ''}
             }else{
               ButtonGeneratorService.enableButtons();
               $location.url('/cadastros/produtos');

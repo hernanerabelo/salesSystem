@@ -103,9 +103,9 @@ public class ProviderServiceImpl implements ProviderService {
     List<Contact> contacts = provider.getContacts();
     if( contacts != null ){
       for (Contact contact : contacts) {
-        if( !StringUtils.isEmpty( contact.getName() ) &&
-            !StringUtils.isEmpty( contact.getEmail() ) &&
-            !StringUtils.isEmpty( contact.getObservation() ) &&
+        if( !StringUtils.isEmpty( contact.getName() ) ||
+            !StringUtils.isEmpty( contact.getEmail() ) ||
+            !StringUtils.isEmpty( contact.getObservation() ) ||
             !StringUtils.isEmpty( contact.getPhone() ) ){
           contact.setProvider(provider);
         }else {

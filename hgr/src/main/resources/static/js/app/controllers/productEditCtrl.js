@@ -94,6 +94,7 @@
                     ButtonGeneratorService.cleanAllButtons();
                     ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
                     $scope.edit.isDisabledWaitingEdit = true;
+                    $scope.newMeasurement = { type: ''}
                   },
                   function(e) {
                     ButtonGeneratorService.enableButtons();
@@ -121,7 +122,7 @@
           $scope.edit.isDisabledWaitingEdit = false;
           $scope.productTemp = angular.copy( $scope.product );
 
-          $scope.newMeasurement = {};
+          $scope.newMeasurement = { type: ''};
           MeasurementService.getAll({},
             function(response){
               var lastOption = {
