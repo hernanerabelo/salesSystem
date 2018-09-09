@@ -67,7 +67,7 @@ public class CarrierController {
   }
 
   @RequestMapping( value = "/name/{name}", method = RequestMethod.GET)
-  public ResponseEntity getCarrierByDescription( Pageable pageable, @PathVariable("name") String name ){
+  public ResponseEntity getCarrierByName( Pageable pageable, @PathVariable("name") String name ){
     logger.info("Buscando transportadora pelo nome " + name );
 
     Page<Carrier> carriers = carrierService.getByName( pageable, name );

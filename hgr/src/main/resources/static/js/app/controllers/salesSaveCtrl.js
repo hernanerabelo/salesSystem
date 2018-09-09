@@ -5,10 +5,10 @@
 
   app.controller('SalesSaveCtrl', ['$scope', '$rootScope', '$location', 'SalesService', 'ButtonGeneratorService',
     'MessageGeneratorService', 'BreadCrumbGeneratorService', 'CustomerService', 'ExternalUrlService', 'ProductService',
-    'ProviderService', 'NgTableParams',
+    'ProviderService', 'NgTableParams', 'CarrierService',
     function($scope, $rootScope, $location, SalesService, ButtonGeneratorService,
     MessageGeneratorService, BreadCrumbGeneratorService, CustomerService, ExternalUrlService, ProductService,
-    ProviderService, NgTableParams) {
+    ProviderService, NgTableParams, CarrierService) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
 
@@ -16,7 +16,9 @@
         customerDocumentNumber: '',
         customerLegalNamer: '',
         providerLegalName: '',
-        providerDocumentNumber: ''
+        providerDocumentNumber: '',
+        carrierType: '',
+        carrierName: '',
       };
 
       $scope.sales = {
@@ -45,10 +47,7 @@
       		state:''
       	},
       	type:'',  //tipo de frete CIF(frete de graça, frete pela industria) e FOB (frete pago pelo cliente)
-      	carrier: {
-      		id: '',
-      		name: ''
-      	}
+      	carrier: null
       };
 
       $scope.removeProduct = function (index){
@@ -78,6 +77,34 @@
 
       $scope.providerProducts = [];
 
+      $scope.getCarrierByName = function(){
+        $scope.isDisabledSearchCarrier = true;
+        if( !!$scope.objectFind.carrierName && !!$scope.objectFind.carrierName.trim() ){
+          CarrierService.getCarrierByName({ id : $scope.objectFind.carrierName.trim() },
+            function(response){
+              $scope.isDisabledSearchCarrier = false;
+              if( response.content.length > 1 ){
+                $scope.carrierFindTable = new NgTableParams( {} , { dataset: response.content } );
+                $("#findCarrierModal").modal('show');
+              }else{
+                $scope.carrier = response.content[0];
+                $scope.objectFind.carrierName = $scope.carrier.name;
+              }
+            },
+            function(error){
+              $scope.isDisabledSearchCarrier = false;
+              if( error.status == '404'){
+                MessageGeneratorService.createMessageWarning('Não foi encontrado nenhuma transportadora para o nome informado');
+              }else{
+                MessageGeneratorService.createMessageWarning('Erro ao buscar a transportadora utilizando o nome');
+              }
+            }
+          );
+        }else{
+          MessageGeneratorService.createMessageWarning("Não foi informado nome da transportadora.");
+        }
+      };
+
       $scope.getCustomerUsingLegalName = function(){
         $scope.isDisabledSearchCustomer = true;
           $scope.customer = null;
@@ -106,7 +133,7 @@
                   $scope.contact = {};
                 }
 
-                $scope.carrier = {
+                $scope.objectFind = {
                   type:'CIF'
                 };
 
@@ -173,9 +200,8 @@
           $scope.contact = {};
         }
 
-        $scope.carrier = {
-          type:'CIF'
-        };
+        $scope.objectFind.carrierType = 'CIF';
+
         $scope.objectFind.customerDocumentNumber = customerTable.documentNumber;
         $scope.objectFind.customerLegalNamer = customerTable.legalName;
       };
@@ -185,6 +211,11 @@
         $scope.objectFind.providerDocumentNumber = providerTable.documentNumber;
         $scope.objectFind.providerLegalName = providerTable.legalName;
         $scope.getProductsUsingDocumentOfProvider( $scope.provider.documentNumber );
+      };
+
+      $scope.selectCarrier = function( carrierTable ){
+        $scope.carrier = carrierTable;
+        $scope.objectFind.carrierName = carrierTable.name;
       };
 
       $scope.getCustomerUsingDocument = function(){
@@ -212,9 +243,7 @@
               $scope.contact = {};
             }
 
-            $scope.carrier = {
-              type:'CIF'
-            };
+            $scope.objectFind.carrierType = 'CIF';
 
             $scope.objectFind.customerDocumentNumber = $scope.customer.documentNumber;
             $scope.objectFind.customerLegalNamer = $scope.customer.legalName;
@@ -233,7 +262,7 @@
       };
 
       $scope.getProviderUsingDocument = function(){
-        $scope.isDisabledSearchprovider = true;
+        $scope.isDisabledSearchProvider = true;
         $scope.provider = null;
 
         var document = $scope.objectFind.providerDocumentNumber;
@@ -243,14 +272,14 @@
 
           ProviderService.getProviderByDocumentNumber({ id: document },
           function(response){
-            $scope.isDisabledSearchprovider = false;
+            $scope.isDisabledSearchProvider = false;
             $scope.provider = response.content[0];
             $scope.objectFind.providerDocumentNumber = $scope.provider.documentNumber;
             $scope.objectFind.providerLegalName = $scope.provider.legalName;
             $scope.getProductsUsingDocumentOfProvider( $scope.provider.documentNumber );
 
           }, function(error){
-            $scope.isDisabledSearchprovider = false;
+            $scope.isDisabledSearchProvider = false;
             if( error.status == '404'){
               MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o CPF/CNPJ informado');
             }else{
@@ -258,7 +287,7 @@
             }
           });
         }else{
-          $scope.isDisabledSearchprovider = false;
+          $scope.isDisabledSearchProvider = false;
           MessageGeneratorService.createMessageWarning( 'Por favor insira o número do documento do fornecedor' );
         }
       };
@@ -391,6 +420,41 @@
         }
       };
 
-    }
+      ButtonGeneratorService.putButtonsInSubMenu([{
+        title: 'Salvar',
+        icon: 'glyphicon glyphicon-ok',
+        type: 'success',
+        execute: function() {
+          this.isDisabled = true;
+
+          bootbox.confirm({
+            size: "small",
+            title: "<center><b>ATENÇÃO<b><center>",
+            message: 'Deseja realmente <b>Finalizar</b> a venda?',
+            buttons: {
+              confirm: {
+                label: 'Sim',
+                className: 'btn-success'
+              },
+              cancel: {
+                label: 'Não',
+                className: 'btn-danger'
+              }
+            },
+            callback: function(result){
+              MessageGeneratorService.cleanAllMessages();
+              if( result ){
+                ButtonGeneratorService.enableButtons();
+              }else{
+                ButtonGeneratorService.enableButtons();
+                MessageGeneratorService.createMessageInfo('Ação cancelada pelo usuário');
+                $scope.$apply();
+              }
+            }
+          });
+        }
+      }]);
+
+    }//fim main function
   ]);
 })();

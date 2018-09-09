@@ -184,20 +184,24 @@
             <div class="form-group">
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="radio" name="optradio" ng-model="carrier.type" value="CIF"> <b>CIF (Transporte pelo Fornecedor)</b>
+                        <input type="radio" name="optradio" ng-model="objectFind.carrierType" ng-click="carrier=null;objectFind.carrierName=null;" value="CIF"> <b>CIF (Transporte pelo Fornecedor)</b>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="radio" name="optradio" ng-model="carrier.type" value="FOB"> <b>FOB (Transporte por Empresa Terceira)</b>
+                        <input type="radio" name="optradio" ng-model="objectFind.carrierType" value="FOB"> <b>FOB (Transporte por Empresa Terceira)</b>
                     </div>
                 </div>
             </div>
-            <div class="form-group" ng-show="carrier.type == 'FOB'">
+
+            <div class="form-group" ng-show="objectFind.carrierType == 'FOB'">
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.name"><b>Nome</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.name" placeholder="Nome" >
+                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.carrierName"><b>Nome</b></span></span>
+                        <input type="text" class="form-control" hbr-uppercase ng-model="objectFind.carrierName" placeholder="Nome da Transportadora" >
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCarrier" ng-click="getCarrierByName()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -221,9 +225,9 @@
                         <div class="input-group">
                             <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerDocumentNumber"><b>CPF/CNPJ do Fornecedor</b></span></span>
                             <input cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.providerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Fornecedor" >
-                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchprovider" ng-click="getProviderUsingDocument()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </span>
+                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider" ng-click="getProviderUsingDocument()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </span>
                         </div>
                     </div>
 
@@ -231,7 +235,7 @@
                         <div class="input-group">
                             <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerLegalName"><b>Razão Social</b></span></span>
                             <input type="text" class="form-control" hbr-uppercase ng-model="objectFind.providerLegalName" maxlength="18" placeholder="Razão social do Fornecedor" >
-                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchprovider" ng-click="getProviderUsingLegalName()">
+                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider" ng-click="getProviderUsingLegalName()">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                         </div>
@@ -494,5 +498,46 @@
 
         </div>
     </div>
+</div>
 
+
+
+<div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="findCarrierModal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Selecione a Transportadora</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" ng-table="carrierFindTable" class="table" show-filter="true">
+                            <tr ng-repeat="carrierTable in $data">
+
+                                <td class="text-center hbrAjustarTextoVertical" title="'SELECIONAR'">
+                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="selectCarrier(carrierTable)">
+                                        <span class="glyphicon glyphicon-check"></span>
+                                    </button>
+                                </td>
+
+                                <td class="text-center hbrAjustarTextoVertical" title="'NOME'" filter="{ name: 'text'}" sortable="'name'">
+                                    {{carrierTable.name}}
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
