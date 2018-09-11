@@ -3,6 +3,7 @@ package br.com.aplication.hgr.services.impl;
 import br.com.aplication.hgr.exceptions.*;
 import br.com.aplication.hgr.models.*;
 import br.com.aplication.hgr.repositories.SalesRepository;
+import br.com.aplication.hgr.services.ProductService;
 import br.com.aplication.hgr.services.SalesService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class SalesServiceImpl implements SalesService {
 
   private static final Logger logger = LogManager.getLogger(SalesServiceImpl.class);
 
+  @Autowired
+  ProductService productService;
   @Autowired
   private SalesRepository salesRepository;
 
@@ -33,19 +37,49 @@ public class SalesServiceImpl implements SalesService {
 
     updateInformationDate( sales );
 
+    validSalesCustomer( sales.getCustomer() );
+
     validSalesAddress(sales.getAddress());
 
     validSalesContact( sales.getContacts() );
 
-    validSalesCustomer( sales.getCustomer() );
+    validCarrierSales( sales.getType(), sales.getCarrier() );
 
     validSalesProvider( sales.getProvider() );
 
-    validCarrierSales( sales.getType(), sales.getCarrier() );
+    validProductSales( sales );
 
       //todo se tiver id no endereço ou no contato subir erro
     salesRepository.save(sales);
 
+  }
+
+  private void validProductSales( Sales sales ){
+    List<ProductSales> productSales = sales.getProductSales();
+    if( productSales != null && productSales.size() > 0 ){
+      for (ProductSales productSale : productSales) {
+        productSale.setSales( sales );
+        productSale.setProduct( productService.findById(productSale.getProductId()));
+
+        if( productSale.getCount() > 0 ){
+          BigDecimal total =  productSale.getProduct().getValue().multiply( new BigDecimal( productSale.getCount() ) );
+
+          if( productSale.getDiscount().doubleValue() > 0 ){
+            total = total.subtract( productSale.getDiscount() );
+            productSale.setTotal( total );
+
+          }else{
+            throw new SalesException( "Quantidade do desconto do produto " + productSale.getProduct().getDescription() +
+              " precisa ser maior ou igual a 0" );
+          }
+        }else{
+          throw new SalesException( "Quantidade do produto " + productSale.getProduct().getDescription() +
+            " precisa ser maior que 0" );
+        }
+      }
+    }else{
+      throw new SalesException( "Não foi selecionado nenhum produto para ser vendido" );
+    }
   }
 
   private void validCarrierSales( String type, Carrier carrier ){

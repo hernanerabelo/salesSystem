@@ -25,7 +25,7 @@
       	customer:null,
       	contacts: null,
       	address: null,
-      	type:'',  //tipo de frete CIF(frete de graça, frete pela industria) e FOB (frete pago pelo cliente)
+      	type:'',
       	carrier: null
       };
 
@@ -200,13 +200,13 @@
       $scope.isSelected = function( product ){
         if( !!$scope.selectedProductsToPutInTable ){
           for( var i = 0; i < $scope.selectedProductsToPutInTable.length; i++ ){
-            if( product.id == $scope.selectedProductsToPutInTable[i].id ){
+            if( product.id == $scope.selectedProductsToPutInTable[i].productId ){
               return true;
             }
           }
         }
         return false;
-      }
+      };
 
       $scope.getCustomerUsingDocument = function(){
         $scope.isDisabledSearchCustomer = true;
@@ -361,7 +361,7 @@
 
       $scope.selectProduct = function( product ){
         $scope.productSelected = {
-          id: product.id,
+          productId: product.id,
           code: product.code,
           description: product.description,
           value: product.value,
@@ -375,13 +375,13 @@
 
       $scope.addProductToSales = function( product ){
         if( !!product ){
-
+          var hideNewProductModal = function(){
+            $("#newProductModal").modal('hide');
+          };
           for( var i = 0; i < $scope.selectedProductsToPutInTable.length; i++ ){
-            if( $scope.selectedProductsToPutInTable[i].id == product.id ){
+            if( $scope.selectedProductsToPutInTable[i].productId == product.id ){
               MessageGeneratorService.createBootBoxAlert('ATENÇÃO',
-              'Produto ' + product.description + ' já foi selecionando anteriormente', '','','', function(){
-                $("#newProductModal").modal('hide');
-              });
+              'Produto ' + product.description + ' já foi selecionando anteriormente', '','','', hideNewProductModal);
 
               return;
             }
@@ -431,16 +431,19 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
 
-              $scope.sales.type = $scope.objectFind.carrierType;
-              $scope.sales.customer = $scope.customer;
-              $scope.sales.address = $scope.address;
-              $scope.sales.contacts = [ $scope.contact ];
-              $scope.sales.carrier = $scope.carrier;
-              $scope.sales.provider = $scope.provider;
-              $scope.sales.productSales = $scope.selectedProductsToPutInTable;
 
               if( result ){
+
+                $scope.sales.type = $scope.objectFind.carrierType;
+                $scope.sales.customer = $scope.customer;
+                $scope.sales.address = $scope.address;
+                $scope.sales.contacts = [ $scope.contact ];
+                $scope.sales.carrier = $scope.carrier;
+                $scope.sales.provider = $scope.provider;
+                $scope.sales.productSales = $scope.selectedProductsToPutInTable;
+
                 SalesService.save( $scope.sales, function(response){
+                  console.log(response);
                   ButtonGeneratorService.enableButtons();
                   //todo redirect para editar venda
                   $location.url('/vendas');

@@ -44,7 +44,9 @@ public class Sales implements Serializable {
       mappedBy = "sales")
   private List<Contact> contacts = new ArrayList<>();
 
-  @Transient
+  @OneToMany(cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY,
+    mappedBy = "sales")
   private List<ProductSales> productSales = new ArrayList<>();
 
   @Column(name = "CREATED_BY")

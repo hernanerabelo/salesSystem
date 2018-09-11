@@ -1,9 +1,13 @@
 package br.com.aplication.hgr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table( name = "HBR_PRODUCT")
@@ -44,6 +48,11 @@ public class Product implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PROVIDER_ID")
   private Provider provider;
+
+  @OneToMany(cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY,
+    mappedBy = "sales")
+  private List<ProductSales> productSales = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -123,6 +132,15 @@ public class Product implements Serializable {
 
   public void setProvider(Provider provider) {
     this.provider = provider;
+  }
+
+  @JsonIgnore
+  public List<ProductSales> getProductSales() {
+    return productSales;
+  }
+
+  public void setProductSales(List<ProductSales> productSales) {
+    this.productSales = productSales;
   }
 
   @Override

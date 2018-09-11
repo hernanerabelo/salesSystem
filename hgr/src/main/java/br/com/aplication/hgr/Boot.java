@@ -16,11 +16,7 @@ public class Boot
    public static void main(String[] args)
    {
       SpringApplication.run(Boot.class, args);
-      logger.debug("Test - Debugging log");
-      logger.info("Test - Info log");
-      logger.warn("Test - Hey, This is a warning!");
-      logger.error("Test - Oops! We have an Error. OK");
-      logger.fatal("Test - Damn! Fatal error. Please fix me.");
+      logger.info("Log4j running");
    }
 
    @RequestMapping("")

@@ -41,7 +41,13 @@ public class SalesController {
   @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   @Transactional(rollbackFor = Exception.class)
   public ResponseEntity save( @RequestBody Sales sales ){
-    salesService.save( sales );
+    try {
+      salesService.save( sales );
+      logger.info("Criado venda " + sales.getId() );
+    }catch ( Exception e ){
+      logger.error("Erro ao salvar a venda", e);
+      throw e;
+    }
     return new ResponseEntity<>( sales , HttpStatus.CREATED);
   }
 
