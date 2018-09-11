@@ -22,15 +22,15 @@ public class Sales implements Serializable {
   private String type;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "CARRIER_ID")
+  @JoinColumn(name = "CARRIER_ID", updatable=false)
   private Carrier carrier;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "CUSTOMER_ID")
+  @JoinColumn(name = "CUSTOMER_ID", updatable=false)
   private Customer customer;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "PROVIDER_ID")
+  @JoinColumn(name = "PROVIDER_ID", updatable=false)
   private Provider provider;
 
   @OneToOne(fetch = FetchType.LAZY,
@@ -43,6 +43,9 @@ public class Sales implements Serializable {
       fetch = FetchType.LAZY,
       mappedBy = "sales")
   private List<Contact> contacts = new ArrayList<>();
+
+  @Transient
+  private List<ProductSales> productSales = new ArrayList<>();
 
   @Column(name = "CREATED_BY")
   private String createdBy;
@@ -144,5 +147,11 @@ public class Sales implements Serializable {
     this.type = type;
   }
 
+  public List<ProductSales> getProductSales() {
+    return productSales;
+  }
 
+  public void setProductSales(List<ProductSales> productSales) {
+    this.productSales = productSales;
+  }
 }

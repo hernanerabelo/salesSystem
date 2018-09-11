@@ -22,30 +22,9 @@
       };
 
       $scope.sales = {
-      	customer:{	//busca na base
-      		id:'',
-      		legalName:'',
-      		fantasyName: '',
-      		documentNumber: ''
-      	},
-      	contacts: [{  //novo
-      		id:'',
-      		name:'',
-      		phone:'',
-      		phone2:'',
-      		email:'',
-      		observation:''
-      	}],
-      	address: {
-      		id:'',    //inicia com mesmo do cliente, mas pode alterar disponibilizar um button para limpar os campos
-      		cep:'',
-      		street:'',
-      		number:'',
-      		complement:'',
-      		neighborhood:'',
-      		city:'',
-      		state:''
-      	},
+      	customer:null,
+      	contacts: null,
+      	address: null,
       	type:'',  //tipo de frete CIF(frete de graça, frete pela industria) e FOB (frete pago pelo cliente)
       	carrier: null
       };
@@ -218,6 +197,17 @@
         $scope.objectFind.carrierName = carrierTable.name;
       };
 
+      $scope.isSelected = function( product ){
+        if( !!$scope.selectedProductsToPutInTable ){
+          for( var i = 0; i < $scope.selectedProductsToPutInTable.length; i++ ){
+            if( product.id == $scope.selectedProductsToPutInTable[i].id ){
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+
       $scope.getCustomerUsingDocument = function(){
         $scope.isDisabledSearchCustomer = true;
         $scope.customer = null;
@@ -386,19 +376,16 @@
       $scope.addProductToSales = function( product ){
         if( !!product ){
 
-          var hidProductModelFunction = function(){
-            $("#newProductModal").modal('hide');
-          };
-
           for( var i = 0; i < $scope.selectedProductsToPutInTable.length; i++ ){
             if( $scope.selectedProductsToPutInTable[i].id == product.id ){
               MessageGeneratorService.createBootBoxAlert('ATENÇÃO',
-              'Esse produto já foi selecionando anteriormente', '','','', hidProductModelFunction);
+              'Produto ' + product.description + ' já foi selecionando anteriormente', '','','', function(){
+                $("#newProductModal").modal('hide');
+              });
 
               return;
             }
           }
-
 
           if( !!product.count ){
             product.total = ( ( product.value * product.count ) - product.discount).toFixed(2);
@@ -408,7 +395,7 @@
             $scope.productSelected = null;
           }else{
             MessageGeneratorService.createBootBoxAlert('ATENÇÃO',
-              'Inserir a quantidade de produto', '','','', function(){
+              'Não foi inserido a quantidade do produto', '','','', function(){
                 $("#newProductModal").modal('hide');
               });
           }
@@ -443,8 +430,28 @@
             },
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
+
+              $scope.sales.type = $scope.objectFind.carrierType;
+              $scope.sales.customer = $scope.customer;
+              $scope.sales.address = $scope.address;
+              $scope.sales.contacts = [ $scope.contact ];
+              $scope.sales.carrier = $scope.carrier;
+              $scope.sales.provider = $scope.provider;
+              $scope.sales.productSales = $scope.selectedProductsToPutInTable;
+
               if( result ){
-                ButtonGeneratorService.enableButtons();
+                SalesService.save( $scope.sales, function(response){
+                  ButtonGeneratorService.enableButtons();
+                  //todo redirect para editar venda
+                  $location.url('/vendas');
+                }, function(e){
+                  var message = '';
+                  if( !!e.data && e.data.status == '400' && !!e.data.message ){
+                    message = e.data.message;
+                  }
+                  ButtonGeneratorService.enableButtons();
+                  MessageGeneratorService.createMessageError('Não foi possivel salvar a venda. ' + message);
+                });
               }else{
                 ButtonGeneratorService.enableButtons();
                 MessageGeneratorService.createMessageInfo('Ação cancelada pelo usuário');
