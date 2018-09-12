@@ -13,6 +13,11 @@ public class Sales implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public static final String WATING_FOR_APPROVAL = "WATING_FOR_APPROVAL";
+  public static final String RUNNING = "RUNNING";
+  public static final String COMPLETED = "COMPLETED";
+  public static final String CANCELED = "CANCELED";
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
@@ -20,6 +25,9 @@ public class Sales implements Serializable {
 
   @Column(name = "TYPE")
   private String type;
+
+  @Column(name = "STATUS")
+  private String status;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CARRIER_ID", updatable=false)
@@ -156,4 +164,13 @@ public class Sales implements Serializable {
   public void setProductSales(List<ProductSales> productSales) {
     this.productSales = productSales;
   }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
 }

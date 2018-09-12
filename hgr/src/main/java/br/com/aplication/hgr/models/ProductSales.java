@@ -34,6 +34,7 @@ public class ProductSales implements Serializable {
   @JoinColumn(name = "PRODUCT_ID")
   private Product product;
 
+  @Transient
   private Long productId;
 
   public Long getCount() {

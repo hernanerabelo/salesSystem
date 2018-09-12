@@ -2,9 +2,11 @@ package br.com.aplication.hgr.services.impl;
 
 import br.com.aplication.hgr.exceptions.*;
 import br.com.aplication.hgr.models.*;
+import br.com.aplication.hgr.repositories.CarrierRepository;
+import br.com.aplication.hgr.repositories.CustomerRepository;
+import br.com.aplication.hgr.repositories.ProviderRepository;
 import br.com.aplication.hgr.repositories.SalesRepository;
-import br.com.aplication.hgr.services.ProductService;
-import br.com.aplication.hgr.services.SalesService;
+import br.com.aplication.hgr.services.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,19 @@ public class SalesServiceImpl implements SalesService {
   private static final Logger logger = LogManager.getLogger(SalesServiceImpl.class);
 
   @Autowired
-  ProductService productService;
+  private ProductService productService;
+
   @Autowired
   private SalesRepository salesRepository;
+
+  @Autowired
+  private ProviderRepository providerRepository;
+
+  @Autowired
+  private CustomerRepository customerRepository;
+
+  @Autowired
+  private CarrierRepository carrierRepository;
 
   @Override
   public Page<Sales> getSalesByCustomerDocumentNumber(Pageable pageable, String documentNumber) {
@@ -36,12 +48,13 @@ public class SalesServiceImpl implements SalesService {
   public void save(Sales sales) {
 
     updateInformationDate( sales );
+    sales.setStatus( Sales.WATING_FOR_APPROVAL );
 
     validSalesCustomer( sales.getCustomer() );
 
-    validSalesAddress(sales.getAddress());
+    validSalesAddress( sales );
 
-    validSalesContact( sales.getContacts() );
+    validSalesContact( sales );
 
     validCarrierSales( sales.getType(), sales.getCarrier() );
 
@@ -49,7 +62,6 @@ public class SalesServiceImpl implements SalesService {
 
     validProductSales( sales );
 
-      //todo se tiver id no endereço ou no contato subir erro
     salesRepository.save(sales);
 
   }
@@ -57,24 +69,15 @@ public class SalesServiceImpl implements SalesService {
   private void validProductSales( Sales sales ){
     List<ProductSales> productSales = sales.getProductSales();
     if( productSales != null && productSales.size() > 0 ){
-      for (ProductSales productSale : productSales) {
+      for ( ProductSales productSale : productSales ) {
         productSale.setSales( sales );
-        productSale.setProduct( productService.findById(productSale.getProductId()));
+        Product product = productService.findById( productSale.getProductId() );
+        if( product != null ){
+          productSale.setProduct( product );
 
-        if( productSale.getCount() > 0 ){
-          BigDecimal total =  productSale.getProduct().getValue().multiply( new BigDecimal( productSale.getCount() ) );
-
-          if( productSale.getDiscount().doubleValue() > 0 ){
-            total = total.subtract( productSale.getDiscount() );
-            productSale.setTotal( total );
-
-          }else{
-            throw new SalesException( "Quantidade do desconto do produto " + productSale.getProduct().getDescription() +
-              " precisa ser maior ou igual a 0" );
-          }
+          calculateProductSalesValue(productSale);
         }else{
-          throw new SalesException( "Quantidade do produto " + productSale.getProduct().getDescription() +
-            " precisa ser maior que 0" );
+          throw new RuntimeException( "Não foi encontrado produto com o id " + productSale.getProductId() );
         }
       }
     }else{
@@ -82,15 +85,39 @@ public class SalesServiceImpl implements SalesService {
     }
   }
 
+  private void calculateProductSalesValue(ProductSales productSale) {
+    if( productSale.getCount() > 0 ){
+      BigDecimal total =  productSale.getProduct().getValue().multiply( new BigDecimal( productSale.getCount() ) );
+
+      if( productSale.getDiscount().compareTo( new BigDecimal(0 ) ) >= 0 ){
+        total = total.subtract( productSale.getDiscount() );
+
+        if( total.compareTo( new BigDecimal(0 ) ) >= 0 ){
+          productSale.setTotal( total );
+        }else {
+          throw new SalesException( "Valor total do produto " + productSale.getProduct().getDescription() + " menor que 0" );
+        }
+      }else {
+        throw new SalesException( "Quantidade do desconto do produto " + productSale.getProduct().getDescription() +
+            " precisa ser maior ou igual a 0" );
+      }
+    }else {
+      throw new SalesException( "Quantidade do produto " + productSale.getProduct().getDescription() +
+          " precisa ser maior que 0" );
+    }
+  }
+
   private void validCarrierSales( String type, Carrier carrier ){
     if( !StringUtils.isEmpty( type ) && !StringUtils.isEmpty( type ) ){
       if( "FOB".equals( type ) ){
         if( carrier != null ){
-          if( carrier.getId() !=null ){
-            return;
+          if( carrier.getId() != null ){
+            if( carrierRepository.findOne( carrier.getId() ) == null ){
+              throw new RuntimeException( "Não foi encontrado nenhuma transportadora no banco para a " +
+                  "transportadora selecionada" );
+            }
           }else{
-            logger.error("Transportadora sem id " + carrier.getName() );
-            throw new CarrierException( "Transportadora sem id" );
+            throw new CarrierException( "Transportadora sem id " + carrier.getName());
           }
         }else{
           throw new CarrierException( "Venda com transporte do tipo FOB exige uma transportadora" );
@@ -104,44 +131,65 @@ public class SalesServiceImpl implements SalesService {
   }
 
   private void validSalesProvider(Provider provider ){
-    //todo validar provider
     if( provider != null ){
-
+      if( provider.getId() != null ){
+        if( providerRepository.findOne( provider.getId() ) == null ){
+          throw new RuntimeException( "Não foi encontrado nenhum fornecedor no banco de dados para o cliente informado" );
+        }
+      }else {
+        throw new ProviderException( "Fornecedor sem id" );
+      }
     }else{
       throw new ProviderException( "Inserir informações do fornecedor" );
     }
   }
 
   private void validSalesCustomer( Customer customer ){
-    //todo validar o cliente
     if( customer != null ){
-
-
+      if( customer.getId() != null ){
+        if( customerRepository.findOne( customer.getId() ) == null ){
+          throw new RuntimeException( "Não foi encontrado nenhum cliente no banco de dados para o cliente informado" );
+        }
+      }else{
+        throw new CustomerException( "Cliente sem id" );
+      }
     }else{
       throw new CustomerException( "Inserir informações do cliente" );
     }
   }
 
-  private void validSalesContact( List contacts ){
+  private void validSalesContact( Sales sales ){
+    List contacts = sales.getContacts();
     if( contacts != null && contacts.size() > 0 ){
       Contact contact = (Contact) contacts.get(0);
-      if( !StringUtils.isEmpty( contact.getName() ) ||
-          !StringUtils.isEmpty( contact.getEmail() ) ||
-          !StringUtils.isEmpty( contact.getObservation() ) ||
-          !StringUtils.isEmpty( contact.getPhone() ) ){
-        return;
+      if( contact.getId() == null ){
+        if( !StringUtils.isEmpty( contact.getName() ) ||
+            !StringUtils.isEmpty( contact.getEmail() ) ||
+            !StringUtils.isEmpty( contact.getObservation() ) ||
+            !StringUtils.isEmpty( contact.getPhone() ) ){
+          contact.setSales( sales );
+        }else {
+          throw new ContactException( "Pelo menos um valor tem que ser inserido no contato" );
+        }
       }else {
-        throw new ContactException( "Pelo menos um valor tem que ser inserido no contato" );
+        throw new RuntimeException( "Contato não pode ter ID" );
       }
     }else{
       throw new ContactException( "Não foi inserido contato para a venda" );
     }
   }
 
-  private void validSalesAddress( Address address ){
+  private void validSalesAddress( Sales sales ){
+    Address address = sales.getAddress();
     if( address != null ){
-      if( StringUtils.isEmpty( address.getStreet() ) || StringUtils.isEmpty( address.getStreet().trim() ) ){
-        throw new AddressException( "Não foi inserido nome da rua para o endereço" );
+      if( address.getId() == null ){
+        if( StringUtils.isEmpty( address.getStreet() ) || StringUtils.isEmpty( address.getStreet().trim() ) ){
+          throw new AddressException( "Não foi inserido nome da rua para o endereço" );
+        }else {
+          address.setSales( sales );
+        }
+      }else {
+        throw new RuntimeException( "O endereço não pode possui ID" );
       }
     }else{
       throw new AddressException( "Não foi informado endereço para a venda" );
