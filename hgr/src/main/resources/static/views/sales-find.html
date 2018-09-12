@@ -1,13 +1,42 @@
 <div class="row">
-    <center><h3>Vendas</h3></center>
+    <div class="col-md-12" style="color:#1b809e">
+        <center>
+            <h3>Vendas</h3>
+        </center>
+    </div>
 </div>
+
 <div class="row" style="padding-bottom:10px">
     <form ng-class="{'form-horizontal':hasErrorInput}" >
         <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
-            <div class="col-md-4" >
+            <div class="col-md-5" >
                 <div class="input-group">
                     <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.customerDocument"><b>Documento do Cliente</b></span></span>
-                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="20" ng-model="objectFind.customerDocument" placeholder="Documento do Cliente CPF/CNPJ" >
+                    <input type="text" cpf-cnpj-format class="form-control hbrBorderRadiusRight" maxlength="18" ng-model="objectFind.customerDocument" placeholder="Documento do Cliente CPF/CNPJ" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+            <div class="col-md-7" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.fantasyNameCustomer"><b>Cliente</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" ng-model="objectFind.fantasyNameCustomer" placeholder="Nome Fantasia do Cliente" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
+            <div class="col-md-5" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerDocument"><b>Documento do Fornecedor</b></span></span>
+                    <input type="text" cpf-cnpj-format class="form-control hbrBorderRadiusRight" maxlength="18" ng-model="objectFind.providerDocument" placeholder="Documento do Fornecedor CPF/CNPJ" >
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
+                </div>
+            </div>
+            <div class="col-md-7" >
+                <div class="input-group">
+                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.fantasyNameProvider"><b>Fornecedor</b></span></span>
+                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" ng-model="objectFind.fantasyNameProvider" placeholder="Nome Fantasia do Fornecedor" >
                     <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
                 </div>
             </div>
