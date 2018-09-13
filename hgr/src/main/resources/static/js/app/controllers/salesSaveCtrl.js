@@ -80,6 +80,7 @@
             }
           );
         }else{
+          $scope.isDisabledSearchCarrier = false;
           MessageGeneratorService.createMessageWarning("Não foi informado nome da transportadora.");
         }
       };

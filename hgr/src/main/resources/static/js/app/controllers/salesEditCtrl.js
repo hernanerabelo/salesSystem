@@ -118,6 +118,7 @@
             }
           );
         }else{
+          $scope.isDisabledSearchCarrier = false;
           MessageGeneratorService.createMessageWarning("Não foi informado nome da transportadora.");
         }
       };
@@ -494,7 +495,7 @@
                 $scope.sales.provider = $scope.provider;
                 $scope.sales.productSales = $scope.selectedProductsToPutInTable;
 
-                SalesService.update( $scope.sales, function(response){
+                SalesService.update( $scope.sales, function(){
                   $window.location.reload();
                 }, function(e){
                   var message = '';

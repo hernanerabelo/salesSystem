@@ -21,8 +21,9 @@
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.customerDocumentNumber"><b>CPF/CNPJ</b></span></span>
-                        <input cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.customerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Cliente" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCustomer" ng-click="getCustomerUsingDocument()">
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.customerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Cliente" >
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCustomer && !edit.isDisabledWaitingEdit" ng-click="getCustomerUsingDocument()">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                     </div>
@@ -31,8 +32,9 @@
                 <div class="col-md-7">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.customerLegalNamer"><b>Razão Social</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="objectFind.customerLegalNamer" maxlength="18" placeholder="Razão social do Cliente" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCustomer" ng-click="getCustomerUsingLegalName()">
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="objectFind.customerLegalNamer" maxlength="18" placeholder="Razão social do Cliente" >
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCustomer && !edit.isDisabledWaitingEdit" ng-click="getCustomerUsingLegalName()">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                     </div>
@@ -65,8 +67,9 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!address.cep"><b>CEP</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="address.cep" placeholder="CEP" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCep" ng-click="populateAddressUsingCep(address.cep)">
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="address.cep" placeholder="CEP" >
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCep && !edit.isDisabledWaitingEdit" ng-click="populateAddressUsingCep(address.cep)">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                     </div>
@@ -76,13 +79,15 @@
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!address.street"><b>Logradouro</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="address.street" placeholder="logradouro" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="address.street" placeholder="logradouro" >
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!address.number"><b>Nº</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="address.number" placeholder="Número" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="address.number" placeholder="Número" >
                     </div>
                 </div>
             </div>
@@ -90,7 +95,8 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!address.complement"><b>Complemento</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="address.complement" placeholder="Complemento" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="address.complement" placeholder="Complemento" >
                     </div>
                 </div>
             </div>
@@ -98,19 +104,22 @@
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!address.neighborhood"><b>Bairro</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="address.neighborhood" placeholder="Bairro" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="address.neighborhood" placeholder="Bairro" >
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!address.city"><b>Cidade</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="address.city" placeholder="Cidade" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="address.city" placeholder="Cidade" >
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!address.state"><b>Estado</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="address.state" placeholder="Estado" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="address.state" placeholder="Estado" >
                     </div>
                 </div>
             </div>
@@ -134,7 +143,8 @@
                 <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.name" placeholder="Nome" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="contact.name" placeholder="Nome" >
                     </div>
                 </div>
             </div>
@@ -143,13 +153,15 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.phone" placeholder="Telefone" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="contact.phone" placeholder="Telefone" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone2"><b>Telefone</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.phone2" placeholder="Telefone" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="contact.phone2" placeholder="Telefone" >
                     </div>
                 </div>
             </div>
@@ -158,7 +170,8 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
-                        <input type="text" class="form-control" ng-model="contact.email" placeholder="endereco@email.com" >
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" ng-model="contact.email" placeholder="endereco@email.com" >
                     </div>
                 </div>
             </div>
@@ -188,12 +201,14 @@
             <div class="form-group">
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="radio" name="optradio" ng-model="objectFind.carrierType" ng-click="carrier=null;objectFind.carrierName=null;" value="CIF"> <b>CIF (Transporte pelo Fornecedor)</b>
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="radio" name="optradio" ng-model="objectFind.carrierType" ng-click="carrier=null;objectFind.carrierName=null;" value="CIF"> <b>CIF (Transporte pelo Fornecedor)</b>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="radio" name="optradio" ng-model="objectFind.carrierType" value="FOB"> <b>FOB (Transporte por Empresa Terceira)</b>
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="radio" name="optradio" ng-model="objectFind.carrierType" value="FOB"> <b>FOB (Transporte por Empresa Terceira)</b>
                     </div>
                 </div>
             </div>
@@ -202,8 +217,9 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.carrierName"><b>Nome</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="objectFind.carrierName" placeholder="Nome da Transportadora" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCarrier" ng-click="getCarrierByName()">
+                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                               type="text" class="form-control" hbr-uppercase ng-model="objectFind.carrierName" placeholder="Nome da Transportadora" >
+                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCarrier && !edit.isDisabledWaitingEdit" ng-click="getCarrierByName()">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                     </div>
@@ -228,8 +244,9 @@
                     <div class="col-md-5">
                         <div class="input-group">
                             <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerDocumentNumber"><b>CPF/CNPJ do Fornecedor</b></span></span>
-                            <input cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.providerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Fornecedor" >
-                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider" ng-click="getProviderUsingDocument()">
+                            <input ng-disabled="edit.isDisabledWaitingEdit"
+                                   cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.providerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Fornecedor" >
+                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider && !edit.isDisabledWaitingEdit" ng-click="getProviderUsingDocument()">
                                 <span class="glyphicon glyphicon-search"></span>
                             </span>
                         </div>
@@ -238,8 +255,9 @@
                     <div class="col-md-7">
                         <div class="input-group">
                             <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerLegalName"><b>Razão Social</b></span></span>
-                            <input type="text" class="form-control" hbr-uppercase ng-model="objectFind.providerLegalName" maxlength="18" placeholder="Razão social do Fornecedor" >
-                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider" ng-click="getProviderUsingLegalName()">
+                            <input ng-disabled="edit.isDisabledWaitingEdit"
+                                   type="text" class="form-control" hbr-uppercase ng-model="objectFind.providerLegalName" maxlength="18" placeholder="Razão social do Fornecedor" >
+                            <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider && !edit.isDisabledWaitingEdit" ng-click="getProviderUsingLegalName()">
                             <span class="glyphicon glyphicon-search"></span>
                         </span>
                         </div>
@@ -258,7 +276,7 @@
                 <div class="form-group" ng-show="!!provider">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <button class="btn btn-primary" ng-click="startModalNewProdut()" data-toggle="modal" data-target="#newProductModal">
+                            <button class="btn btn-primary" ng-disabled="edit.isDisabledWaitingEdit" ng-click="startModalNewProdut()" data-toggle="modal" data-target="#newProductModal">
                                 <span class="glyphicon glyphicon-plus"></span> Adicionar Produto
                             </button>
                         </div>
@@ -273,7 +291,8 @@
                 <tr ng-repeat="product in $data">
 
                     <td class="text-center hbrAjustarTextoVertical" title="'REMOVER'">
-                        <button class="btn btn-danger" style="border-radius:13px" ng-click="removeProduct($index)">
+                        <button class="btn btn-danger" ng-disabled="edit.isDisabledWaitingEdit"
+                                style="border-radius:13px" ng-click="removeProduct($index)">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
                     </td>
@@ -329,7 +348,7 @@
 
                                 <td class="text-center hbrAjustarTextoVertical" title="'ADICIONAR'">
                                     <button class="btn" ng-class="{'btn-primary':product.id == productSelected.productId, 'btn-success':isSelected(product)}"
-                                            ng-click="selectProduct(product)">
+                                            ng-disabled="edit.isDisabledWaitingEdit" ng-click="selectProduct(product)">
                                         <span class="glyphicon glyphicon-check"></span>
                                     </button>
                                 </td>
@@ -382,13 +401,15 @@
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <span class="input-group-addon hbrInputsBlue"><span><b>Desconto R$</b></span></span>
-                                        <input type="text" class="form-control" money-format ng-model="productSelected.discount" placeholder="Desconto R$ 0.00" >
+                                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                                               type="text" class="form-control" money-format ng-model="productSelected.discount" placeholder="Desconto R$ 0.00" >
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!productSelected.count"><b>Quantidade</b></span></span>
-                                        <input type="text" class="form-control" hbr-uppercase ng-model="productSelected.count" placeholder="Quantidade" >
+                                        <input ng-disabled="edit.isDisabledWaitingEdit"
+                                               type="text" class="form-control" hbr-uppercase ng-model="productSelected.count" placeholder="Quantidade" >
                                     </div>
                                 </div>
                             </div>
@@ -398,7 +419,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success btn-sm" ng-click="addProductToSales(productSelected)">Adicionar</button>
+                    <button type="button" ng-disabled="edit.isDisabledWaitingEdit"
+                            class="btn btn-success btn-sm" ng-click="addProductToSales(productSelected)">Adicionar</button>
                 </div>
             </div>
 
@@ -426,7 +448,8 @@
                             <tr ng-repeat="customerTable in $data">
 
                                 <td class="text-center hbrAjustarTextoVertical" title="'SELECIONAR'">
-                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="selectCustomer(customerTable)">
+                                    <button class="btn btn-primary" ng-disabled="edit.isDisabledWaitingEdit"
+                                            data-dismiss="modal" ng-click="selectCustomer(customerTable)">
                                         <span class="glyphicon glyphicon-check"></span>
                                     </button>
                                 </td>
@@ -475,7 +498,8 @@
                             <tr ng-repeat="providerTable in $data">
 
                                 <td class="text-center hbrAjustarTextoVertical" title="'SELECIONAR'">
-                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="selectProvider(providerTable)">
+                                    <button class="btn btn-primary" data-dismiss="modal" ng-disabled="edit.isDisabledWaitingEdit"
+                                            ng-click="selectProvider(providerTable)">
                                         <span class="glyphicon glyphicon-check"></span>
                                     </button>
                                 </td>
@@ -524,7 +548,8 @@
                             <tr ng-repeat="carrierTable in $data">
 
                                 <td class="text-center hbrAjustarTextoVertical" title="'SELECIONAR'">
-                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="selectCarrier(carrierTable)">
+                                    <button class="btn btn-primary" ng-disabled="edit.isDisabledWaitingEdit"
+                                            data-dismiss="modal" ng-click="selectCarrier(carrierTable)">
                                         <span class="glyphicon glyphicon-check"></span>
                                     </button>
                                 </td>

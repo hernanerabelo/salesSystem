@@ -22,7 +22,6 @@ public class Measurement implements Serializable {
   private String type;
 
   @OneToMany(cascade = CascadeType.ALL,
-      orphanRemoval = true,
       fetch = FetchType.LAZY,
       mappedBy = "measurement")
   List<Product> products =  new ArrayList<>();
