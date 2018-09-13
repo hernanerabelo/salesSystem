@@ -9,6 +9,9 @@
           save: {
             method: 'POST'
           },
+          update: {
+            method: 'PUT'
+          },
           getSalesByCustomerDocument: {
             method: 'GET',
             params: {
@@ -32,6 +35,9 @@
             params: {
               service: 'providerfantasy'
             }
+          },
+          getById: {
+            method: 'GET'
           }
         });
 

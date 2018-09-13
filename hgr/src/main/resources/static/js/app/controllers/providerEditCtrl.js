@@ -199,7 +199,6 @@
                 $scope.provider = $scope.providerTemp;
               }else{
                 ButtonGeneratorService.enableButtons();
-                MessageGeneratorService.createMessageInfo('Atualização cancelada pelo usuário');
               }
               $scope.$apply();
             }

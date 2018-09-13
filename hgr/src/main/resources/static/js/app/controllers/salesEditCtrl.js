@@ -3,31 +3,69 @@
 
   var app = angular.module('app');
 
-  app.controller('SalesSaveCtrl', ['$scope', '$rootScope', '$location', 'SalesService', 'ButtonGeneratorService',
+  app.controller('SalesEditCtrl', ['$scope', '$rootScope', '$location', 'SalesService', 'ButtonGeneratorService',
     'MessageGeneratorService', 'BreadCrumbGeneratorService', 'CustomerService', 'ExternalUrlService', 'ProductService',
-    'ProviderService', 'NgTableParams', 'CarrierService',
+    'ProviderService', 'NgTableParams', 'CarrierService', '$routeParams', '$window',
     function($scope, $rootScope, $location, SalesService, ButtonGeneratorService,
     MessageGeneratorService, BreadCrumbGeneratorService, CustomerService, ExternalUrlService, ProductService,
-    ProviderService, NgTableParams, CarrierService) {
+    ProviderService, NgTableParams, CarrierService, $routeParams, $window) {
 
-      BreadCrumbGeneratorService.updateBreadCrumbUsingLocation();
-
-      $scope.objectFind = {
-        customerDocumentNumber: '',
-        customerLegalNamer: '',
-        providerLegalName: '',
-        providerDocumentNumber: '',
-        carrierType: '',
-        carrierName: '',
+      BreadCrumbGeneratorService.updateBreadCrumbUsingLocation(true,true);
+      $scope.edit = {
+        isDisabledWaitingEdit: true
       };
 
-      $scope.sales = {
-      	customer:null,
-      	contacts: null,
-      	address: null,
-      	type:'',
-      	carrier: null
-      };
+      function populateInputs(){
+        $scope.customer = $scope.sales.customer;
+        $scope.address = $scope.sales.address;
+        $scope.contact = $scope.sales.contacts[0];
+        $scope.carrier = $scope.sales.carrier;
+        $scope.provider = $scope.sales.provider;
+
+        for( var i = 0; i < $scope.sales.productSales.length; i++ ){
+          $scope.selectProduct( $scope.sales.productSales[i].product );
+          $scope.productSelected.count = $scope.sales.productSales[i].count;
+          $scope.productSelected.discount = $scope.sales.productSales[i].discount;
+          $scope.addProductToSales( $scope.productSelected );
+        }
+
+        $scope.objectFind = {
+          customerDocumentNumber: $scope.customer.documentNumber,
+          customerLegalNamer: $scope.customer.legalName,
+          providerLegalName: $scope.provider.legalName,
+          providerDocumentNumber: $scope.provider.documentNumber,
+          carrierType: $scope.sales.type,
+          carrierName: $scope.carrier? $scope.carrier.name : '',
+        };
+
+        $scope.getProductsUsingDocumentOfProvider( $scope.provider.documentNumber );
+      }
+
+      function initializeSalesValues() {
+        var salesId = $routeParams.id;
+        SalesService.getById({id : salesId},
+          function(response) {
+            $scope.sales = response;
+
+            populateInputs();
+          },
+          function( error ) {
+            if( !!error && error.status == '404' ){
+              MessageGeneratorService.createMessageError('Não foi encontrado nenhuma venda com id ' + salesId);
+            }else{
+              MessageGeneratorService.createMessageError('Não foi possivel carregar informações da venda para o id [' + salesId + ']');
+            }
+            $scope.sales = {
+              customer:null,
+              contacts: null,
+              address: null,
+              type:'',
+              carrier: null
+            };
+            ButtonGeneratorService.cleanAllButtons();
+          }
+        );
+      }
 
       $scope.removeProduct = function (index){
         bootbox.confirm({
@@ -86,51 +124,51 @@
 
       $scope.getCustomerUsingLegalName = function(){
         $scope.isDisabledSearchCustomer = true;
-          $scope.customer = null;
-          $scope.address = null;
-          $scope.contact = null;
-          $scope.carrier = null;
-          $scope.objectFind.customerDocumentNumber = null;
-          var customerLegalNamer = $scope.objectFind.customerLegalNamer;
-          if( !!customerLegalNamer && !!customerLegalNamer.trim() ){
-            MessageGeneratorService.cleanAllMessages();
+        $scope.customer = null;
+        $scope.address = null;
+        $scope.contact = null;
+        $scope.carrier = null;
+        $scope.objectFind.customerDocumentNumber = null;
+        var customerLegalNamer = $scope.objectFind.customerLegalNamer;
+        if( !!customerLegalNamer && !!customerLegalNamer.trim() ){
+          MessageGeneratorService.cleanAllMessages();
 
-            CustomerService.getCustomerByLegalName({ id: customerLegalNamer },
-            function(response){
-              $scope.isDisabledSearchCustomer = false;
-              if( response.content.length > 1 ){
-                $scope.customerFindTable = new NgTableParams( {} , { dataset: response.content } );
-                $("#findCustomerModal").modal('show');
-              }else{
-                $scope.customer = response.content[0];
-                $scope.address = angular.copy($scope.customer.address);
-                $scope.address.id = null;
-                if( !!$scope.customer.contacts && $scope.customer.contacts.length > 0 ){
-                  $scope.contact = angular.copy( $scope.customer.contacts[0] );
-                  $scope.contact.id = null;
-                }else{
-                  $scope.contact = {};
-                }
-
-                $scope.objectFind = {
-                  carrierType:'CIF'
-                };
-
-                $scope.objectFind.customerDocumentNumber = $scope.customer.documentNumber;
-                $scope.objectFind.customerLegalNamer = $scope.customer.legalName;
-              }
-            }, function(error){
-              $scope.isDisabledSearchCustomer = false;
-              if( error.status == '404'){
-                MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o nome informado');
-              }else{
-                MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando o nome');
-              }
-            });
-          }else{
+          CustomerService.getCustomerByLegalName({ id: customerLegalNamer },
+          function(response){
             $scope.isDisabledSearchCustomer = false;
-            MessageGeneratorService.createMessageWarning( 'Por favor insira o nome do cliente' );
-          }
+            if( response.content.length > 1 ){
+              $scope.customerFindTable = new NgTableParams( {} , { dataset: response.content } );
+              $("#findCustomerModal").modal('show');
+            }else{
+              $scope.customer = response.content[0];
+              $scope.address = angular.copy($scope.customer.address);
+              $scope.address.id = null;
+              if( !!$scope.customer.contacts && $scope.customer.contacts.length > 0 ){
+                $scope.contact = angular.copy( $scope.customer.contacts[0] );
+                $scope.contact.id = null;
+              }else{
+                $scope.contact = {};
+              }
+
+              $scope.objectFind = {
+                carrierType:'CIF'
+              };
+
+              $scope.objectFind.customerDocumentNumber = $scope.customer.documentNumber;
+              $scope.objectFind.customerLegalNamer = $scope.customer.legalName;
+            }
+          }, function(error){
+            $scope.isDisabledSearchCustomer = false;
+            if( error.status == '404'){
+              MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum cliente para o nome informado');
+            }else{
+              MessageGeneratorService.createMessageWarning('Erro ao buscar cliente utilizando o nome');
+            }
+          });
+        }else{
+          $scope.isDisabledSearchCustomer = false;
+          MessageGeneratorService.createMessageWarning( 'Por favor insira o nome do cliente' );
+        }
       };
 
       $scope.getProviderUsingLegalName = function(){
@@ -143,9 +181,9 @@
 
           ProviderService.getProviderByLegalName({ id: providerLegalName },
             function(response){
+              $scope.isDisabledSearchProvider = false;
               $scope.selectedProductsToPutInTable = [];
               $scope.selectedProductsTable = new NgTableParams( {} , { dataset: $scope.selectedProductsToPutInTable } );
-              $scope.isDisabledSearchProvider = false;
               if( response.content.length > 1 ){
                 $scope.providerFindTable = new NgTableParams( {} , { dataset: response.content } );
                 $("#findProviderModal").modal('show');
@@ -264,9 +302,9 @@
 
           ProviderService.getProviderByDocumentNumber({ id: document },
           function(response){
+            $scope.isDisabledSearchProvider = false;
             $scope.selectedProductsToPutInTable = [];
             $scope.selectedProductsTable = new NgTableParams( {} , { dataset: $scope.selectedProductsToPutInTable } );
-            $scope.isDisabledSearchProvider = false;
             $scope.provider = response.content[0];
             $scope.objectFind.providerDocumentNumber = $scope.provider.documentNumber;
             $scope.objectFind.providerLegalName = $scope.provider.legalName;
@@ -410,7 +448,19 @@
         }
       };
 
-      ButtonGeneratorService.putButtonsInSubMenu([{
+      var buttonEdit = {
+        title: 'Editar',
+        type: 'primary',
+        icon: 'glyphicon glyphicon-edit',
+        execute: function() {
+          ButtonGeneratorService.cleanAllButtons();
+          MessageGeneratorService.cleanAllMessages();
+          ButtonGeneratorService.putButtonsInSubMenu([buttonSave, buttonCancel]);
+          $scope.edit.isDisabledWaitingEdit = false;
+        }
+      };
+
+      var buttonSave = {
         title: 'Salvar',
         icon: 'glyphicon glyphicon-ok',
         type: 'success',
@@ -420,7 +470,7 @@
           bootbox.confirm({
             size: "small",
             title: "<center><b>ATENÇÃO<b><center>",
-            message: 'Deseja realmente <b>Finalizar</b> a venda?',
+            message: 'Deseja realmente <b>Atualizar</b> a venda?',
             buttons: {
               confirm: {
                 label: 'Sim',
@@ -434,7 +484,6 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
 
-
               if( result ){
 
                 $scope.sales.type = $scope.objectFind.carrierType;
@@ -445,16 +494,15 @@
                 $scope.sales.provider = $scope.provider;
                 $scope.sales.productSales = $scope.selectedProductsToPutInTable;
 
-                SalesService.save( $scope.sales, function(response){
-                  ButtonGeneratorService.enableButtons();
-                  $location.url('/vendas/editar/' + response.id);
+                SalesService.update( $scope.sales, function(response){
+                  $window.location.reload();
                 }, function(e){
                   var message = '';
                   if( !!e.data && e.data.status == '400' && !!e.data.message ){
                     message = e.data.message;
                   }
                   ButtonGeneratorService.enableButtons();
-                  MessageGeneratorService.createMessageError('Não foi possivel salvar a venda. ' + message);
+                  MessageGeneratorService.createMessageError('Não foi possivel atualizar a venda. ' + message);
                 });
               }else{
                 ButtonGeneratorService.enableButtons();
@@ -464,8 +512,42 @@
             }
           });
         }
-      }]);
+      };
 
+      var buttonCancel = {
+        title: 'Cancelar',
+        icon: 'glyphicon glyphicon-remove-sign',
+        type: 'danger',
+        execute: function() {
+          this.isDisabled = true;
+          bootbox.confirm({
+            size: "small",
+            title: "<center><b>ATENÇÃO<b><center>",
+            message: '<b>Cancelar</b> as atualizações realizadas?',
+            buttons: {
+              confirm: {
+                label: 'Sim',
+                className: 'btn-success'
+              },
+              cancel: {
+                label: 'Não',
+                className: 'btn-danger'
+              }
+            },
+            callback: function(result){
+              ButtonGeneratorService.enableButtons();
+              if( result ){
+                $window.location.reload();
+              }else{
+                ButtonGeneratorService.enableButtons();
+              }
+              $scope.$apply();
+            }
+          });
+        }
+      };
+      ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
+      initializeSalesValues();
     }//fim main function
   ]);
 })();

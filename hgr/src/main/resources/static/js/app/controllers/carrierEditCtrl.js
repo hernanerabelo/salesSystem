@@ -199,7 +199,6 @@
                 $scope.carrier = $scope.carrierTemp;
               }else{
                 ButtonGeneratorService.enableButtons();
-                MessageGeneratorService.createMessageInfo('Atualização cancelada pelo usuário');
               }
               $scope.$apply();
             }

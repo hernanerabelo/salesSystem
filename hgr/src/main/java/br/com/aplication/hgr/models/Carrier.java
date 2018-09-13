@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table( name = "HBR_CARRIER")
 @SuppressWarnings("unused")
-public class Carrier   implements Serializable {
+public class Carrier implements Serializable {
 
   private static final long serialVersionUID = 1L;
 

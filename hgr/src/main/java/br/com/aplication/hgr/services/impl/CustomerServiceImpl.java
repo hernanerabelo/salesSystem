@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     }else{
       logger.warn("Cliente not found for id " + id );
     }
-    return null;
+    return customer;
   }
 
 

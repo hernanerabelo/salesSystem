@@ -57,7 +57,8 @@ public class Sales implements Serializable {
   private List<Contact> contacts = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL,
-    fetch = FetchType.LAZY,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY,
     mappedBy = "sales")
   private List<ProductSales> productSales = new ArrayList<>();
 

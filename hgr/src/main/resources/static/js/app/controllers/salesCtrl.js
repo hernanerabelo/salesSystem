@@ -18,11 +18,11 @@
       };
 
       $scope.editSales = function(sales){
+        ButtonGeneratorService.enableButtons();
         if(sales.id){
-          ButtonGeneratorService.enableButtons();
           $location.url('/vendas/editar/' + sales.id);
         }else{
-          MessageGeneratorService.createMessageWarning('Vendas sem ID');
+          MessageGeneratorService.createMessageWarning('Venda sem ID');
         }
       };
 
@@ -31,6 +31,7 @@
         if( !!salesList ){
           for( var i = 0; i < salesList.length; i++ ){
             tableResult.push({
+              id: salesList[i].id,
               provider: salesList[i].provider.fantasyName,
               customer: salesList[i].customer.fantasyName,
               createdAt: $filter('date')( salesList[i].createdAt, 'dd/MM/yyyy HH:mm:ss' ),

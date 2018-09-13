@@ -6,6 +6,10 @@ import org.springframework.data.domain.Pageable;
 
 public interface SalesService {
 
+  Sales findById( Long id );
+
+  void update( Sales sales );
+
   Page<Sales> getSalesByCustomerDocumentNumber(Pageable pageable, String documentNumber );
 
   Page<Sales> getSalesByProviderDocumentNumber(Pageable pageable, String documentNumber );

@@ -180,7 +180,6 @@
                 $scope.measurementOptions = [ $scope.product.measurement ];
               }else{
                 ButtonGeneratorService.enableButtons();
-                MessageGeneratorService.createMessageInfo('Atualização cancelada pelo usuário');
               }
               $scope.$apply();
             }

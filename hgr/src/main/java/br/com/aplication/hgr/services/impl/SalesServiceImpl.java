@@ -42,6 +42,16 @@ public class SalesServiceImpl implements SalesService {
 
   @Override
   @Transactional( readOnly = true )
+  public Sales findById( Long id ) {
+
+    logger.info("Buscando venda com id " + id );
+    Sales sales = salesRepository.findOne( id );
+
+    return sales;
+  }
+
+  @Override
+  @Transactional( readOnly = true )
   public Page<Sales> getSalesByCustomerDocumentNumber(Pageable pageable, String documentNumber) {
     return salesRepository.getSalesByCustomerDocumentNumber( pageable, documentNumber );
   }
@@ -67,26 +77,57 @@ public class SalesServiceImpl implements SalesService {
   @Override
   @Transactional( rollbackFor = Exception.class )
   public void save(Sales sales) {
+    if( sales.getId() == null ){
 
-    updateInformationDate( sales );
-    sales.setStatus( Sales.WATING_FOR_APPROVAL );
+      updateInformationDate( sales );
+      sales.setStatus( Sales.WATING_FOR_APPROVAL );
 
-    validSalesCustomer( sales.getCustomer() );
+      validSalesCustomer( sales.getCustomer() );
 
-    validSalesAddress( sales );
+      validSalesAddress( sales );
 
-    validSalesContact( sales );
+      validSalesContact( sales );
 
-    validCarrierSales( sales.getType(), sales.getCarrier() );
+      validCarrierSales(  sales );
 
-    validSalesProvider( sales.getProvider() );
+      validSalesProvider( sales.getProvider() );
 
-    validProductSales( sales );
+      validProductSales( sales );
 
-    calculateTotalPriceOfSales( sales );
+      calculateTotalPriceOfSales( sales );
 
-    salesRepository.save(sales);
+      salesRepository.save(sales);
+    }else {
+      throw new SalesException( "Venda já possui ID, não pode ser salva" );
+    }
 
+  }
+
+  @Override
+  @Transactional( rollbackFor = Exception.class )
+  public void update(Sales sales) {
+    if( sales.getId() != null ){
+      updateInformationDate( sales );
+      sales.setStatus( Sales.WATING_FOR_APPROVAL );
+
+      validSalesCustomer( sales.getCustomer() );
+
+      validSalesAddress( sales );
+
+      validSalesContact( sales );
+
+      validCarrierSales( sales );
+
+      validSalesProvider( sales.getProvider() );
+
+      validProductSales( sales );
+
+      calculateTotalPriceOfSales( sales );
+
+      salesRepository.save(sales);
+    }else {
+      throw new SalesException("Venda não possui ID para ser atualizada");
+    }
   }
 
   private void calculateTotalPriceOfSales( Sales sales ){
@@ -102,6 +143,7 @@ public class SalesServiceImpl implements SalesService {
   }
 
   private void validProductSales( Sales sales ){
+    //todo validar se possui produto repetido validar se produto é do fornecedor
     List<ProductSales> productSales = sales.getProductSales();
     if( productSales != null && productSales.size() > 0 ){
       for ( ProductSales productSale : productSales ) {
@@ -142,12 +184,15 @@ public class SalesServiceImpl implements SalesService {
     }
   }
 
-  private void validCarrierSales( String type, Carrier carrier ){
-    if( !StringUtils.isEmpty( type ) && !StringUtils.isEmpty( type ) ){
-      if( "FOB".equals( type ) ){
+  private void validCarrierSales( Sales sales ){
+    if( !StringUtils.isEmpty( sales.getType() ) && !StringUtils.isEmpty( sales.getType() ) ){
+      if( "FOB".equals( sales.getType() ) ){
+        Carrier carrier = sales.getCarrier();
         if( carrier != null ){
           if( carrier.getId() != null ){
-            if( carrierRepository.findOne( carrier.getId() ) == null ){
+            if( carrierRepository.findOne( carrier.getId() ) != null ){
+//              carrier.setSales();
+            }else{
               throw new RuntimeException( "Não foi encontrado nenhuma transportadora no banco para a " +
                   "transportadora selecionada" );
             }
@@ -157,7 +202,7 @@ public class SalesServiceImpl implements SalesService {
         }else{
           throw new CarrierException( "Venda com transporte do tipo FOB exige uma transportadora" );
         }
-      }else if( !"CIF".equals( type ) ){
+      }else if( !"CIF".equals( sales.getType() ) ){
         throw new CarrierException( "Tipo do transporte precisa ser FOB ou CIF" );
       }
     }else{
@@ -197,18 +242,16 @@ public class SalesServiceImpl implements SalesService {
     List contacts = sales.getContacts();
     if( contacts != null && contacts.size() > 0 ){
       Contact contact = (Contact) contacts.get(0);
-      if( contact.getId() == null ){
-        if( !StringUtils.isEmpty( contact.getName() ) ||
-            !StringUtils.isEmpty( contact.getEmail() ) ||
-            !StringUtils.isEmpty( contact.getObservation() ) ||
-            !StringUtils.isEmpty( contact.getPhone() ) ){
-          contact.setSales( sales );
-        }else {
-          throw new ContactException( "Pelo menos um valor tem que ser inserido no contato" );
-        }
+
+      if( !StringUtils.isEmpty( contact.getName() ) ||
+          !StringUtils.isEmpty( contact.getEmail() ) ||
+          !StringUtils.isEmpty( contact.getObservation() ) ||
+          !StringUtils.isEmpty( contact.getPhone() ) ){
+        contact.setSales( sales );
       }else {
-        throw new RuntimeException( "Contato não pode ter ID" );
+        throw new ContactException( "Pelo menos um valor tem que ser inserido no contato" );
       }
+
     }else{
       throw new ContactException( "Não foi inserido contato para a venda" );
     }
@@ -217,15 +260,12 @@ public class SalesServiceImpl implements SalesService {
   private void validSalesAddress( Sales sales ){
     Address address = sales.getAddress();
     if( address != null ){
-      if( address.getId() == null ){
-        if( StringUtils.isEmpty( address.getStreet() ) || StringUtils.isEmpty( address.getStreet().trim() ) ){
-          throw new AddressException( "Não foi inserido nome da rua para o endereço" );
-        }else {
-          address.setSales( sales );
-        }
+      if( StringUtils.isEmpty( address.getStreet() ) || StringUtils.isEmpty( address.getStreet().trim() ) ){
+        throw new AddressException( "Não foi inserido nome da rua para o endereço" );
       }else {
-        throw new RuntimeException( "O endereço não pode possui ID" );
+        address.setSales( sales );
       }
+
     }else{
       throw new AddressException( "Não foi informado endereço para a venda" );
     }
