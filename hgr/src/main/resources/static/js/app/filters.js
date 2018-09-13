@@ -25,5 +25,13 @@
       }
       return input;
     };
+  })
+  .filter('hbrMoneyFilter', function(){
+    return function(input) {
+      if( !!input ){
+        return "R$ " + input.toFixed(2);
+      }
+      return "R$ 0.00";
+    };
   });
 })();

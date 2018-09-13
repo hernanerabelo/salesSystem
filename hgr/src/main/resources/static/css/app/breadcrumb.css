@@ -13,7 +13,7 @@
 #breadcrumb li a {
   color: #FFF;
   display: block;
-  background: #2980b9;
+  background: #000080;
   text-decoration: none;
   position: relative;
   height: 20px;
@@ -22,14 +22,14 @@
   margin-right: 23px;
 }
 #breadcrumb li:nth-child(even) a {
-  background-color: #2980b9;
+  background-color: #000080;
 }
 #breadcrumb li:nth-child(even) a:before {
-  border-color: #2980b9;
+  border-color: #000080;
   border-left-color: transparent;
 }
 #breadcrumb li:nth-child(even) a:after {
-  border-left-color: #2980b9;
+  border-left-color: #000080;
 }
 #breadcrumb li:first-child a {
   padding-left: 3px;
@@ -52,7 +52,7 @@
   content: "";
   position: absolute;
   top: 0;
-  border: 0 solid #2980b9;
+  border: 0 solid #000080;
   border-width: 10px 10px;
   width: 0;
   height: 0;
@@ -64,7 +64,7 @@
 #breadcrumb li a:after {
   left: 100%;
   border-color: transparent;
-  border-left-color: #2980b9;
+  border-left-color: #000080;
 }
 #breadcrumb li a:hover {
   background-color: #1abc9c;
@@ -77,27 +77,27 @@
   border-left-color: #1abc9c;
 }
 #breadcrumb li a:active {
-  background-color: #16a085;
+  background-color: #008000;
 }
 #breadcrumb li a:active:before {
-  border-color: #16a085;
+  border-color: #008000;
   border-left-color: transparent;
 }
 #breadcrumb li a:active:after {
-  border-left-color: #16a085;
+  border-left-color: #008000;
 }
 
 .activeBreadCrumb {
-  background-color: #16a085 !important;
+  background-color: #008000 !important;
   border-top-right-radius: 20%;
   border-bottom-right-radius: 20%;
 }
 .activeBreadCrumb :before {
-  border-color: #16a085 !important;
+  border-color: #008000 !important;
   border-left-color: transparent !important;
 }
 .activeBreadCrumb :after {
-  border-color: #16a085 !important;
+  border-color: #008000 !important;
   border-left-color: transparent !important;
 }
 

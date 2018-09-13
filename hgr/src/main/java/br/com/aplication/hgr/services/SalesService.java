@@ -8,5 +8,11 @@ public interface SalesService {
 
   Page<Sales> getSalesByCustomerDocumentNumber(Pageable pageable, String documentNumber );
 
+  Page<Sales> getSalesByProviderDocumentNumber(Pageable pageable, String documentNumber );
+
+  Page<Sales> getSalesByCustomerFantasyName(Pageable pageable, String fantasyName );
+
+  Page<Sales> getSalesByProviderFantasyName(Pageable pageable, String fantasyName );
+
   void save( Sales sales );
 }

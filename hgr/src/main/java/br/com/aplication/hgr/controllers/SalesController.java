@@ -27,6 +27,7 @@ public class SalesController {
   private SalesService salesService;
 
   @RequestMapping( value = "/customerdocument/{documentNumber}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
   public ResponseEntity getSalesByCustomerDocumentNumber(Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
     logger.info("Buscando vendas pelo documentNumber do cliente: " + documentNumber );
 
@@ -49,6 +50,45 @@ public class SalesController {
       throw e;
     }
     return new ResponseEntity<>( sales , HttpStatus.CREATED);
+  }
+
+  @RequestMapping( value = "/providerdocument/{documentNumber}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
+  public ResponseEntity getSalesByProviderDocumentNumber(Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
+    logger.info("Buscando vendas pelo documentNumber do fornecedor: " + documentNumber );
+
+    Page<Sales> sales = salesService.getSalesByProviderDocumentNumber( pageable, documentNumber );
+    logger.info("total de vendas encontradas " + sales.getTotalElements() );
+    if( sales.getTotalElements() == 0 ){
+      return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(  sales, HttpStatus.OK );
+  }
+
+  @RequestMapping( value = "/customerfantasy/{fantasyName}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
+  public ResponseEntity getSalesByCustomerFantasyName(Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
+    logger.info("Buscando vendas pelo nome fantasia do cliente: " + fantasyName );
+
+    Page<Sales> sales = salesService.getSalesByCustomerFantasyName( pageable, fantasyName );
+    logger.info("total de vendas encontradas " + sales.getTotalElements() );
+    if( sales.getTotalElements() == 0 ){
+      return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(  sales, HttpStatus.OK );
+  }
+
+  @RequestMapping( value = "/providerfantasy/{fantasyName}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
+  public ResponseEntity getSalesByProviderFantasyName(Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
+    logger.info("Buscando vendas pelo nome fantasia do fornecedor: " + fantasyName );
+
+    Page<Sales> sales = salesService.getSalesByProviderFantasyName( pageable, fantasyName );
+    logger.info("total de vendas encontradas " + sales.getTotalElements() );
+    if( sales.getTotalElements() == 0 ){
+      return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(  sales, HttpStatus.OK );
   }
 
   @RequestMapping( value = "/json", method = RequestMethod.GET )

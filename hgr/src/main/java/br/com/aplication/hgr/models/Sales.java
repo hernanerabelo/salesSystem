@@ -2,6 +2,7 @@ package br.com.aplication.hgr.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,9 @@ public class Sales implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PROVIDER_ID", updatable=false)
   private Provider provider;
+
+  @Column( name = "TOTAL_PRICE" )
+  private BigDecimal totalPrice;
 
   @OneToOne(fetch = FetchType.LAZY,
       mappedBy = "sales",
@@ -173,4 +177,11 @@ public class Sales implements Serializable {
     this.status = status;
   }
 
+  public BigDecimal getTotalPrice() {
+    return totalPrice;
+  }
+
+  public void setTotalPrice(BigDecimal totalPrice) {
+    this.totalPrice = totalPrice;
+  }
 }

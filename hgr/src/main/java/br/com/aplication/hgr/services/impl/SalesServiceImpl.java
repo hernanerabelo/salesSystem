@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -40,11 +41,31 @@ public class SalesServiceImpl implements SalesService {
   private CarrierRepository carrierRepository;
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Sales> getSalesByCustomerDocumentNumber(Pageable pageable, String documentNumber) {
-    return salesRepository.findAll(pageable);
+    return salesRepository.getSalesByCustomerDocumentNumber( pageable, documentNumber );
   }
 
   @Override
+  @Transactional( readOnly = true )
+  public Page<Sales> getSalesByProviderDocumentNumber(Pageable pageable, String documentNumber) {
+    return salesRepository.getSalesByProviderDocumentNumber( pageable, documentNumber );
+  }
+
+  @Override
+  @Transactional( readOnly = true )
+  public Page<Sales> getSalesByCustomerFantasyName(Pageable pageable, String fantasyName) {
+    return salesRepository.getSalesByCustomerFantasyName( pageable, fantasyName );
+  }
+
+  @Override
+  @Transactional( readOnly = true )
+  public Page<Sales> getSalesByProviderFantasyName(Pageable pageable, String fantasyName) {
+    return salesRepository.getSalesByProviderFantasyName( pageable, fantasyName );
+  }
+
+  @Override
+  @Transactional( rollbackFor = Exception.class )
   public void save(Sales sales) {
 
     updateInformationDate( sales );
@@ -62,8 +83,22 @@ public class SalesServiceImpl implements SalesService {
 
     validProductSales( sales );
 
+    calculateTotalPriceOfSales( sales );
+
     salesRepository.save(sales);
 
+  }
+
+  private void calculateTotalPriceOfSales( Sales sales ){
+    BigDecimal total = new BigDecimal(0);
+    for (ProductSales productSale : sales.getProductSales()) {
+      total = total.add( productSale.getTotal() );
+    }
+    if( total.compareTo( new BigDecimal(0) ) >= 0 ){
+      sales.setTotalPrice( total );
+    }else{
+      throw new RuntimeException( "Venda com o preço final não pode ser menor do que 0" );
+    }
   }
 
   private void validProductSales( Sales sales ){

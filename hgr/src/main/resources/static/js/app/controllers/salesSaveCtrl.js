@@ -348,7 +348,6 @@
             $scope.providerProductsTable = new NgTableParams( {} , { dataset: response } );
 
           }, function(error){
-            console.log(error);
             if( error.status == '404'){
               MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum produto para o fornecedor informado');
             }else{

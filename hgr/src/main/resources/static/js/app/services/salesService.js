@@ -14,6 +14,24 @@
             params: {
               service: 'customerdocument'
             }
+          },
+          getSalesByProviderDocument: {
+            method: 'GET',
+            params: {
+              service: 'providerdocument'
+            }
+          },
+          getSalesByFantasyNameCustomer: {
+            method: 'GET',
+            params: {
+              service: 'customerfantasy'
+            }
+          },
+          getSalesByFantasyNameProvider: {
+            method: 'GET',
+            params: {
+              service: 'providerfantasy'
+            }
           }
         });
 
