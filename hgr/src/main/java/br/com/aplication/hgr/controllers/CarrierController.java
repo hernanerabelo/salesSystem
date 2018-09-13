@@ -30,6 +30,7 @@ public class CarrierController {
   private CarrierService carrierService;
 
   @RequestMapping( method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity list(Pageable pageable ) {
     logger.info("Buscando todas as transportadoras");
     Page<Carrier> carriers = carrierService.listAllByPage( pageable );
@@ -38,6 +39,7 @@ public class CarrierController {
   }
 
   @RequestMapping( value = "/{id}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity findById( @PathVariable("id") Long id ){
     logger.info("Buscando transportadora com id " + id );
     Carrier carrier = carrierService.findById( id );
@@ -48,6 +50,7 @@ public class CarrierController {
   }
 
   @RequestMapping(  method = RequestMethod.PUT )
+  @Transactional( rollbackFor = Exception.class )
   public ResponseEntity update( @RequestBody Carrier carrier ){
     logger.info("Atualizando a transportadora " + carrier.getName() );
 
@@ -67,6 +70,7 @@ public class CarrierController {
   }
 
   @RequestMapping( value = "/name/{name}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
   public ResponseEntity getCarrierByName( Pageable pageable, @PathVariable("name") String name ){
     logger.info("Buscando transportadora pelo nome " + name );
 

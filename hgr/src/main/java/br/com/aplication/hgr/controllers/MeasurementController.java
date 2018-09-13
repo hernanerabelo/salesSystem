@@ -24,6 +24,7 @@ public class MeasurementController {
   private MeasurementService measurementService;
 
   @RequestMapping( method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity findAll( ) {
     logger.info("buscando todas as unidades de medição");
     List<Measurement> measurements = measurementService.findAll();
@@ -46,6 +47,7 @@ public class MeasurementController {
   }
 
   @RequestMapping( value = "/{id}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity findById( @PathVariable("id") Long id ){
 
     Measurement measurement = measurementService.findById( id );

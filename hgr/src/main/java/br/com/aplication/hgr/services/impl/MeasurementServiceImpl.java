@@ -45,11 +45,13 @@ public class MeasurementServiceImpl implements MeasurementService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public List findAll() {
     return measurementRepository.findAll();
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Measurement findById(Long id) {
     return measurementRepository.findOne(id);
   }

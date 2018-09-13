@@ -35,6 +35,7 @@ public class ProductController {
   }
 
   @RequestMapping( value = "/{id}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity findById( @PathVariable("id") Long id ){
 
     Product product = productService.findById( id );
@@ -45,6 +46,7 @@ public class ProductController {
   }
 
   @RequestMapping(  method = RequestMethod.PUT )
+  @Transactional( rollbackFor = Exception.class )
   public ResponseEntity update( @RequestBody Product product ){
 
     Product retorno = productService.update( product );
@@ -60,7 +62,8 @@ public class ProductController {
     return new ResponseEntity<>( product , HttpStatus.CREATED);
   }
 
-  @RequestMapping( value = "/description/{description}", method = RequestMethod.GET)
+  @RequestMapping( value = "/description/{description}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity getProductByDescription( Pageable pageable, @PathVariable("description") String description ){
     logger.info("Buscando produto pela description " + description );
 
@@ -73,6 +76,7 @@ public class ProductController {
   }
 
   @RequestMapping( value = "/code/{code}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
   public ResponseEntity getProductByCode( Pageable pageable, @PathVariable("code") String code ){
     logger.info("Buscando produto pelo code " + code );
     Page<Product> products = productService.getByCode( pageable, code );
@@ -84,6 +88,7 @@ public class ProductController {
   }
 
   @RequestMapping( value = "/providerDocument/{document}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
   public ResponseEntity getProductsByProviderDocument( @PathVariable("document") String document ){
     logger.info("Buscando produto pelo code " + document );
     List<Product> products = productService.getByProviderDocument( document );

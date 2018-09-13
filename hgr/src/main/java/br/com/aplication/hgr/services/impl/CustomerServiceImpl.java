@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional( readOnly = true )
   public Customer findById( Long id ){
     logger.info("Buscando cliente com id " + id );
     Customer customer = customerRepository.findOne( id );
@@ -160,6 +160,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Customer> getCustomersByLegalName( Pageable pageable, String legalName ) {
     if( !StringUtils.isEmpty( legalName ) && !StringUtils.isEmpty( legalName.trim() ) ){
       return customerRepository.findByLegalNameLikeAllIgnoreCase( legalName, pageable );
@@ -169,6 +170,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Customer> getCustomersByFantasyName( Pageable pageable, String fantasyName ) {
     if( !StringUtils.isEmpty( fantasyName ) && !StringUtils.isEmpty( fantasyName.trim() ) ){
       return customerRepository.findByFantasyNameLikeAllIgnoreCase(fantasyName, pageable);

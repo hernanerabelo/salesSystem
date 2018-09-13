@@ -29,12 +29,14 @@ public class CarrierServiceImpl implements CarrierService {
   CarrierRepository carrierRepository;
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Carrier> listAllByPage(Pageable pageable) {
     logger.info("Buscando todas as transportadoras");
     return carrierRepository.findAll(pageable);
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Carrier findById(Long id) {
     logger.info("Buscando transportadora com id " + id );
     return carrierRepository.findOne( id );
@@ -71,6 +73,7 @@ public class CarrierServiceImpl implements CarrierService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Carrier> getByName(Pageable pageable, String name) {
     logger.info("Buscando transportadora com nome " + name );
     if( !StringUtils.isEmpty( name ) && !StringUtils.isEmpty( name.trim() ) ){

@@ -27,6 +27,7 @@ public class ProviderController {
   private ProviderService providerService;
 
   @RequestMapping( method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity list(Pageable pageable) {
 
     Page<Provider> providers = providerService.listAllByPage( pageable );
@@ -38,6 +39,7 @@ public class ProviderController {
   }
 
   @RequestMapping( value = "/{id}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity findById( @PathVariable("id") Long id ){
 
     Provider provider = providerService.findById( id );
@@ -64,6 +66,7 @@ public class ProviderController {
   }
 
   @RequestMapping( value = "/document/{documentNumber}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
   public ResponseEntity getProviderByDocumentNumber( Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
     logger.info("Buscando cliente pelo documentNumber " + documentNumber );
 
@@ -76,6 +79,7 @@ public class ProviderController {
   }
 
   @RequestMapping( value = "/legalName/{legalName}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
   public ResponseEntity getProviderByLegalName( Pageable pageable, @PathVariable("legalName") String legalName ){
     logger.info("Buscando cliente pelo legalName " + legalName );
     Page<Provider> providers = providerService.getProvidersByLegalName( pageable, legalName );
@@ -88,6 +92,7 @@ public class ProviderController {
   }
 
   @RequestMapping( value = "/fantasyName/{fantasyName}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
   public ResponseEntity getProviderByFantasyName( Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
     logger.info("Buscando cliente pelo fantasyName " + fantasyName );
     Page<Provider> providers = providerService.getProvidersByFantasyName( pageable, fantasyName );

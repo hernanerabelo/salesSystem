@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class CustomerController {
   private CustomerService customerService;
 
   @RequestMapping( method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity list( Pageable pageable, @RequestParam("fantasyName") String fantasyName ) {
 
     Page<Customer> customers = customerService.listAllByPage( pageable, fantasyName );
@@ -35,6 +37,7 @@ public class CustomerController {
   }
 
   @RequestMapping( value = "/{id}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity findById( @PathVariable("id") Long id ){
 
     Customer customer = customerService.findById( id );
@@ -45,6 +48,7 @@ public class CustomerController {
   }
 
   @RequestMapping(  method = RequestMethod.PUT )
+  @Transactional( rollbackFor = Exception.class )
   public ResponseEntity update( @RequestBody Customer customer ){
 
     Customer retorno = customerService.update( customer );
@@ -52,13 +56,15 @@ public class CustomerController {
     return new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
   }
 
-  @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
+  @Transactional( rollbackFor = Exception.class )
   public ResponseEntity save( @RequestBody Customer customer ){
     customerService.save( customer );
     return new ResponseEntity<>( customer , HttpStatus.CREATED);
   }
 
-  @RequestMapping( value = "/document/{documentNumber}", method = RequestMethod.GET)
+  @RequestMapping( value = "/document/{documentNumber}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity getCustomerByDocumentNumber( Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
     logger.info("Buscando cliente pelo documentNumber " + documentNumber );
 
@@ -69,7 +75,8 @@ public class CustomerController {
     return new ResponseEntity<>(  customers, HttpStatus.OK );
   }
 
-  @RequestMapping( value = "/legalName/{legalName}", method = RequestMethod.GET)
+  @RequestMapping( value = "/legalName/{legalName}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity getCustomerByLegalName( Pageable pageable, @PathVariable("legalName") String legalName ){
     logger.info("Buscando cliente pelo legalName " + legalName );
     Page<Customer> customers = customerService.getCustomersByLegalName( pageable, legalName );
@@ -80,7 +87,8 @@ public class CustomerController {
     return new ResponseEntity<>(  customers, HttpStatus.OK );
   }
 
-  @RequestMapping( value = "/fantasyName/{fantasyName}", method = RequestMethod.GET)
+  @RequestMapping( value = "/fantasyName/{fantasyName}", method = RequestMethod.GET )
+  @Transactional( readOnly = true )
   public ResponseEntity getCustomerByFantasyName( Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
     logger.info("Buscando cliente pelo fantasyName " + fantasyName );
     Page<Customer> customers = customerService.getCustomersByFantasyName( pageable, fantasyName );

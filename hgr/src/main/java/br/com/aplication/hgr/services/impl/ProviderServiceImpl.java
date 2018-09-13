@@ -30,12 +30,13 @@ public class ProviderServiceImpl implements ProviderService {
   private ProviderRepository providerRepository;
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Provider> listAllByPage(Pageable pageable ){
     return providerRepository.findAll( pageable );
   }
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional( readOnly = true )
   public Provider findById( Long id ){
     logger.info("Buscando fornecedor com id " + id );
     Provider provider = providerRepository.findOne( id );
@@ -117,7 +118,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional( readOnly = true )
   private void validAndFormatDocumentNumber(Provider provider) {
     provider.setDocumentNumber( formatDocumentNumber(provider.getDocumentNumber() ) );
     if( provider.getDocumentNumber().length() == 14 ){
@@ -145,7 +146,7 @@ public class ProviderServiceImpl implements ProviderService {
   }
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional( readOnly = true )
   public Page<Provider> getProviderByDocumentNumber( Pageable pageable ,String documentNumber ) {
     if( documentNumber != null && !"".equals(documentNumber)){
       Page<Provider> provider = providerRepository.findByDocumentNumber(documentNumber, pageable);
@@ -161,6 +162,7 @@ public class ProviderServiceImpl implements ProviderService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Provider> getProvidersByLegalName( Pageable pageable, String legalName ) {
     if( !StringUtils.isEmpty( legalName ) && !StringUtils.isEmpty( legalName.trim() ) ){
       return providerRepository.findByLegalNameLikeAllIgnoreCase( legalName, pageable );
@@ -170,6 +172,7 @@ public class ProviderServiceImpl implements ProviderService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Provider> getProvidersByFantasyName( Pageable pageable, String fantasyName ) {
     if( !StringUtils.isEmpty( fantasyName ) && !StringUtils.isEmpty( fantasyName.trim() ) ){
       return providerRepository.findByFantasyNameLikeAllIgnoreCase(fantasyName, pageable);

@@ -32,12 +32,13 @@ public class ProductServiceImpl implements ProductService {
   private MeasurementService measurementService;
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Product> listAllByPage(Pageable pageable  ){
     return productRepository.findAll( pageable );
   }
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional( readOnly = true )
   public Product findById( Long id ){
     logger.info("Buscando produto com id " + id );
     Product product = productRepository.findOne( id );
@@ -88,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
 
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional( readOnly = true )
   public Page<Product> getByDescription( Pageable pageable ,String description ) {
     if( !StringUtils.isEmpty( description ) && !StringUtils.isEmpty( description.trim() ) ){
       return productRepository.findByDescriptionLikeIgnoreCase( description, pageable );
@@ -98,6 +99,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public Page<Product> getByCode( Pageable pageable, String code ) {
     if( !StringUtils.isEmpty( code ) && !StringUtils.isEmpty( code.trim() ) ){
       return productRepository.findByCodeLikeIgnoreCase( code, pageable );
@@ -107,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
+  @Transactional( readOnly = true )
   public List<Product> getByProviderDocument( String providerDocument) {
     if( !StringUtils.isEmpty( providerDocument ) && !StringUtils.isEmpty( providerDocument.trim() ) ){
       return productRepository.findByProviderDocument( formatDocumentNumber( providerDocument ) );
