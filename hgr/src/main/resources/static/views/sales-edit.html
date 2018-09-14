@@ -180,7 +180,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.observation"><b>Observação</b></span></span>
-                        <textarea class="form-control" maxlength="3999" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>
+                        <textarea class="form-control" maxlength="3999" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>
                     </div>
                 </div>
             </div>

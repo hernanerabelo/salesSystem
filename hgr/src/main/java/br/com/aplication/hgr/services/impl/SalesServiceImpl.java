@@ -191,7 +191,7 @@ public class SalesServiceImpl implements SalesService {
         if( carrier != null ){
           if( carrier.getId() != null ){
             if( carrierRepository.findOne( carrier.getId() ) != null ){
-//              carrier.setSales();
+
             }else{
               throw new RuntimeException( "Não foi encontrado nenhuma transportadora no banco para a " +
                   "transportadora selecionada" );

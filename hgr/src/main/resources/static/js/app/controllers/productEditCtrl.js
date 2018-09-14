@@ -4,38 +4,88 @@
   var app = angular.module('app');
 
   app.controller('ProductEditCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'ProductService', 'ButtonGeneratorService',
-    'ProviderService', 'MessageGeneratorService', 'BreadCrumbGeneratorService', 'MeasurementService',
+    'ProviderService', 'MessageGeneratorService', 'BreadCrumbGeneratorService', 'MeasurementService', '$window','NgTableParams',
     function($scope, $rootScope, $location, $routeParams, ProductService, ButtonGeneratorService, ProviderService,
-    MessageGeneratorService, BreadCrumbGeneratorService, MeasurementService) {
+    MessageGeneratorService, BreadCrumbGeneratorService, MeasurementService, $window, NgTableParams) {
 
       BreadCrumbGeneratorService.updateBreadCrumbUsingLocation(true, true);
-      $scope.objectFind = { document : ''};
+      $scope.objectFind = {
+        providerDocumentNumber : '',
+        providerLegalName: '' };
       $scope.edit = {
         isDisabledWaitingEdit: true
       };
 
-      $scope.getProviderUsingDocument = function(document){
-        $scope.isDisabledSearchDocument = true;
-        document = document.replace(/[^0-9]/g,'');
-        ProviderService.getProviderByDocumentNumber({ id: document },
-          function(response){
-            if( response.content.length > 1 ){
-              MessageGeneratorService.createMessageError('Foi encontrado mais de um fornecedor para o CPF/CNPJ informado');
-            }else if( response.content.length == 0 ){
-              MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum Fornecedor para o CPF/CNPJ informado');
-            }else{
-              $scope.product.provider = response.content[0];
-            }
-            $scope.isDisabledSearchDocument = false;
-          }, function(error){
-            if( error.status == '404'){
-              MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum Fornecedor para o CPF/CNPJ informado');
-            }else{
-              MessageGeneratorService.createMessageWarning('Erro ao buscar Fornecedor utilizando o CPF/CNPJ');
-            }
-            $scope.isDisabledSearchDocument = false;
-          });
+      $scope.selectProvider = function( providerTable ){
+        $scope.product.provider = providerTable;
+        $scope.objectFind.providerDocumentNumber = providerTable.documentNumber;
+        $scope.objectFind.providerLegalName = providerTable.legalName;
       };
+
+      $scope.getProviderUsingDocument = function(){
+        $scope.isDisabledSearchProvider = true;
+        $scope.provider = null;
+
+        var document = $scope.objectFind.providerDocumentNumber;
+        if( !!document && !!document.trim() ){
+          MessageGeneratorService.cleanAllMessages();
+          document = document.trim().replace(/[^0-9]/g,'');
+
+          ProviderService.getProviderByDocumentNumber({ id: document },
+          function(response){
+            $scope.isDisabledSearchProvider = false;
+            $scope.product.provider = response.content[0];
+            $scope.objectFind.providerDocumentNumber = $scope.product.provider.documentNumber;
+            $scope.objectFind.providerLegalName = $scope.product.provider.legalName;
+
+          }, function(error){
+            $scope.isDisabledSearchProvider = false;
+            if( error.status == '404'){
+              MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o CPF/CNPJ informado');
+            }else{
+              MessageGeneratorService.createMessageWarning('Erro ao buscar fornecedor utilizando o CPF/CNPJ');
+            }
+          });
+        }else{
+          $scope.isDisabledSearchProvider = false;
+          MessageGeneratorService.createMessageWarning( 'Por favor insira o número do documento do fornecedor' );
+        }
+      };
+
+      $scope.getProviderUsingLegalName = function(){
+        $scope.isDisabledSearchProvider = true;
+        $scope.provider = null;
+        $scope.objectFind.providerDocumentNumber = null;
+        var providerLegalName = $scope.objectFind.providerLegalName;
+        if( !!providerLegalName && !!providerLegalName.trim() ){
+          MessageGeneratorService.cleanAllMessages();
+
+          ProviderService.getProviderByLegalName({ id: providerLegalName },
+            function(response){
+              $scope.isDisabledSearchProvider = false;
+              if( response.content.length > 1 ){
+                $scope.providerFindTable = new NgTableParams( {} , { dataset: response.content } );
+                $("#findProviderModal").modal('show');
+              }else{
+                $scope.product.provider = response.content[0];
+
+                $scope.objectFind.providerDocumentNumber = $scope.product.provider.documentNumber;
+                $scope.objectFind.providerLegalName = $scope.product.provider.legalName;
+              }
+            }, function(error){
+              $scope.isDisabledSearchProvider = false;
+              if( error.status == '404'){
+                MessageGeneratorService.createMessageWarning('Não foi encontrado nenhum fornecedor para o nome informado');
+              }else{
+                MessageGeneratorService.createMessageWarning('Erro ao buscar fornecedor utilizando o nome');
+              }
+            });
+        }else{
+          $scope.isDisabledSearchProvider = false;
+          MessageGeneratorService.createMessageWarning( 'Por favor insira o nome do fornecedor' );
+        }
+      };
+
       var buttonSave = {
         title: 'Salvar',
         icon: 'glyphicon glyphicon-ok',
@@ -120,7 +170,6 @@
           MessageGeneratorService.cleanAllMessages();
           ButtonGeneratorService.putButtonsInSubMenu([buttonSave, buttonCancel]);
           $scope.edit.isDisabledWaitingEdit = false;
-          $scope.productTemp = angular.copy( $scope.product );
 
           $scope.newMeasurement = { type: ''};
           MeasurementService.getAll({},
@@ -172,12 +221,7 @@
             callback: function(result){
               ButtonGeneratorService.enableButtons();
               if( result ){
-                ButtonGeneratorService.cleanAllButtons();
-                MessageGeneratorService.cleanAllMessages();
-                ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
-                $scope.edit.isDisabledWaitingEdit = true;
-                $scope.product = $scope.productTemp;
-                $scope.measurementOptions = [ $scope.product.measurement ];
+               $window.location.reload();
               }else{
                 ButtonGeneratorService.enableButtons();
               }
@@ -193,7 +237,8 @@
           function(response) {
             $scope.product = response;
             $scope.measurementOptions = [ $scope.product.measurement ];
-            $scope.objectFind.document = $scope.product.provider.documentNumber;
+            $scope.objectFind.providerDocumentNumber = $scope.product.provider.documentNumber;
+            $scope.objectFind.providerLegalName = $scope.product.provider.legalName;
           },
           function( error ) {
             if( !!error && error.status == '404' ){

@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     if( productRepository.exists( product.getId() ) ){
       updateInformationDate( product );
 
-      if( product.getMeasurement() != null ){
+      if( product.getMeasurement().getId() == null ){
         measurementService.save( product.getMeasurement() );
       }
 
@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
     if( product.getId() == null ){
       updateInformationDate( product );
 
-      if( product.getMeasurement() != null ){
+      if( product.getMeasurement().getId() == null ){
         measurementService.save( product.getMeasurement() );
       }
       //todo validar se code já existe se existir não inserir

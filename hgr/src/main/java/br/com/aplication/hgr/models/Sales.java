@@ -33,7 +33,7 @@ public class Sales implements Serializable {
   private String status;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "CARRIER_ID", updatable=false)
+  @JoinColumn(name = "CARRIER_ID")
   private Carrier carrier;
 
   @ManyToOne(fetch = FetchType.LAZY)

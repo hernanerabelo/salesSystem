@@ -48,11 +48,6 @@ public class Carrier implements Serializable {
       mappedBy = "carrier")
   List<Contact> contacts = new ArrayList<>();
 
-  @OneToMany(cascade = CascadeType.ALL,
-      fetch = FetchType.LAZY,
-      mappedBy = "carrier")
-  private List<Sales> sales = new ArrayList<>();
-
   public Long getId() {
     return id;
   }
@@ -117,12 +112,4 @@ public class Carrier implements Serializable {
     this.updatedAt = updatedAt;
   }
 
-  @JsonIgnore
-  public List<Sales> getSales() {
-    return sales;
-  }
-
-  public void setSales(List<Sales> sales) {
-    this.sales = sales;
-  }
 }

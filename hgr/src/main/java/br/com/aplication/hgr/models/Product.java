@@ -30,7 +30,7 @@ public class Product implements Serializable {
   private String code;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "MEASUREMENT_ID", updatable = false)
+  @JoinColumn(name = "MEASUREMENT_ID")
   private Measurement measurement;
 
   @Column(name = "CREATED_BY")

@@ -21,11 +21,6 @@ public class Measurement implements Serializable {
   @Column(name = "TYPE", nullable = false, unique = true, length = 30)
   private String type;
 
-  @OneToMany(cascade = CascadeType.ALL,
-      fetch = FetchType.LAZY,
-      mappedBy = "measurement")
-  List<Product> products =  new ArrayList<>();
-
   public Long getId() {
     return id;
   }
@@ -40,15 +35,6 @@ public class Measurement implements Serializable {
 
   public void setType(String type) {
     this.type = type;
-  }
-
-  @JsonIgnore
-  public List<Product> getProducts() {
-    return products;
-  }
-
-  public void setProducts(List<Product> products) {
-    this.products = products;
   }
 
   @Override
