@@ -10,6 +10,18 @@
 
       $scope.hasErrorInput = false;
 
+      $scope.parameterFilter = {
+        start: null,
+        finish: null,
+        id: null
+      };
+
+      function changeFilter( value ){
+        $scope.parameterFilter.id = value;
+        $scope.parameterFilter.start = $scope.startDate? $scope.startDate.getTime() : null;
+        $scope.parameterFilter.finish = $scope.finishDate? $scope.finishDate.getTime() : null;
+      }
+
       $scope.objectFind = {
         customerDocument: null,
         fantasyNameCustomer: null,
@@ -61,7 +73,8 @@
             $scope.hasErrorInput = false;
             if ( !!$scope.objectFind.customerDocument && !!$scope.objectFind.customerDocument.trim() ) {
               var customerDocument = $scope.objectFind.customerDocument.trim().replace(/[^0-9]/g,'');
-              SalesService.getSalesByCustomerDocument( { id: customerDocument },
+              changeFilter( customerDocument );
+              SalesService.getSalesByCustomerDocument( $scope.parameterFilter ,
                 function(response){
                   ButtonGeneratorService.enableButtons();
                   populateTableUsingSales( response.content );
@@ -74,7 +87,8 @@
                 }
               });
             }else if ( !!$scope.objectFind.fantasyNameCustomer && !!$scope.objectFind.fantasyNameCustomer.trim() ) {
-              SalesService.getSalesByFantasyNameCustomer( { id: $scope.objectFind.fantasyNameCustomer },
+              changeFilter( $scope.objectFind.fantasyNameCustomer );
+              SalesService.getSalesByFantasyNameCustomer( $scope.parameterFilter,
                 function(response){
                   ButtonGeneratorService.enableButtons();
                   populateTableUsingSales( response.content );
@@ -88,7 +102,8 @@
               });
             }else if ( !!$scope.objectFind.providerDocument && !!$scope.objectFind.providerDocument.trim() ) {
               var providerDocument = $scope.objectFind.providerDocument.trim().replace(/[^0-9]/g,'');
-              SalesService.getSalesByProviderDocument( { id: providerDocument },
+              changeFilter( providerDocument );
+              SalesService.getSalesByProviderDocument( $scope.parameterFilter,
                 function(response){
                   ButtonGeneratorService.enableButtons();
                   populateTableUsingSales( response.content );
@@ -101,7 +116,8 @@
                 }
               });
             }else if ( !!$scope.objectFind.fantasyNameProvider && !!$scope.objectFind.fantasyNameProvider.trim() ) {
-              SalesService.getSalesByFantasyNameProvider( { id: $scope.objectFind.fantasyNameProvider },
+              changeFilter( $scope.objectFind.fantasyNameProvider );
+              SalesService.getSalesByFantasyNameProvider( $scope.parameterFilter,
                 function(response){
                   ButtonGeneratorService.enableButtons();
                   populateTableUsingSales( response.content );

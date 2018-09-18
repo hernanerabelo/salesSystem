@@ -44,6 +44,35 @@
         </form>
     </div>
 
+    <div class="container">
+        <div class="row hbrBlueDegrade"  ng-dblclick="form1 = !form1">
+            <label style="margin: 6px 12px;">Filtros</label>
+            <div class="pull-right btn" ng-click="form1 = !form1">
+                <span ng-show="form1" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+                <span ng-show="!form1" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=false">
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span><b>Data Início</b></span></span>
+                            <input type="date" class="form-control" ng-model="startDate">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span><b>Data Fim</b></span></span>
+                            <input type="date" class="form-control" ng-model="finishDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover" ng-table="tableParams" class="table" show-filter="true">
             <tr ng-repeat="sl in $data">

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SalesRepository extends JpaRepository<Sales, Long> {
+public interface SalesRepository extends JpaRepository<Sales, Long>, SalesRepositoryCustom {
 
 
   @Query(

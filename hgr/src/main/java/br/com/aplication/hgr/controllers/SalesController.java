@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -94,7 +96,10 @@ public class SalesController {
 
   @RequestMapping( value = "/customerfantasy/{fantasyName}", method = RequestMethod.GET)
   @Transactional( readOnly = true )
-  public ResponseEntity getSalesByCustomerFantasyName(Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
+  public ResponseEntity getSalesByCustomerFantasyName(Pageable pageable,
+                                                      @PathVariable("fantasyName") String fantasyName,
+                                                      @RequestParam(value = "start", required = false ) String startDate,
+                                                      @RequestParam(value = "finish", required = false ) String finishDate){
     logger.info("Buscando vendas pelo nome fantasia do cliente: " + fantasyName );
 
     Page<Sales> sales = salesService.getSalesByCustomerFantasyName( pageable, fantasyName );
