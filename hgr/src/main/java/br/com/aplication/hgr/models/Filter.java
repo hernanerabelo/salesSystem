@@ -8,6 +8,7 @@ public class Filter {
   private Date start;
   private Date finish;
   private String status;
+  private String createdBy;
   private HashMap<String, String> column = new HashMap<>();
 
   public Date getStart() {
@@ -40,5 +41,13 @@ public class Filter {
 
   public void setColumn(HashMap<String, String> column) {
     this.column = column;
+  }
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
   }
 }

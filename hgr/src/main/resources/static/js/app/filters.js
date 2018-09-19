@@ -26,6 +26,27 @@
       return input;
     };
   })
+  .filter('hbrSalesStatusFilter', function(){
+    return function(input) {
+      if( !!input ){
+        switch(input){
+          case "WATING_FOR_APPROVAL":
+            input = "AGUARDANDO APROVAÇÃO";
+            break;
+          case "RUNNING":
+            input = "EM ANDAMENTO";
+            break;
+          case "COMPLETED":
+            input = "FINALIZADA";
+            break;
+          case "CANCELED":
+            input = "CANCELADA";
+            break;
+        }
+      }
+      return input;
+    };
+  })
   .filter('hbrMoneyFilter', function(){
     return function(input) {
       if( !!input ){

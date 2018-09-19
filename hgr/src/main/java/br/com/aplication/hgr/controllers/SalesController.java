@@ -74,10 +74,11 @@ public class SalesController {
                                                           @PathVariable("documentNumber") String documentNumber,
                                                           @RequestParam(value = "start", required = false ) Long startDate,
                                                           @RequestParam(value = "finish", required = false ) Long finishDate,
-                                                          @RequestParam(value = "status", required = false ) String status ){
+                                                          @RequestParam(value = "status", required = false ) String status,
+                                                          @RequestParam(value = "createdBy", required = false ) String createdBy ){
     logger.info("Buscando vendas pelo documentNumber do cliente: " + documentNumber );
 
-    Filter filter = getFilter(startDate, finishDate, status);
+    Filter filter = getFilter(startDate, finishDate, status, createdBy);
     filter.getColumn().put( "DOCUMENT_NUMBER", documentNumber );
 
     Page<Sales> sales = salesService.getSalesByCustomerUsingFilter( pageable, filter );
@@ -94,9 +95,10 @@ public class SalesController {
                                                       @PathVariable("fantasyName") String fantasyName,
                                                       @RequestParam(value = "start", required = false ) Long startDate,
                                                       @RequestParam(value = "finish", required = false ) Long finishDate,
-                                                      @RequestParam(value = "status", required = false ) String status ){
+                                                      @RequestParam(value = "status", required = false ) String status,
+                                                      @RequestParam(value = "createdBy", required = false ) String createdBy  ){
     logger.info("Buscando vendas pelo nome fantasia do cliente: " + fantasyName );
-    Filter filter = getFilter(startDate, finishDate, status);
+    Filter filter = getFilter(startDate, finishDate, status, createdBy);
     filter.getColumn().put( "FANTASY_NAME", fantasyName );
 
     Page<Sales> sales = salesService.getSalesByCustomerUsingFilter( pageable, filter );
@@ -113,9 +115,10 @@ public class SalesController {
                                                          @PathVariable("documentNumber") String documentNumber,
                                                          @RequestParam(value = "start", required = false ) Long startDate,
                                                          @RequestParam(value = "finish", required = false ) Long finishDate,
-                                                         @RequestParam(value = "status", required = false ) String status ){
+                                                         @RequestParam(value = "status", required = false ) String status,
+                                                         @RequestParam(value = "createdBy", required = false ) String createdBy  ){
     logger.info("Buscando vendas pelo documentNumber do fornecedor: " + documentNumber );
-    Filter filter = getFilter(startDate, finishDate, status);
+    Filter filter = getFilter(startDate, finishDate, status, createdBy);
     filter.getColumn().put( "DOCUMENT_NUMBER", documentNumber );
 
     Page<Sales> sales = salesService.getSalesByProviderUsingFilter( pageable, filter );
@@ -132,10 +135,11 @@ public class SalesController {
                                                       @PathVariable("fantasyName") String fantasyName,
                                                       @RequestParam(value = "start", required = false ) Long startDate,
                                                       @RequestParam(value = "finish", required = false ) Long finishDate,
-                                                      @RequestParam(value = "status", required = false ) String status ){
+                                                      @RequestParam(value = "status", required = false ) String status,
+                                                      @RequestParam(value = "createdBy", required = false ) String createdBy  ){
     logger.info("Buscando vendas pelo nome fantasia do fornecedor: " + fantasyName );
 
-    Filter filter = getFilter(startDate, finishDate, status);
+    Filter filter = getFilter(startDate, finishDate, status, createdBy);
     filter.getColumn().put( "FANTASY_NAME", fantasyName );
 
     Page<Sales> sales = salesService.getSalesByProviderUsingFilter( pageable, filter );
@@ -146,7 +150,7 @@ public class SalesController {
     return new ResponseEntity<>(  sales, HttpStatus.OK );
   }
 
-  private Filter getFilter(@RequestParam(value = "start", required = false) Long startDate, @RequestParam(value = "finish", required = false) Long finishDate, @RequestParam(value = "status", required = false) String status) {
+  private Filter getFilter( Long startDate, Long finishDate, String status, String createdBy) {
     Filter filter = new Filter();
     filter.setColumn( new HashMap<>() );
     if( !StringUtils.isEmpty( startDate ) ){
@@ -157,6 +161,9 @@ public class SalesController {
     }
     if( !StringUtils.isEmpty( status ) ){
       filter.setStatus( status );
+    }
+    if( !StringUtils.isEmpty( createdBy ) ){
+      filter.setCreatedBy( createdBy );
     }
     return filter;
   }

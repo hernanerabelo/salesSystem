@@ -10,13 +10,33 @@
 
       $scope.hasErrorInput = false;
 
+      $scope.statusOptions = [ {
+          display: '',
+          value: ''
+        }, {
+          display: 'AGUARDANDO APROVAÇÃO',
+          value: 'WATING_FOR_APPROVAL'
+        },{
+          display: 'EM ANDAMENTO',
+          value: 'RUNNING'
+        },{
+          display: 'FINALIZADA',
+          value: 'COMPLETED'
+        },{
+          display: 'CANCELADA',
+          value: 'CANCELED'
+        }];
+
+      $scope.filterStatus = $scope.statusOptions[0];
       $scope.parameterFilter = {
         start: null,
         finish: null,
-        id: null
+        id: null,
+        createdBy: null
       };
 
       function changeFilter( value ){
+        $scope.parameterFilter.status = $scope.filterStatus.value;
         $scope.parameterFilter.id = value;
         $scope.parameterFilter.start = $scope.startDate? $scope.startDate.getTime() : null;
         $scope.parameterFilter.finish = $scope.finishDate? $scope.finishDate.getTime() : null;
@@ -46,6 +66,7 @@
               id: salesList[i].id,
               provider: salesList[i].provider.fantasyName,
               customer: salesList[i].customer.fantasyName,
+              status: $filter('hbrSalesStatusFilter')(salesList[i].status),
               createdAt: $filter('date')( salesList[i].createdAt, 'dd/MM/yyyy HH:mm:ss' ),
               createdBy: salesList[i].createdBy,
               priceTotal: salesList[i].totalPrice

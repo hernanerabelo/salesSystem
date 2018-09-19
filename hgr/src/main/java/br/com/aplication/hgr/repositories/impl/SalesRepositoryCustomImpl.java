@@ -77,6 +77,9 @@ public class SalesRepositoryCustomImpl implements SalesRepositoryCustom {
     if( !StringUtils.isEmpty( filter.getStatus() ) ){
       query.setParameter( "status", filter.getStatus() );
     }
+    if( !StringUtils.isEmpty( filter.getCreatedBy() ) ){
+      query.setParameter( "createdBy", filter.getCreatedBy() );
+    }
     if(  filter.getColumn() != null ) {
       for ( String key : filter.getColumn().keySet() ) {
         query.setParameter( "column_" + key.toLowerCase(), filter.getColumn().get( key ) );
@@ -93,6 +96,9 @@ public class SalesRepositoryCustomImpl implements SalesRepositoryCustom {
     }
     if( !StringUtils.isEmpty( filter.getStatus() ) ){
       queryBuilder.append( " AND S.STATUS = :status " );
+    }
+    if( !StringUtils.isEmpty( filter.getCreatedBy() ) ){
+      queryBuilder.append( " AND UPPER(S.CREATED_BY) = UPPER(:createdBy) " );
     }
     if(  filter.getColumn() != null ) {
       for ( String key : filter.getColumn().keySet() ) {
