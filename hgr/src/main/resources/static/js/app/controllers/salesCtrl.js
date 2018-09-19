@@ -87,7 +87,7 @@
                 }
               });
             }else if ( !!$scope.objectFind.fantasyNameCustomer && !!$scope.objectFind.fantasyNameCustomer.trim() ) {
-              changeFilter( $scope.objectFind.fantasyNameCustomer );
+              changeFilter( "%" + $scope.objectFind.fantasyNameCustomer + "%" );
               SalesService.getSalesByFantasyNameCustomer( $scope.parameterFilter,
                 function(response){
                   ButtonGeneratorService.enableButtons();
@@ -116,7 +116,7 @@
                 }
               });
             }else if ( !!$scope.objectFind.fantasyNameProvider && !!$scope.objectFind.fantasyNameProvider.trim() ) {
-              changeFilter( $scope.objectFind.fantasyNameProvider );
+              changeFilter( "%" + $scope.objectFind.fantasyNameProvider + "%");
               SalesService.getSalesByFantasyNameProvider( $scope.parameterFilter,
                 function(response){
                   ButtonGeneratorService.enableButtons();

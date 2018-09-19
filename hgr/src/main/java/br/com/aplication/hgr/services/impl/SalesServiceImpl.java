@@ -2,10 +2,7 @@ package br.com.aplication.hgr.services.impl;
 
 import br.com.aplication.hgr.exceptions.*;
 import br.com.aplication.hgr.models.*;
-import br.com.aplication.hgr.repositories.CarrierRepository;
-import br.com.aplication.hgr.repositories.CustomerRepository;
-import br.com.aplication.hgr.repositories.ProviderRepository;
-import br.com.aplication.hgr.repositories.SalesRepository;
+import br.com.aplication.hgr.repositories.*;
 import br.com.aplication.hgr.services.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +27,9 @@ public class SalesServiceImpl implements SalesService {
 
   @Autowired
   private SalesRepository salesRepository;
+
+  @Autowired
+  private SalesRepositoryCustom salesRepositoryCustom;
 
   @Autowired
   private ProviderRepository providerRepository;
@@ -72,6 +72,18 @@ public class SalesServiceImpl implements SalesService {
   @Transactional( readOnly = true )
   public Page<Sales> getSalesByProviderFantasyName(Pageable pageable, String fantasyName) {
     return salesRepository.getSalesByProviderFantasyName( pageable, fantasyName );
+  }
+
+  @Override
+  @Transactional( readOnly = true )
+  public Page<Sales> getSalesByCustomerUsingFilter(Pageable pageable, Filter filter) {
+    return salesRepositoryCustom.getSalesUsingFilterJoinCustomer( pageable, filter );
+  }
+
+  @Override
+  @Transactional( readOnly = true )
+  public Page<Sales> getSalesByProviderUsingFilter(Pageable pageable, Filter filter) {
+    return salesRepositoryCustom.getSalesUsingFilterJoinProvider( pageable, filter );
   }
 
   @Override

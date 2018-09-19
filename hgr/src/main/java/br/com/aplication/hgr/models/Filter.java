@@ -1,12 +1,14 @@
 package br.com.aplication.hgr.models;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class Filter {
 
   private Date start;
   private Date finish;
   private String status;
+  private HashMap<String, String> column = new HashMap<>();
 
   public Date getStart() {
     return start;
@@ -30,5 +32,13 @@ public class Filter {
 
   public void setStatus(String status) {
     this.status = status;
+  }
+
+  public HashMap<String, String> getColumn() {
+    return column;
+  }
+
+  public void setColumn(HashMap<String, String> column) {
+    this.column = column;
   }
 }

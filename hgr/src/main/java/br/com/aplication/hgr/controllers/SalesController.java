@@ -11,12 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/sales")
@@ -36,19 +36,6 @@ public class SalesController {
     Sales sales = salesService.findById( id );
     if( sales == null ){
       logger.warn("Não foi encontrado venda para o id " + id );
-      return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
-    }
-    return new ResponseEntity<>(  sales, HttpStatus.OK );
-  }
-
-  @RequestMapping( value = "/customerdocument/{documentNumber}", method = RequestMethod.GET)
-  @Transactional( readOnly = true )
-  public ResponseEntity getSalesByCustomerDocumentNumber(Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
-    logger.info("Buscando vendas pelo documentNumber do cliente: " + documentNumber );
-
-    Page<Sales> sales = salesService.getSalesByCustomerDocumentNumber( pageable, documentNumber );
-    logger.info("total de vendas encontradas " + sales.getTotalElements() );
-    if( sales.getTotalElements() == 0 ){
       return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(  sales, HttpStatus.OK );
@@ -81,12 +68,19 @@ public class SalesController {
     return new ResponseEntity<>( sales , HttpStatus.CREATED);
   }
 
-  @RequestMapping( value = "/providerdocument/{documentNumber}", method = RequestMethod.GET)
+  @RequestMapping( value = "/customerdocument/{documentNumber}", method = RequestMethod.GET)
   @Transactional( readOnly = true )
-  public ResponseEntity getSalesByProviderDocumentNumber(Pageable pageable, @PathVariable("documentNumber") String documentNumber ){
-    logger.info("Buscando vendas pelo documentNumber do fornecedor: " + documentNumber );
+  public ResponseEntity getSalesByCustomerDocumentNumber( Pageable pageable,
+                                                          @PathVariable("documentNumber") String documentNumber,
+                                                          @RequestParam(value = "start", required = false ) Long startDate,
+                                                          @RequestParam(value = "finish", required = false ) Long finishDate,
+                                                          @RequestParam(value = "status", required = false ) String status ){
+    logger.info("Buscando vendas pelo documentNumber do cliente: " + documentNumber );
 
-    Page<Sales> sales = salesService.getSalesByProviderDocumentNumber( pageable, documentNumber );
+    Filter filter = getFilter(startDate, finishDate, status);
+    filter.getColumn().put( "DOCUMENT_NUMBER", documentNumber );
+
+    Page<Sales> sales = salesService.getSalesByCustomerUsingFilter( pageable, filter );
     logger.info("total de vendas encontradas " + sales.getTotalElements() );
     if( sales.getTotalElements() == 0 ){
       return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
@@ -98,11 +92,33 @@ public class SalesController {
   @Transactional( readOnly = true )
   public ResponseEntity getSalesByCustomerFantasyName(Pageable pageable,
                                                       @PathVariable("fantasyName") String fantasyName,
-                                                      @RequestParam(value = "start", required = false ) String startDate,
-                                                      @RequestParam(value = "finish", required = false ) String finishDate){
+                                                      @RequestParam(value = "start", required = false ) Long startDate,
+                                                      @RequestParam(value = "finish", required = false ) Long finishDate,
+                                                      @RequestParam(value = "status", required = false ) String status ){
     logger.info("Buscando vendas pelo nome fantasia do cliente: " + fantasyName );
+    Filter filter = getFilter(startDate, finishDate, status);
+    filter.getColumn().put( "FANTASY_NAME", fantasyName );
 
-    Page<Sales> sales = salesService.getSalesByCustomerFantasyName( pageable, fantasyName );
+    Page<Sales> sales = salesService.getSalesByCustomerUsingFilter( pageable, filter );
+    logger.info("total de vendas encontradas " + sales.getTotalElements() );
+    if( sales.getTotalElements() == 0 ){
+      return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(  sales, HttpStatus.OK );
+  }
+
+  @RequestMapping( value = "/providerdocument/{documentNumber}", method = RequestMethod.GET)
+  @Transactional( readOnly = true )
+  public ResponseEntity getSalesByProviderDocumentNumber(Pageable pageable,
+                                                         @PathVariable("documentNumber") String documentNumber,
+                                                         @RequestParam(value = "start", required = false ) Long startDate,
+                                                         @RequestParam(value = "finish", required = false ) Long finishDate,
+                                                         @RequestParam(value = "status", required = false ) String status ){
+    logger.info("Buscando vendas pelo documentNumber do fornecedor: " + documentNumber );
+    Filter filter = getFilter(startDate, finishDate, status);
+    filter.getColumn().put( "DOCUMENT_NUMBER", documentNumber );
+
+    Page<Sales> sales = salesService.getSalesByProviderUsingFilter( pageable, filter );
     logger.info("total de vendas encontradas " + sales.getTotalElements() );
     if( sales.getTotalElements() == 0 ){
       return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
@@ -112,15 +128,37 @@ public class SalesController {
 
   @RequestMapping( value = "/providerfantasy/{fantasyName}", method = RequestMethod.GET)
   @Transactional( readOnly = true )
-  public ResponseEntity getSalesByProviderFantasyName(Pageable pageable, @PathVariable("fantasyName") String fantasyName ){
+  public ResponseEntity getSalesByProviderFantasyName(Pageable pageable,
+                                                      @PathVariable("fantasyName") String fantasyName,
+                                                      @RequestParam(value = "start", required = false ) Long startDate,
+                                                      @RequestParam(value = "finish", required = false ) Long finishDate,
+                                                      @RequestParam(value = "status", required = false ) String status ){
     logger.info("Buscando vendas pelo nome fantasia do fornecedor: " + fantasyName );
 
-    Page<Sales> sales = salesService.getSalesByProviderFantasyName( pageable, fantasyName );
+    Filter filter = getFilter(startDate, finishDate, status);
+    filter.getColumn().put( "FANTASY_NAME", fantasyName );
+
+    Page<Sales> sales = salesService.getSalesByProviderUsingFilter( pageable, filter );
     logger.info("total de vendas encontradas " + sales.getTotalElements() );
     if( sales.getTotalElements() == 0 ){
       return new ResponseEntity<>(sales, HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(  sales, HttpStatus.OK );
+  }
+
+  private Filter getFilter(@RequestParam(value = "start", required = false) Long startDate, @RequestParam(value = "finish", required = false) Long finishDate, @RequestParam(value = "status", required = false) String status) {
+    Filter filter = new Filter();
+    filter.setColumn( new HashMap<>() );
+    if( !StringUtils.isEmpty( startDate ) ){
+      filter.setStart( new Date( startDate ) );
+    }
+    if( !StringUtils.isEmpty( finishDate ) ){
+      filter.setFinish( new Date( finishDate + ( 24 * 60 * 60 * 1000 ) ) );
+    }
+    if( !StringUtils.isEmpty( status ) ){
+      filter.setStatus( status );
+    }
+    return filter;
   }
 
   @RequestMapping( value = "/json", method = RequestMethod.GET )

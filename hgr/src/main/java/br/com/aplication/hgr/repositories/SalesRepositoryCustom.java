@@ -6,5 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface SalesRepositoryCustom {
-  Page<Sales> getSalesUsingFilter(Pageable pageable, Filter filter );
+  Page<Sales> getSalesUsingFilterJoinCustomer(Pageable pageable, Filter filter );
+
+  Page<Sales> getSalesUsingFilterJoinProvider(Pageable pageable, Filter filter );
 }
