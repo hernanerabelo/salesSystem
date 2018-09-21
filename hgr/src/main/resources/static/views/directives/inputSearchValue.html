@@ -1,0 +1,11 @@
+
+
+
+scope directive = {{$id}} {{value}} --- sub {{placeholder}}
+<div class="input-group">
+    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!value"><b>{{title}}</b></span></span>
+    <input type="text" class="form-control" ng-model="value" hbr-uppercase ng-trim="true" placeholder="{{subTitle}}" >
+    <span class="btn input-group-addon hbrInputsBlue" ng-show="enableSearch" ng-click="execute(value)">
+        <span class="glyphicon glyphicon-search"></span>
+    </span>
+</div>

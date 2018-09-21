@@ -23,6 +23,24 @@
       };
     }
   ])
+  app.directive('hbrInputSearchValue', [
+
+      function() {
+        return {
+          restrict: 'E',
+          scope: {
+            title: '@',
+            subTitle: '@',
+            value: '=',
+            enableSearch: '='
+          },
+          templateUrl: 'views/directives/inputSearchValue.html',
+          link: function(scope, element, attrs, ctrl) {
+
+          }
+        };
+      }
+    ])
   .directive('cpfCnpjFormat', [ function(){
     return {
       require: 'ngModel',

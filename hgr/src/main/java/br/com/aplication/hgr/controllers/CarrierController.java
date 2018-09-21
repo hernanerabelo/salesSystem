@@ -93,4 +93,36 @@ public class CarrierController {
 
     return new ResponseEntity<>(carrier, HttpStatus.OK);
   }
+
+  @RequestMapping( value = "/populate", method = RequestMethod.GET )
+  public ResponseEntity populate( ){
+    try {
+      for ( int i = 0; i < 1000 ; i++ ) {
+        Carrier carrier = new Carrier();
+        carrier.setName( "Transportadora " + i + " - 00000" + i );
+        carrier.setAddress(new Address());
+        carrier.getAddress().setCep( "38408222" );
+        carrier.getAddress().setCity( "UBERLANDIA" );
+        carrier.getAddress().setNumber( "A" + i );
+        carrier.getAddress().setState( "MG" );
+        carrier.getAddress().setStreet( "RUA TEST " + i );
+        carrier.getAddress().setNeighborhood( "CENTRO" );
+        carrier.setContacts( new ArrayList<>() );
+        carrier.getContacts().add(new Contact());
+        carrier.getContacts().get(0).setName( "contato " + i );
+        carrier.getContacts().get(0).setObservation( "observação " + i );
+        carrier.getContacts().get(0).setEmail( "email " + i + "@test.com.br" );
+        carrier.getContacts().get(0).setPhone( "telefone1 " + i );
+        carrier.getContacts().get(0).setPhone2( "telefone2 " + i );
+        carrier.setCreatedAt(new Date());
+        carrier.setUpdatedAt(new Date());
+        carrierService.save( carrier );
+      }
+
+    }catch (Exception e){
+      logger.error(e);
+      throw e;
+    }
+    return new ResponseEntity<>(new Carrier(), HttpStatus.OK);
+  }
 }

@@ -2,6 +2,10 @@ body{
   background-color: #D3D3D3;
 }
 
+option {
+  font-weight: bold;
+}
+
 .nav>li>a {
   position: relative;
   display: block;
