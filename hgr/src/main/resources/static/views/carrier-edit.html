@@ -1,165 +1,149 @@
-<div class="row">
-    <div class="col-md-12" style="color:#1b809e">
+<div ng-init="start()">
+    <div class="row">
+        <div class="col-md-12" style="color:#1b809e">
+            <center>
+                <h3>Editar Transportadora</h3>
+            </center>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row hbrBlueDegrade" ng-dblclick="form1 = !form1">
+            <label style="margin: 6px 12px;">Dados da Transportadora</label>
+            <div class="pull-right btn" ng-click="form1 = !form1">
+                <span ng-show="form1" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+                <span ng-show="!form1" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <hbr-Input-Search-Value ng-model="carrier.name" value='carrier.name' is-editable="!edit.isDisabledWaitingEdit"
+                                                title="Nome" sub-title="Nome"></hbr-Input-Search-Value>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row hbrBlueDegrade"  ng-dblclick="form3 = !form3">
+            <label style="margin: 6px 12px;">Endereço da Transportadora</label>
+            <div class="pull-right btn" ng-click="form3 = !form3">
+                <span ng-show="form3" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+                <span ng-show="!form3" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-horizontal hbrFormInput" ng-show="form3" ng-init="form3=true">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <hbr-Input-Search-Value ng-model="carrier.address.cep" enable-search='!isDisabledSearchCep' value='carrier.address.cep' is-editable="!edit.isDisabledWaitingEdit"
+                                                callback="populateAddressUsingCep" title="CEP" sub-title="CEP"> </hbr-Input-Search-Value>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <hbr-Input-Search-Value ng-model="carrier.address.street" value='carrier.address.street' is-editable="!edit.isDisabledWaitingEdit"
+                                                title="Logradouro" sub-title="Logradouro"></hbr-Input-Search-Value>
+                    </div>
+                    <div class="col-md-2">
+                        <hbr-Input-Search-Value ng-model="carrier.address.number" value='carrier.address.number' is-editable="!edit.isDisabledWaitingEdit"
+                                                title="Nº" sub-title="Número"></hbr-Input-Search-Value>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <hbr-Input-Search-Value ng-model="carrier.address.complement" value='carrier.address.complement' is-editable="!edit.isDisabledWaitingEdit"
+                                                title="Complemento" sub-title="Complemento"></hbr-Input-Search-Value>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <hbr-Input-Search-Value ng-model="carrier.address.neighborhood" value='carrier.address.neighborhood' is-editable="!edit.isDisabledWaitingEdit"
+                                                title="Bairro" sub-title="Bairro"></hbr-Input-Search-Value>
+                    </div>
+                    <div class="col-md-5">
+                        <hbr-Input-Search-Value ng-model="carrier.address.city" value='carrier.address.city' is-editable="!edit.isDisabledWaitingEdit"
+                                                title="Cidade" sub-title="Cidade"></hbr-Input-Search-Value>
+                    </div>
+                    <div class="col-md-2">
+                        <hbr-Input-Search-Value ng-model="carrier.address.state" value='carrier.address.state' is-editable="!edit.isDisabledWaitingEdit"
+                                                title="Estado" sub-title="Estado"></hbr-Input-Search-Value>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" ng-repeat="contact in carrier.contacts">
+        <div class="row hbrBlueDegrade"  ng-dblclick="form2 = !form2">
+            <label style="margin: 6px 12px;">Informação de Contato</label>
+            <div class="pull-right btn" ng-click="form2 = !form2">
+                <span ng-show="form2" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
+                <span ng-show="!form2" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-horizontal hbrFormInput" ng-show="form2" ng-init="form2=true">
+                <div class="form-group">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
+                            <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.name" placeholder="Nome" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
+                            <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.phone" placeholder="Telefone" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone2"><b>Telefone</b></span></span>
+                            <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.phone2" placeholder="Telefone" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
+                            <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.email" placeholder="endereco@email.com" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.contact.observation"><b>Observação</b></span></span>
+                            <textarea class="form-control" maxlength="3999" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 pull-right">
+                        <button class="btn btn-danger btn-sm" ng-disabled="edit.isDisabledWaitingEdit" ng-click="removeContactInCarrier($index)">Remover</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" ng-show="!edit.isDisabledWaitingEdit" style="padding: 8px 8px 8px;">
         <center>
-            <h3>Editar Transportadora</h3>
+            <button class="btn btn-info btn-lg" ng-click="createContactInCarrier()">
+                <span class="glyphicon glyphicon-user"></span> Adicionar Contato
+            </button>
         </center>
     </div>
+
+
 </div>
-
-<div class="container">
-    <div class="row hbrBlueDegrade" ng-dblclick="form1 = !form1">
-        <label style="margin: 6px 12px;">Dados da Transportadora</label>
-        <div class="pull-right btn" ng-click="form1 = !form1">
-            <span ng-show="form1" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
-            <span ng-show="!form1" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
-            <div class="form-group">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.name"><b>Nome da Transportadora</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.name" placeholder="Nome da Transportadora" >
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row hbrBlueDegrade"  ng-dblclick="form3 = !form3">
-        <label style="margin: 6px 12px;">Endereço da Transportadora</label>
-        <div class="pull-right btn" ng-click="form3 = !form3">
-            <span ng-show="form3" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
-            <span ng-show="!form3" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-horizontal hbrFormInput" ng-show="form3" ng-init="form3=true">
-            <div class="form-group">
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.cep"><b>CEP</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.address.cep" placeholder="CEP" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCep && !edit.isDisabledWaitingEdit" ng-click="populateAddressUsingCep(carrier.address.cep)">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.street"><b>Logradouro</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.address.street" placeholder="logradouro" >
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.number"><b>Nº</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.address.number" placeholder="Número" >
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.complement"><b>Complemento</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.address.complement" placeholder="Complemento" >
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.neighborhood"><b>Bairro</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.address.neighborhood" placeholder="Bairro" >
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.city"><b>Cidade</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.address.city" placeholder="Cidade" >
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.state"><b>Estado</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="carrier.address.state" placeholder="Estado" >
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container" ng-repeat="contact in carrier.contacts">
-    <div class="row hbrBlueDegrade"  ng-dblclick="form2 = !form2">
-        <label style="margin: 6px 12px;">Informação de Contato</label>
-        <div class="pull-right btn" ng-click="form2 = !form2">
-            <span ng-show="form2" class="glyphicon glyphicon-minus hbrBorder pull-right"></span>
-            <span ng-show="!form2" class="glyphicon glyphicon-plus hbrBorder pull-right"></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-horizontal hbrFormInput" ng-show="form2" ng-init="form2=true">
-            <div class="form-group">
-                <div class="col-md-8">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.name" placeholder="Nome" >
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.phone" placeholder="Telefone" >
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone2"><b>Telefone</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.phone2" placeholder="Telefone" >
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
-                        <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.email" placeholder="endereco@email.com" >
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.contact.observation"><b>Observação</b></span></span>
-                        <textarea class="form-control" maxlength="3999" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2 pull-right">
-                    <button class="btn btn-danger btn-sm" ng-disabled="edit.isDisabledWaitingEdit" ng-click="removeContactInCarrier($index)">Remover</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container" ng-show="!edit.isDisabledWaitingEdit" style="padding: 8px 8px 8px;">
-    <center>
-        <button class="btn btn-info btn-lg" ng-click="createContactInCarrier()">
-            <span class="glyphicon glyphicon-user"></span> Adicionar Contato
-        </button>
-    </center>
-</div>
-

@@ -32,7 +32,9 @@
             title: '@',
             subTitle: '@',
             value: '=',
-            enableSearch: '='
+            enableSearch: '=',
+            callback: '=',
+            isEditable: '='
           },
           templateUrl: 'views/directives/inputSearchValue.html',
           link: function(scope, element, attrs, ctrl) {

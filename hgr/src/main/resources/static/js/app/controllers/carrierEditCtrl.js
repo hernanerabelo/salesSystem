@@ -223,8 +223,11 @@
           }
         );
       }
-      getCarrierInfoInDataBase();
       ButtonGeneratorService.putButtonsInSubMenu([buttonEdit]);
+
+      $scope.start = function(){
+        getCarrierInfoInDataBase();
+      }
     }
   ]);
 })();

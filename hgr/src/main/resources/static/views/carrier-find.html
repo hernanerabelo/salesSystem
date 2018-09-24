@@ -5,17 +5,13 @@
         </center>
     </div>
 </div>
-<hbr-Input-Search-Value ng-model="testModel" enable-search='true' value='testModel' title="CEP" sub-title="CEP"> </hbr-Input-Search-Value>
-test = {{testModel}} {{$id}}
+
 <div class="row" style="padding-bottom:10px">
     <form ng-class="{'form-horizontal':hasErrorInput}" >
         <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
             <div class="col-md-6" >
-                <div class="input-group">
-                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.name"><b>Nome da transportadora</b></span></span>
-                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.name" placeholder="Nome da transportadora" >
-                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
-                </div>
+                <hbr-Input-Search-Value ng-model="objectFind.name" value='objectFind.name' is-editable="true"
+                                        title="Nome da transportadora" sub-title="Nome da transportadora"> </hbr-Input-Search-Value>
             </div>
         </div>
     </form>

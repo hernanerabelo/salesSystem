@@ -58,6 +58,11 @@ option {
   padding: 1px 4px 1px 4px !important;
 }
 
+
+.form-group {
+    margin-bottom: 6px;
+}
+
 .hbrInputsBlue {
   color: #4682B4;
   background-color: #F0F8FF;
