@@ -19,8 +19,8 @@
             <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
                 <div class="form-group">
                     <div class="col-md-6">
-                        <hbr-Input-Search-Value ng-model="carrier.name" value='carrier.name' is-editable="!edit.isDisabledWaitingEdit"
-                                                title="Nome" sub-title="Nome"></hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value value='carrier.name' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Nome" sub-title="Nome"></hbr-Input-Search-Value>
                     </div>
                 </div>
             </div>
@@ -39,38 +39,38 @@
             <div class="form-horizontal hbrFormInput" ng-show="form3" ng-init="form3=true">
                 <div class="form-group">
                     <div class="col-md-3">
-                        <hbr-Input-Search-Value ng-model="carrier.address.cep" enable-search='!isDisabledSearchCep' value='carrier.address.cep' is-editable="!edit.isDisabledWaitingEdit"
-                                                callback="populateAddressUsingCep" title="CEP" sub-title="CEP"> </hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value enable-search='!isDisabledSearchCep' value='carrier.address.cep' is-editable="!edit.isDisabledWaitingEdit"
+                                                callback="populateAddressUsingCep" maintitle="CEP" sub-title="CEP"> </hbr-Input-Search-Value>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-5">
-                        <hbr-Input-Search-Value ng-model="carrier.address.street" value='carrier.address.street' is-editable="!edit.isDisabledWaitingEdit"
-                                                title="Logradouro" sub-title="Logradouro"></hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value value='carrier.address.street' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Logradouro" sub-title="Logradouro"></hbr-Input-Search-Value>
                     </div>
                     <div class="col-md-2">
-                        <hbr-Input-Search-Value ng-model="carrier.address.number" value='carrier.address.number' is-editable="!edit.isDisabledWaitingEdit"
-                                                title="Nº" sub-title="Número"></hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value value='carrier.address.number' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Nº" sub-title="Número"></hbr-Input-Search-Value>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
-                        <hbr-Input-Search-Value ng-model="carrier.address.complement" value='carrier.address.complement' is-editable="!edit.isDisabledWaitingEdit"
-                                                title="Complemento" sub-title="Complemento"></hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value value='carrier.address.complement' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Complemento" sub-title="Complemento"></hbr-Input-Search-Value>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-5">
-                        <hbr-Input-Search-Value ng-model="carrier.address.neighborhood" value='carrier.address.neighborhood' is-editable="!edit.isDisabledWaitingEdit"
-                                                title="Bairro" sub-title="Bairro"></hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value value='carrier.address.neighborhood' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Bairro" sub-title="Bairro"></hbr-Input-Search-Value>
                     </div>
                     <div class="col-md-5">
-                        <hbr-Input-Search-Value ng-model="carrier.address.city" value='carrier.address.city' is-editable="!edit.isDisabledWaitingEdit"
-                                                title="Cidade" sub-title="Cidade"></hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value value='carrier.address.city' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Cidade" sub-title="Cidade"></hbr-Input-Search-Value>
                     </div>
                     <div class="col-md-2">
-                        <hbr-Input-Search-Value ng-model="carrier.address.state" value='carrier.address.state' is-editable="!edit.isDisabledWaitingEdit"
-                                                title="Estado" sub-title="Estado"></hbr-Input-Search-Value>
+                        <hbr-Input-Search-Value value='carrier.address.state' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Estado" sub-title="Estado"></hbr-Input-Search-Value>
                     </div>
                 </div>
             </div>
@@ -89,39 +89,33 @@
             <div class="form-horizontal hbrFormInput" ng-show="form2" ng-init="form2=true">
                 <div class="form-group">
                     <div class="col-md-8">
-                        <div class="input-group">
-                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
-                            <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.name" placeholder="Nome" >
-                        </div>
+                        <hbr-Input-Search-Value value='contact.name' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Nome" sub-title="Nome"></hbr-Input-Search-Value>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
-                            <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.phone" placeholder="Telefone" >
-                        </div>
+                        <hbr-Input-Search-Value value='contact.phone' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Telefone" sub-title="Telefone"></hbr-Input-Search-Value>
                     </div>
                     <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone2"><b>Telefone</b></span></span>
-                            <input type="text" class="form-control" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.phone2" placeholder="Telefone" >
-                        </div>
+                        <hbr-Input-Search-Value value='contact.phone2' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="Telefone" sub-title="Telefone"></hbr-Input-Search-Value>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
-                            <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.email" placeholder="endereco@email.com" >
-                        </div>
+                        <hbr-Input-Search-Value value='contact.email' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="E-mail" sub-title="endereco@email.com"></hbr-Input-Search-Value>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-6">
+                        <hbr-Input-Search-Value type='text' value='contact.email' is-editable="!edit.isDisabledWaitingEdit"
+                                                maintitle="E-mail" sub-title="endereco@email.com"></hbr-Input-Search-Value>
                         <div class="input-group">
                             <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.contact.observation"><b>Observação</b></span></span>
                             <textarea class="form-control" maxlength="3999" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>

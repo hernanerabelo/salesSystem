@@ -29,17 +29,15 @@
         return {
           restrict: 'E',
           scope: {
-            title: '@',
+            maintitle: '@',
             subTitle: '@',
+            type: '@',
             value: '=',
             enableSearch: '=',
             callback: '=',
-            isEditable: '='
+            isEditable: '=',
           },
-          templateUrl: 'views/directives/inputSearchValue.html',
-          link: function(scope, element, attrs, ctrl) {
-
-          }
+          templateUrl: 'views/directives/inputSearchValue.html'
         };
       }
     ])

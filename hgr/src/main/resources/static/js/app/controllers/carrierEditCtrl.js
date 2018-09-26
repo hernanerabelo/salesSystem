@@ -67,7 +67,8 @@
         $scope.carrier.contacts.push({});
       };
 
-      $scope.populateAddressUsingCep = function populateAddressUsingCep(cep){
+      $scope.populateAddressUsingCep = function populateAddressUsingCep(){
+        var cep = $scope.carrier.address.cep;
         cleanInputAddress();
         if( !!cep ){
           cep = cep.replace(/\D/g, '');
@@ -227,7 +228,7 @@
 
       $scope.start = function(){
         getCarrierInfoInDataBase();
-      }
+      };
     }
   ]);
 })();

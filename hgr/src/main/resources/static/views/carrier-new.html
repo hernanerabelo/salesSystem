@@ -17,10 +17,8 @@
         <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
             <div class="form-group">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.name"><b>Nome da Transportadora</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.name" placeholder="Nome da Transportadora" >
-                    </div>
+                    <hbr-Input-Search-Value value='carrier.name' is-editable="true"
+                                            maintitle="Nome da transportadora" sub-title="Nome da transportadora"> </hbr-Input-Search-Value>
                 </div>
             </div>
         </div>
@@ -39,55 +37,38 @@
         <div class="form-horizontal hbrFormInput" ng-show="form3" ng-init="form3=true">
             <div class="form-group">
                 <div class="col-md-3">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.cep"><b>CEP</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.address.cep" placeholder="CEP" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchCep" ng-click="populateAddressUsingCep(carrier.address.cep)">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </span>
-                    </div>
+                    <hbr-Input-Search-Value enable-search='!isDisabledSearchCep' value='carrier.address.cep' is-editable="true"
+                                            callback="populateAddressUsingCep" maintitle="CEP" sub-title="CEP"> </hbr-Input-Search-Value>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.street"><b>Logradouro</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.address.street" placeholder="logradouro" >
-                    </div>
+                    <hbr-Input-Search-Value value='carrier.address.street' is-editable="true"
+                                            maintitle="Logradouro" sub-title="Logradouro"></hbr-Input-Search-Value>
                 </div>
                 <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.number"><b>Nº</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.address.number" placeholder="Número" >
-                    </div>
+                    <hbr-Input-Search-Value value='carrier.address.number' is-editable="true"
+                                            maintitle="Nº" sub-title="Número"></hbr-Input-Search-Value>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.complement"><b>Complemento</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.address.complement" placeholder="Complemento" >
-                    </div>
+                    <hbr-Input-Search-Value value='carrier.address.complement' is-editable="true"
+                                            maintitle="Complemento" sub-title="Complemento"></hbr-Input-Search-Value>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.neighborhood"><b>Bairro</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.address.neighborhood" placeholder="Bairro" >
-                    </div>
+                    <hbr-Input-Search-Value value='carrier.address.neighborhood' is-editable="true"
+                                            maintitle="Bairro" sub-title="Bairro"></hbr-Input-Search-Value>
                 </div>
                 <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.city"><b>Cidade</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.address.city" placeholder="Cidade" >
-                    </div>
+                    <hbr-Input-Search-Value value='carrier.address.city' is-editable="true"
+                                            maintitle="Cidade" sub-title="Cidade"></hbr-Input-Search-Value>
                 </div>
                 <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.address.state"><b>Estado</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="carrier.address.state" placeholder="Estado" >
-                    </div>
+                    <hbr-Input-Search-Value value='carrier.address.state' is-editable="true"
+                                            maintitle="Estado" sub-title="Estado"></hbr-Input-Search-Value>
                 </div>
             </div>
         </div>
@@ -106,34 +87,27 @@
         <div class="form-horizontal hbrFormInput" ng-show="form2" ng-init="form2=true">
             <div class="form-group">
                 <div class="col-md-8">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.name"><b>Nome</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.name" placeholder="Nome" >
-                    </div>
+                    <hbr-Input-Search-Value value='contact.name' is-editable="true"
+                                            maintitle="Nome" sub-title="Nome"></hbr-Input-Search-Value>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone"><b>Telefone</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.phone" placeholder="Telefone" >
-                    </div>
+                    <hbr-Input-Search-Value value='contact.phone' is-editable="true"
+                                            maintitle="Telefone" sub-title="Telefone"></hbr-Input-Search-Value>
                 </div>
                 <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.phone2"><b>Telefone</b></span></span>
-                        <input type="text" class="form-control" hbr-uppercase ng-model="contact.phone2" placeholder="Telefone" >
-                    </div>
+                    <hbr-Input-Search-Value value='contact.phone2' is-editable="true"
+                                            maintitle="Telefone" sub-title="Telefone"></hbr-Input-Search-Value>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.email"><b>E-mail</b></span></span>
-                        <input type="text" class="form-control" ng-model="contact.email" placeholder="endereco@email.com" >
-                    </div>
+                    <hbr-Input-Search-Value value='contact.email' is-editable="true"
+                                            maintitle="E-mail" sub-title="endereco@email.com"></hbr-Input-Search-Value>
+                </div>
                 </div>
             </div>
 
