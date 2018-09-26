@@ -23,21 +23,63 @@
       };
     }
   ])
-  app.directive('hbrInputSearchValue', [
+  .directive('hbrInputSearchValue', [ '$compile',
+      function( $compile ) {
 
-      function() {
+        var addDirectiveToElement = function(scope, element, dir) {
+//          var propName;
+//          if (dir.if) {
+//            propName = Object.keys(dir)[1];
+//            var addDirective = scope.$eval(dir.if);
+//            if (addDirective) {
+//              element.attr(propName, dir[propName]);
+//            }
+//          } else { // No condition, just add directive
+//            propName = Object.keys(dir)[0];
+//            element.attr(propName, dir[propName]);
+//          }
+        };
+
+        var linker = function(scope, element, attrs) {
+          console.log(attrs);
+          console.log(element);
+          var el = $compile( "input" )( scope );
+          console.log(el);
+          element.parent().append( el );
+//          element.attr('hbr-uppercase', '5');
+//          var directives = scope.$eval(attrs.dynamicDirectives);
+//
+//          if (!directives || !angular.isArray(directives)) {
+//            return $compile(element)(scope);
+//          }
+//
+//          // Add all directives in the array
+//          angular.forEach(directives, function(dir){
+//            addDirectiveToElement(scope, element, dir);
+//          });
+//
+//          // Remove attribute used to add this directive
+//          element.removeAttr(attrs.$attr.dynamicDirectives);
+//          // Compile element to run other directives
+//          $compile(element)(scope);
+        };
+
         return {
           restrict: 'E',
+          priority: 1000,
+          terminal: true,
           scope: {
             maintitle: '@',
             subTitle: '@',
             type: '@',
-            value: '=',
+            maxlength: '@',
+            ngModel: '=',
             enableSearch: '=',
             callback: '=',
             isEditable: '=',
           },
-          templateUrl: 'views/directives/inputSearchValue.html'
+          templateUrl: 'views/directives/inputSearchValue.html',
+          link: linker
         };
       }
     ])

@@ -10,18 +10,12 @@
     <form ng-class="{'form-horizontal':hasErrorInput}" >
         <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
             <div class="col-md-6" >
-                <div class="input-group">
-                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.description"><b>Descrição</b></span></span>
-                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.description" placeholder="Descrição" >
-                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
-                </div>
+                <hbr-Input-Search-Value ng-model='objectFind.description' is-editable="true"
+                                        maintitle="Descrição" maxlength="200" sub-title="Descrição"> </hbr-Input-Search-Value>
             </div>
             <div class="col-md-6" >
-                <div class="input-group">
-                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.code"><b>Código</b></span></span>
-                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.code" placeholder="Código" >
-                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
-                </div>
+                <hbr-Input-Search-Value ng-model='objectFind.code' is-editable="true"
+                                        maintitle="Código" maxlength="100" sub-title="Código"> </hbr-Input-Search-Value>
             </div>
         </div>
     </form>

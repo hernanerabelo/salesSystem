@@ -18,16 +18,12 @@
         <div class="form-horizontal hbrFormInput" ng-show="form1" ng-init="form1=true">
             <div class="form-group">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.code"><b>Código</b></span></span>
-                        <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" hbr-uppercase ng-model="product.code" placeholder="Código" >
-                    </div>
+                    <hbr-Input-Search-Value ng-model='product.code' is-editable="!edit.isDisabledWaitingEdit"
+                                            maintitle="Código" sub-title="Código"></hbr-Input-Search-Value>
                 </div>
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.description"><b>Descrição</b></span></span>
-                        <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" hbr-uppercase ng-model="product.description" placeholder="Descrição" >
-                    </div>
+                    <hbr-Input-Search-Value ng-model='product.description' is-editable="!edit.isDisabledWaitingEdit"
+                                            maintitle="Descrição" sub-title="Descrição"></hbr-Input-Search-Value>
                 </div>
             </div>
 
@@ -41,42 +37,31 @@
                     </div>
                 </div>
                 <div class="col-md-5" ng-show="product.measurement.type == 'NOVA UNIDADE DE MEDIÇÃO'">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!newMeasurementType"><b>NOVA UNIDADE DE MEDIÇÃO</b></span></span>
-                        <input type="text" hbr-uppercase ng-disabled="edit.isDisabledWaitingEdit" class="form-control" maxlength="29" ng-model="newMeasurement.type" placeholder="NOVA UNIDADE DE MEDIÇÃO" >
-                    </div>
+                    <hbr-Input-Search-Value ng-model='newMeasurement.type' maxlength='29' is-editable="true"
+                                            maintitle="NOVA UNIDADE DE MEDIÇÃO" sub-title="NOVA UNIDADE DE MEDIÇÃO"></hbr-Input-Search-Value>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!product.value"><b>Valor - R$</b></span></span>
-                        <input type="text" class="form-control" ng-disabled="edit.isDisabledWaitingEdit" maxlength="15" ng-model="product.value" placeholder="Valor - R$ 000000.00" >
-                    </div>
+                    <hbr-Input-Search-Value ng-model='product.value' money-format maxlength='29' is-editable="!edit.isDisabledWaitingEdit"
+                                            maintitle="Valor - R$" sub-title="Valor - R$ 000000.00"></hbr-Input-Search-Value>
+
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerDocumentNumber"><b>CPF/CNPJ do Fornecedor</b></span></span>
-                        <input ng-disabled="edit.isDisabledWaitingEdit"
-                               cpf-cnpj-format type="text" class="form-control" ng-model="objectFind.providerDocumentNumber" maxlength="18" placeholder="CPF/CNPJ do Fornecedor" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider && !edit.isDisabledWaitingEdit" ng-click="getProviderUsingDocument()">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </span>
-                    </div>
+                    <!--cpf-cnpj-format-->
+                    <hbr-Input-Search-Value enable-search='!isDisabledSearchProvider' maxlength="18" ng-model='objectFind.providerDocumentNumber'
+                                            is-editable="!edit.isDisabledWaitingEdit" callback="getProviderUsingDocument"
+                                            maintitle="CPF/CNPJ do Fornecedor" sub-title="CPF/CNPJ do Fornecedor"> </hbr-Input-Search-Value>
                 </div>
 
                 <div class="col-md-7">
-                    <div class="input-group">
-                        <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.providerLegalName"><b>Razão Social</b></span></span>
-                        <input ng-disabled="edit.isDisabledWaitingEdit"
-                               type="text" class="form-control" hbr-uppercase ng-model="objectFind.providerLegalName" maxlength="18" placeholder="Razão social do Fornecedor" >
-                        <span class="btn input-group-addon hbrInputsBlue" ng-show="!isDisabledSearchProvider && !edit.isDisabledWaitingEdit" ng-click="getProviderUsingLegalName()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </span>
-                    </div>
+                    <hbr-Input-Search-Value enable-search='!isDisabledSearchProvider' ng-model='objectFind.providerLegalName'
+                                            is-editable="!edit.isDisabledWaitingEdit" callback="getProviderUsingLegalName"
+                                            maintitle="CPF/CNPJ" sub-title="Razão social do Fornecedor"> </hbr-Input-Search-Value>
+
                 </div>
             </div>
 

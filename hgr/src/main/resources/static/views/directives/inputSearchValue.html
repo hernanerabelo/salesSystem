@@ -5,8 +5,8 @@
 <!--<hbr-Input-Search-Value ng-model="testModel" enable-search='true' value='testModel' is-editable="isEditable"-->
                         <!--callback="callback" maintitle="CEP" sub-title="CEP"> </hbr-Input-Search-Value>-->
 <div class="input-group" ng-show="isEditable">
-    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!value"><b>{{maintitle}}</b></span></span>
-    <input type="type" class="form-control" ng-class="{hbrBorderRadiusRight:!enableSearch}" ng-model="value" ng-trim="true" placeholder="{{subTitle}}" >
+    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!ngModel"><b>{{maintitle}}</b></span></span>
+    <input type="type" class="form-control" maxlength='{{maxlength}}' ng-class="{hbrBorderRadiusRight:!enableSearch}" ng-model="ngModel" ng-trim="true" placeholder="{{subTitle}}" >
     <span class="btn input-group-addon hbrInputsBlue" ng-show="callback && enableSearch" ng-click="callback()">
         <span class="glyphicon glyphicon-search"></span>
     </span>
@@ -15,9 +15,9 @@
     <div class="row" style="padding-bottom:0px; margin-bottom:0px; color:#1b809e;">
         <b>{{maintitle}}</b>
     </div>
-    <div class="row" ng-if="value">
+    <div class="row" ng-if="ngModel">
         <div class="col-md-12">
-            <label data-ng-bind="value" ></label>
+            <label data-ng-bind="ngModel" ></label>
         </div>
     </div>
 </div>
