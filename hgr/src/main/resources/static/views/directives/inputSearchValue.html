@@ -6,7 +6,7 @@
                         <!--callback="callback" maintitle="CEP" sub-title="CEP"> </hbr-Input-Search-Value>-->
 <div class="input-group" ng-show="isEditable">
     <span class="input-group-addon hbrInputsBlue"><span ng-show="!!ngModel"><b>{{maintitle}}</b></span></span>
-    <input type="type" class="form-control" maxlength='{{maxlength}}' ng-class="{hbrBorderRadiusRight:!enableSearch}" ng-model="ngModel" ng-trim="true" placeholder="{{subTitle}}" >
+    <input type="{{type}}" class="form-control" maxlength='{{maxlength}}' ng-class="{hbrBorderRadiusRight:!enableSearch}" ng-model="ngModel" ng-trim="true" placeholder="{{subTitle}}" >
     <span class="btn input-group-addon hbrInputsBlue" ng-show="callback && enableSearch" ng-click="callback()">
         <span class="glyphicon glyphicon-search"></span>
     </span>

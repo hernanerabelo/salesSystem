@@ -208,16 +208,16 @@
       };
 
       function getCarrierInfoInDataBase(){
-        var clientId = $routeParams.id;
-        CarrierService.getCarrierById({id : clientId},
+        var carrierId = $routeParams.id;
+        CarrierService.getCarrierById({id : carrierId},
           function(response) {
             $scope.carrier = response;
           },
           function( error ) {
             if( !!error && error.status == '404' ){
-              MessageGeneratorService.createMessageError('Não foi encontrado nenhuma transportadora com id ' + clientId);
+              MessageGeneratorService.createMessageError('Não foi encontrado nenhuma transportadora com id ' + carrierId);
             }else{
-              MessageGeneratorService.createMessageError('Não foi possivel carregar informações da transportadora [' + clientId + ']');
+              MessageGeneratorService.createMessageError('Não foi possivel carregar informações da transportadora [' + carrierId + ']');
             }
             $scope.carrier = {};
             ButtonGeneratorService.cleanAllButtons();

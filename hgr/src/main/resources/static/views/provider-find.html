@@ -10,25 +10,17 @@
     <form ng-class="{'form-horizontal':hasErrorInput}" >
         <div class="form-group" ng-class="{'has-error':hasErrorInput, 'has-feedback':hasErrorInput}">
             <div class="col-md-6" >
-                <div class="input-group">
-                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.fantasyName"><b>Nome Fantasia</b></span></span>
-                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.fantasyName" placeholder="Nome Fantasia" >
-                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
-                </div>
+                <hbr-Input-Search-Value hbr-uppercase ng-model='objectFind.fantasyName' is-editable="true" maxlength="200"
+                                        maintitle="Nome Fantasia" sub-title="Nome Fantasia"> </hbr-Input-Search-Value>
             </div>
             <div class="col-md-6" >
-                <div class="input-group">
-                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.legalName"><b>Nome Legal / Razão Social</b></span></span>
-                    <input type="text" hbr-uppercase class="form-control hbrBorderRadiusRight" maxlength="200" ng-model="objectFind.legalName" placeholder="Nome Legal / Razão Social" >
-                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
-                </div>
+                <hbr-Input-Search-Value hbr-uppercase ng-model='objectFind.legalName' is-editable="true" maxlength="200"
+                                        maintitle="Nome Legal / Razão Social" sub-title="Nome Legal / Razão Social"> </hbr-Input-Search-Value>
             </div>
+
             <div class="col-md-4" >
-                <div class="input-group">
-                    <span class="input-group-addon hbrInputsBlue"><span ng-show="!!objectFind.document"><b>CPF/CNPJ</b></span></span>
-                    <input type="text" cpf-cnpj-format class="form-control hbrBorderRadiusRight" ng-model="objectFind.document" maxlength="18" placeholder="CPF/CNPJ" >
-                    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="hasErrorInput"></span>
-                </div>
+                <hbr-Input-Search-Value cpf-Cnpj-Format ng-model='objectFind.document' is-editable="true"
+                                        maintitle="CPF/CNPJ" maxlength="18" sub-title="CPF/CNPJ"> </hbr-Input-Search-Value>
             </div>
         </div>
     </form>

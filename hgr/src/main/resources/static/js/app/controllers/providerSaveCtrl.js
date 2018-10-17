@@ -68,7 +68,8 @@
         $scope.provider.contacts.push({});
       };
 
-      $scope.populateAddressUsingCep = function populateAddressUsingCep(cep){
+      $scope.populateAddressUsingCep = function populateAddressUsingCep(){
+        var cep = $scope.provider.address.cep;
         cleanInputAddress();
         if( !!cep ){
           cep = cep.replace(/\D/g, '');

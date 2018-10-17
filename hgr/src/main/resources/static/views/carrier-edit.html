@@ -114,10 +114,8 @@
 
                 <div class="form-group">
                     <div class="col-md-6">
-                        <hbr-Input-Search-Value type='text' ng-model='contact.email' is-editable="!edit.isDisabledWaitingEdit"
-                                                maintitle="E-mail" sub-title="endereco@email.com"></hbr-Input-Search-Value>
                         <div class="input-group">
-                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!carrier.contact.observation"><b>Observação</b></span></span>
+                            <span class="input-group-addon hbrInputsBlue"><span ng-show="!!contact.observation"><b>Observação</b></span></span>
                             <textarea class="form-control" maxlength="3999" ng-disabled="edit.isDisabledWaitingEdit" ng-model="contact.observation" rows="4" placeholder="Observação (4000 caracter)" ></textarea>
                         </div>
                     </div>

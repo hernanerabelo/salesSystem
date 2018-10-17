@@ -23,66 +23,31 @@
       };
     }
   ])
-  .directive('hbrInputSearchValue', [ '$compile',
-      function( $compile ) {
+  .directive('hbrInputSearchValue', [
+    function(  ) {
+      return {
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+          maintitle: '@',
+          subTitle: '@',
+          type: '@',
+          maxlength: '@',
+          enableSearch: '=',
+          ngModel: '=',
+          callback: '=',
+          isEditable: '=',
+        },
+        templateUrl: 'views/directives/inputSearchValue.html',
+        link: function(scope, element, attrs, ctrl ) {
 
-        var addDirectiveToElement = function(scope, element, dir) {
-//          var propName;
-//          if (dir.if) {
-//            propName = Object.keys(dir)[1];
-//            var addDirective = scope.$eval(dir.if);
-//            if (addDirective) {
-//              element.attr(propName, dir[propName]);
-//            }
-//          } else { // No condition, just add directive
-//            propName = Object.keys(dir)[0];
-//            element.attr(propName, dir[propName]);
-//          }
-        };
-
-        var linker = function(scope, element, attrs) {
-          console.log(attrs);
-          console.log(element);
-          var el = $compile( "input" )( scope );
-          console.log(el);
-          element.parent().append( el );
-//          element.attr('hbr-uppercase', '5');
-//          var directives = scope.$eval(attrs.dynamicDirectives);
-//
-//          if (!directives || !angular.isArray(directives)) {
-//            return $compile(element)(scope);
-//          }
-//
-//          // Add all directives in the array
-//          angular.forEach(directives, function(dir){
-//            addDirectiveToElement(scope, element, dir);
-//          });
-//
-//          // Remove attribute used to add this directive
-//          element.removeAttr(attrs.$attr.dynamicDirectives);
-//          // Compile element to run other directives
-//          $compile(element)(scope);
-        };
-
-        return {
-          restrict: 'E',
-          priority: 1000,
-          terminal: true,
-          scope: {
-            maintitle: '@',
-            subTitle: '@',
-            type: '@',
-            maxlength: '@',
-            ngModel: '=',
-            enableSearch: '=',
-            callback: '=',
-            isEditable: '=',
-          },
-          templateUrl: 'views/directives/inputSearchValue.html',
-          link: linker
-        };
-      }
-    ])
+          element.bind('keyup', function(event) {
+            ctrl.$setViewValue(scope.ngModel);
+          });
+        }
+      };
+    }
+  ])
   .directive('cpfCnpjFormat', [ function(){
     return {
       require: 'ngModel',
@@ -134,6 +99,7 @@
           var cents = '00';
           var real = '0';
           if( !!value ){
+            value = value + '';
             value = value.replace(/[^0-9]/g,'');
             value = parseInt(value) + "";
             if( value.length > 2 ) {
@@ -150,16 +116,22 @@
 
         element.bind('keyup', function( ) {
           if( !!ctrl.$viewValue ) {
+          console.log('test 3');
+                    console.log(ctrl.$viewValue);
             ctrl.$setViewValue( formatMoney( ctrl.$viewValue ) );
             ctrl.$render();
           }
         });
 
         ctrl.$parsers.push(function(input) {
+          console.log('test 1');
+          console.log(input);
           return input ? formatMoney(input) : "0.00";
         });
 
         ctrl.$formatters.push(function(input) {
+          console.log('test 2');
+          console.log(input);
           return input ? formatMoney(input) : "0.00";
         });
       }
