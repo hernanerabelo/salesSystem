@@ -109,8 +109,8 @@ public class ProviderController {
     Provider provider = new Provider();
     provider.setAddress(new Address());
     provider.setContacts(new ArrayList<>());
-    provider.setCreatedAt(new Date());
-    provider.setUpdatedAt(new Date());
+    provider.setCreatedAt(new Date().getTime());
+    provider.setUpdatedAt(new Date().getTime());
 
     return new ResponseEntity<>(provider, HttpStatus.OK);
   }

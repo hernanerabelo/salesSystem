@@ -132,6 +132,9 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
               if( result ){
+                if( !!$scope.foundationDateFormated ){
+                  $scope.provider.foundationDate = $scope.foundationDateFormated.getTime();
+                }
                 ProviderService.saveProvider($scope.provider,
                   function(response) {
                     ButtonGeneratorService.enableButtons();
@@ -155,7 +158,9 @@
           });
         }
       }]);
-
+      if( !!$scope.provider.foundationDate ){
+        $scope.foundationDateFormated = new Date();
+      }
     }
   ]);
 })();

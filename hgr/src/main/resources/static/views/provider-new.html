@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 <div class="col-md-4">
-                    <hbr-Input-Search-Value hbr-uppercase ng-model='provider.documentNumber' is-editable="true" maxlength="200"
+                    <hbr-Input-Search-Value cpf-Cnpj-Format ng-model='provider.documentNumber' is-editable="true" maxlength="18"
                                             maintitle="CPF/CNPJ" sub-title="CPF/CNPJ"> </hbr-Input-Search-Value>
                 </div>
                 <div class="col-md-4">
@@ -44,7 +44,7 @@
 
             <div class="form-group">
                 <div class="col-md-3">
-                    <hbr-Input-Search-Value type="date" ng-model='provider.foundationDate' is-editable="true"
+                    <hbr-Input-Search-Value type="date" ng-model='foundationDateFormated' is-editable="true"
                                             maintitle="Data de Fundação" sub-title="Data de Fundação"> </hbr-Input-Search-Value>
                 </div>
             </div>
@@ -132,7 +132,7 @@
 
             <div class="form-group">
                 <div class="col-md-4">
-                    <hbr-Input-Search-Value hbr-uppercase ng-model='contact.email' is-editable="true" maxlength="200"
+                    <hbr-Input-Search-Value ng-model='contact.email' is-editable="true" maxlength="200"
                                             maintitle="E-mail" sub-title="endereco@email.com"> </hbr-Input-Search-Value>
                 </div>
             </div>

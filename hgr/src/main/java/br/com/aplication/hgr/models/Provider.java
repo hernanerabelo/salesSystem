@@ -13,7 +13,7 @@ import java.util.List;
     @Index(columnList = "DOCUMENT_NUMBER", name = "IDX_DOCUMENT_NUMBER")
 })
 @SuppressWarnings("unused")
-public class Provider implements Serializable {
+public class Provider extends CreatedInfo implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -41,24 +41,12 @@ public class Provider implements Serializable {
   private String cityRegistration;
 
   @Column( name = "FOUNDATION_DATE")
-  private Date foundationDate;
+  private Long foundationDate;
 
   @OneToMany(cascade = CascadeType.ALL,
       fetch = FetchType.LAZY,
       mappedBy = "provider")
   private List<Sales> sales = new ArrayList<>();
-
-  @Column(name = "CREATED_BY")
-  private String createdBy;
-
-  @Column(name = "CREATED_AT")
-  private Date createdAt;
-
-  @Column(name = "UPDATED_BY")
-  private String updatedBy;
-
-  @Column(name = "UPDATED_AT")
-  private Date updatedAt;
 
   @OneToOne(fetch = FetchType.LAZY,
       mappedBy = "provider",
@@ -133,44 +121,12 @@ public class Provider implements Serializable {
     this.cityRegistration = cityRegistration;
   }
 
-  public Date getFoundationDate() {
+  public Long getFoundationDate() {
     return foundationDate;
   }
 
-  public void setFoundationDate(Date foundationDate) {
+  public void setFoundationDate(Long foundationDate) {
     this.foundationDate = foundationDate;
-  }
-
-  public String getCreatedBy() {
-    return createdBy;
-  }
-
-  public void setCreatedBy(String createdBy) {
-    this.createdBy = createdBy;
-  }
-
-  public Date getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public String getUpdatedBy() {
-    return updatedBy;
-  }
-
-  public void setUpdatedBy(String updatedBy) {
-    this.updatedBy = updatedBy;
-  }
-
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
   }
 
   public Address getAddress() {
@@ -218,12 +174,6 @@ public class Provider implements Serializable {
         ", stateRegistration='" + stateRegistration + '\'' +
         ", cityRegistration='" + cityRegistration + '\'' +
         ", foundationDate=" + foundationDate +
-        ", createdBy='" + createdBy + '\'' +
-        ", createdAt=" + createdAt +
-        ", updatedBy='" + updatedBy + '\'' +
-        ", updatedAt=" + updatedAt +
-        ", address=" + address +
-        ", contacts=" + contacts +
         '}';
   }
 }

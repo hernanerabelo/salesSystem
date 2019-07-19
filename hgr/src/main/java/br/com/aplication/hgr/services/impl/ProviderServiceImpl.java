@@ -184,10 +184,10 @@ public class ProviderServiceImpl implements ProviderService {
   private void updateInformationDate(Provider provider ){
     if( provider.getCreatedAt() == null ){
       provider.setCreatedBy("criar autenticacao");
-      provider.setCreatedAt(new Date());
+      provider.setCreatedAt(new Date().getTime());
     }else {
       provider.setUpdatedBy("criar autenticacao");
-      provider.setUpdatedAt(new Date());
+      provider.setUpdatedAt(new Date().getTime());
     }
   }
 

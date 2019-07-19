@@ -131,9 +131,15 @@
             callback: function(result){
               MessageGeneratorService.cleanAllMessages();
               if( result ){
+                if( !!$scope.foundationDateFormated ){
+                  $scope.provider.foundationDate = $scope.foundationDateFormated.getTime();
+                }
                 ProviderService.updateProvider($scope.provider,
                   function(response) {
                     $scope.provider = response;
+                    if( !!$scope.provider.foundationDate ){
+                      $scope.foundationDateFormated = new Date($scope.provider.foundationDate);
+                    }
                     ButtonGeneratorService.enableButtons();
                     MessageGeneratorService.cleanAllMessages();
                     MessageGeneratorService.createMessageSuccess('Informações atualizadas com sucesso');

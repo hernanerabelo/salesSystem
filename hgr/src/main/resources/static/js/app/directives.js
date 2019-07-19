@@ -41,7 +41,7 @@
         templateUrl: 'views/directives/inputSearchValue.html',
         link: function(scope, element, attrs, ctrl ) {
 
-          element.bind('keyup', function(event) {
+          element.bind('keyup', function() {
             ctrl.$setViewValue(scope.ngModel);
           });
         }

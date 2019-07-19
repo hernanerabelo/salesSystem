@@ -30,7 +30,7 @@
 
             <div class="form-group">
                 <div class="col-md-4">
-                    <hbr-Input-Search-Value hbr-uppercase ng-model='provider.documentNumber' is-editable="!edit.isDisabledWaitingEdit" maxlength="200"
+                    <hbr-Input-Search-Value cpf-Cnpj-Format ng-model='provider.documentNumber' is-editable="!edit.isDisabledWaitingEdit" maxlength="18"
                                             maintitle="CPF/CNPJ" sub-title="CPF/CNPJ"> </hbr-Input-Search-Value>
                 </div>
                 <div class="col-md-4">
@@ -133,7 +133,7 @@
 
             <div class="form-group">
                 <div class="col-md-4">
-                    <hbr-Input-Search-Value hbr-uppercase ng-model='contact.email' is-editable="!edit.isDisabledWaitingEdit" maxlength="200"
+                    <hbr-Input-Search-Value ng-model='contact.email' is-editable="!edit.isDisabledWaitingEdit" maxlength="200"
                                             maintitle="E-mail" sub-title="endereco@email.com"> </hbr-Input-Search-Value>
                 </div>
             </div>
